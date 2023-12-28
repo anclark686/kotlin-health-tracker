@@ -1,6 +1,8 @@
 package com.reyaly.reyalyhealthtracker.screens.home
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -23,6 +26,10 @@ import com.reyaly.reyalyhealthtracker.R
 import com.reyaly.reyalyhealthtracker.screens.home.components.Descriptions
 import com.reyaly.reyalyhealthtracker.screens.home.components.LoggedIn
 import com.reyaly.reyalyhealthtracker.screens.home.components.LoggedOut
+import com.reyaly.reyalyhealthtracker.ui.theme.dark_sky_blue
+import com.reyaly.reyalyhealthtracker.ui.theme.light_sky_blue
+import com.reyaly.reyalyhealthtracker.ui.theme.med_sky_blue
+import com.reyaly.reyalyhealthtracker.ui.theme.sky_blue
 
 @Composable
 fun HomeScreen(
@@ -31,23 +38,24 @@ fun HomeScreen(
     onLoginClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+
+    var backgroundColor: Color
+
+    if (isSystemInDarkTheme()) {
+        backgroundColor = dark_sky_blue
+    } else {
+        backgroundColor = light_sky_blue
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(vertical = 6.dp, horizontal = 8.dp)
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.spacedBy(5.dp)
 
     ) {
-        Row(modifier = modifier) {
-            Text(
-                text = stringResource(R.string.home_header),
-                style = MaterialTheme.typography.headlineMedium,
-                textAlign = TextAlign.Center
-            )
-        }
-        Row(modifier = modifier ) {
+        Row(modifier = modifier.background(color = backgroundColor) ) {
             Image(
                 painter = painterResource(R.drawable.reyaly_health_tracker),
                 contentDescription = "Logo",

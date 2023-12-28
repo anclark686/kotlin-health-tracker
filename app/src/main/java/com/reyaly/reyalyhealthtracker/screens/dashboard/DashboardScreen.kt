@@ -51,17 +51,19 @@ fun DashboardScreen(
 ) {
     val formatter = DateTimeFormatter.ofPattern("MM/dd/yyy")
     var backgroundColor: Color
-    var headerColor: Color
+    var headerList: List<Color>
     var shadowColor: Color
-    var colorList: List<Color> = listOf<Color>(med_sky_blue, sky_blue)
+    var colorList: List<Color>
 
     if (isSystemInDarkTheme()) {
         backgroundColor = dark_sky_blue
-        headerColor = med_sky_blue
+        colorList = listOf<Color>(dark_sky_blue, med_sky_blue, dark_sky_blue)
+        headerList = listOf<Color>(med_sky_blue, dark_sky_blue)
         shadowColor = Color.LightGray
     } else {
         backgroundColor = light_sky_blue
-        headerColor = sky_blue
+        colorList = listOf<Color>(med_sky_blue, sky_blue, med_sky_blue)
+        headerList = listOf<Color>(sky_blue, med_sky_blue)
         shadowColor = Color.Black
     }
 
@@ -93,7 +95,8 @@ fun DashboardScreen(
 
         Column(
             modifier = modifier
-                .background(color = headerColor),
+                .background(Brush.verticalGradient(headerList))
+                .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Column (
@@ -125,7 +128,7 @@ fun DashboardScreen(
         ) {
             Column(
                 modifier = modifier
-                    .background(Brush.linearGradient(colorList))
+                    .background(Brush.horizontalGradient(colorList))
                     .padding(10.dp)
                     .fillMaxWidth()
             ) {
@@ -267,90 +270,110 @@ fun DashboardScreen(
 
         }
 
-        Column(
-            modifier = modifier.padding(15.dp),
+        Column(modifier = modifier
+            .padding(40.dp)
+            .fillMaxWidth()
+            .shadow(
+                elevation = 10.dp,
+                shape = RoundedCornerShape(8.dp),
+                spotColor = shadowColor
+            )
+            .background(color = backgroundColor),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = stringResource(R.string.text_trackers),
-                style = MaterialTheme.typography.headlineLarge,
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Bold
-            )
-        }
-
-        Column(
-            modifier = modifier.fillMaxSize().padding(10.dp),
-            verticalArrangement = Arrangement.SpaceAround,
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Row(
-
+            Column(
+                modifier = modifier
+                    .background(Brush.horizontalGradient(colorList))
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Button(
-                    modifier = Modifier.width(170.dp).padding(5.dp),
-                    onClick = { onWeightClick() },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = med_sky_blue,
-                        contentColor = Color.White
-                    )
+                Column(
+                    modifier = modifier.padding(15.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(stringResource(R.string.text_weight), fontSize = 20.sp)
-                }
-                Button(
-                    modifier = Modifier.width(170.dp).padding(5.dp),
-                    onClick = { onExerciseClick() },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = med_sky_blue,
-                        contentColor = Color.White
+                    Text(
+                        text = stringResource(R.string.text_trackers),
+                        style = MaterialTheme.typography.headlineLarge,
+                        textAlign = TextAlign.Center,
+                        fontWeight = FontWeight.Bold
                     )
-                ) {
-                    Text(stringResource(R.string.text_exercise), fontSize = 20.sp)
                 }
             }
-
-            Row(
-
-            ) {
-                Button(
-                    modifier = Modifier.width(170.dp).padding(5.dp),
-                    onClick = { onFoodClick() },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = med_sky_blue,
-                        contentColor = Color.White
-                    )
-                ) {
-                    Text(stringResource(R.string.text_food), fontSize = 20.sp)
-                }
-                Button(
-                    modifier = Modifier.width(170.dp).padding(5.dp),
-                    onClick = { onWaterClick() },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = med_sky_blue,
-                        contentColor = Color.White
-                    )
-                ) {
-                    Text(stringResource(R.string.text_water), fontSize = 20.sp)
-                }
-            }
-
 
             Column(
-                modifier = modifier.fillMaxSize(),
+                modifier = modifier.fillMaxSize().padding(10.dp),
                 verticalArrangement = Arrangement.SpaceAround,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Button(
-                    modifier = Modifier.width(170.dp).padding(5.dp),
-                    onClick = { onMedClick() },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = med_sky_blue,
-                        contentColor = Color.White
-                    )
+                Row(
+
                 ) {
-                    Text(stringResource(R.string.text_med), fontSize = 20.sp)
+                    Button(
+                        modifier = Modifier.width(150.dp).padding(5.dp),
+                        onClick = { onWeightClick() },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = med_sky_blue,
+                            contentColor = Color.White
+                        )
+                    ) {
+                        Text(stringResource(R.string.text_weight), fontSize = 20.sp)
+                    }
+                    Button(
+                        modifier = Modifier.width(150.dp).padding(5.dp),
+                        onClick = { onExerciseClick() },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = med_sky_blue,
+                            contentColor = Color.White
+                        )
+                    ) {
+                        Text(stringResource(R.string.text_exercise), fontSize = 20.sp)
+                    }
                 }
-            }
+
+                Row(
+
+                ) {
+                    Button(
+                        modifier = Modifier.width(150.dp).padding(5.dp),
+                        onClick = { onFoodClick() },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = med_sky_blue,
+                            contentColor = Color.White
+                        )
+                    ) {
+                        Text(stringResource(R.string.text_food), fontSize = 20.sp)
+                    }
+                    Button(
+                        modifier = Modifier.width(150.dp).padding(5.dp),
+                        onClick = { onWaterClick() },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = med_sky_blue,
+                            contentColor = Color.White
+                        )
+                    ) {
+                        Text(stringResource(R.string.text_water), fontSize = 20.sp)
+                    }
+                }
+
+
+                Column(
+                    modifier = modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.SpaceAround,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    Button(
+                        modifier = Modifier.width(170.dp).padding(5.dp),
+                        onClick = { onMedClick() },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = med_sky_blue,
+                            contentColor = Color.White
+                        )
+                    ) {
+                        Text(stringResource(R.string.text_med), fontSize = 20.sp)
+                    }
+                }
+        }
+
 
         }
     }

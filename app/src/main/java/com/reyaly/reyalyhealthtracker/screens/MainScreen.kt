@@ -123,7 +123,7 @@ fun MainApp(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    
+
 
     fun logoutWithRedirect() {
 //        userViewModel.logout()
