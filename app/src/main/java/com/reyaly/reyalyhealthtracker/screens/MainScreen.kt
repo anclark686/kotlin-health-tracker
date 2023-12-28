@@ -110,7 +110,6 @@ fun MainAppBar(
 @Composable
 fun MainApp(
     userViewModel: UserViewModel,
-//    signInLauncher: () -> Unit,
     navController: NavHostController = rememberNavController(),
 ) {
     // Get current back stack entry
@@ -126,7 +125,7 @@ fun MainApp(
 
 
     fun logoutWithRedirect() {
-//        userViewModel.logout()
+        userViewModel.logout()
         navController.navigate(MainScreen.Home.name)
         navController.popBackStack(MainScreen.Home.name, inclusive = false, saveState = false)
     }
@@ -164,7 +163,7 @@ fun MainApp(
                 HomeScreen(
 //                    userViewModel = userViewModel,
                     onDashboardClick = { navController.navigate(MainScreen.Dashboard.name) },
-                    onLoginClick = { }
+                    onLoginClick = { userViewModel.login() }
                 )
 
                 LaunchedEffect(key1 = exit) {
