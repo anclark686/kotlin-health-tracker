@@ -1,0 +1,45 @@
+<resources>
+    <string name="app_name">Reyaly Health Tracker</string>
+    <string name="back_button">Back</string>
+
+    <string name="nav_dashboard">Dashboard</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_food">Food Tracker</string>
+    <string name="nav_water">Water Tracker</string>
+    <string name="nav_exercise">Exercise Tracker</string>
+    <string name="nav_med">Med Tracker</string>
+    <string name="nav_weight">Weight Tracker</string>
+    <string name="nav_settings">Settings</string>
+    <string name="nav_sign_in">Sign In</string>
+    <string name="nav_logout">Logout</string>
+
+    <string name="text_trackers">Trackers</string>
+    <string name="text_dashboard">Dashboard</string>
+    <string name="text_exercise">Exercise</string>
+    <string name="text_login">Login</string>
+    <string name="text_med">Medications</string>
+    <string name="text_settings">Settings</string>
+    <string name="text_water">Water</string>
+    <string name="text_weight">Weight</string>
+    <string name="text_food">Food</string>
+
+    <string name="home_header">Welcome to Reyaly Health Tracker!</string>
+    <string name="home_login">Sign in to get started</string>
+    <string name="home_dashboard">Head over to your dashboard to get started.</string>
+    <string name="home_cta">Something amazing I guess</string>
+    <string name="home_weight">Track your weight and set goals for weight changes using the weight tracker. Easily view any fluctuations or plateaus with our graphical representation. Additionally, use the BMI calculator to calculate a healthy weight goal.</string>
+    <string name="home_food">Track your meals and macronutrients using the food tracker. The food tracker allows you to create and favorite meals for easy reuse. View which foods and meals are within or outside of your macronutrient goals.</string>
+    <string name="home_water">Get your sips in! Track your water intake to meet daily goals. Our water intake calculator will calculate how much water is needed for your body type, to aid in staying hydrated. You can set a reminder to notify you if you haven\'t logged any water intake in your given time frame.</string>
+    <string name="home_exercise">Track your exercises and calories burned with our exercise tracker. Set favorite exercises for repeat use, and view which exercises have the most impact. Group exercises together to create the ideal workout.</string>
+    <string name="home_med">Keeping up with your medications can be a daunting task. With the med tracker, you can easily keep tabs on what medications you\'re taking, what time of day they\'re due, and whether or not you\'ve taken them. Easily set reminders to ensure medications are taken on time.</string>
+
+    <string name="dashboard_stats">Here\'s your daily stats</string>
+    <string name="dashboard_date">Today\s Date:</string>
+    <string name="dashboard_streak">Logging Streak:</string>
+    <string name="dashboard_max_cal">Calorie Goal:</string>
+    <string name="dashboard_cal_in">Calories Consumed:</string>
+    <string name="dashboard_cal_out">Calories Burned:</string>
+    <string name="dashboard_curr_weight">Current Weight:</string>
+    <string name="dashboard_goal_weight">Goal Weight:</string>
+    <string name="dashboard_weight_diff">Weight Difference:</string>
+</resources>

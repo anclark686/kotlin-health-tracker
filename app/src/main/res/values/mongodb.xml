@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="mongo_db_uri">mongodb+srv://anclark686:rwjiJsaiZnDmuPkk@reyaly-health-tracker.pbwcyhy.mongodb.net/?retryWrites=true&amp;w=majority</string>
+    <string name="mongo_db_name">admin</string>
+</resources>
