@@ -1,12 +1,12 @@
-package com.reyaly.reyalyhealthtracker.viewmodels.food
+package com.reyaly.reyalyhealthtracker.screens.weight
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class FoodViewModel : ViewModel() {
+class WeightViewModel : ViewModel() {
     private val _text = MutableLiveData<String>().apply {
-        value = "Food Tracker"
+        value = "Weight Tracker"
     }
     val text: LiveData<String> = _text
 }

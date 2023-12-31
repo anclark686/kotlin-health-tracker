@@ -18,21 +18,17 @@ import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
-import com.reyaly.reyalyhealthtracker.viewmodels.user.UserViewModel
 
 class MainActivity : ComponentActivity() {
 
     private val TAG = "MainActivity"
 
-    private val userViewModel: UserViewModel by viewModels()
     private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         auth = Firebase.auth
-
-        userViewModel.setContext(this)
 
         setContent {
             ReyalyHealthTrackerTheme {
@@ -41,9 +37,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MainApp(
-                        userViewModel = userViewModel,
-                    )
+                    MainApp()
                 }
             }
         }

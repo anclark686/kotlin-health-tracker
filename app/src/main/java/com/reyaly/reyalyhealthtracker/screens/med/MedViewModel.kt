@@ -1,12 +1,14 @@
-package com.reyaly.reyalyhealthtracker.viewmodels.exercise
+package com.reyaly.reyalyhealthtracker.screens.med
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class ExerciseViewModel : ViewModel() {
+class MedViewModel : ViewModel() {
+
     private val _text = MutableLiveData<String>().apply {
-        value = "Exercise Tracker"
+        value = "Med Tracker"
     }
     val text: LiveData<String> = _text
+
 }

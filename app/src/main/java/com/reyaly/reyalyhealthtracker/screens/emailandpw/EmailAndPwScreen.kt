@@ -1,4 +1,4 @@
-package com.reyaly.reyalyhealthtracker.screens.signup
+package com.reyaly.reyalyhealthtracker.screens.emailandpw
 
 import android.util.Log
 import androidx.compose.foundation.Image
@@ -18,44 +18,52 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.google.firebase.auth.FirebaseAuth
+import androidx.lifecycle.ViewModel
 import com.reyaly.reyalyhealthtracker.R
 import com.reyaly.reyalyhealthtracker.common.composable.BasicButton
-import com.reyaly.reyalyhealthtracker.common.composable.BasicField
 import com.reyaly.reyalyhealthtracker.common.composable.BasicTextButton
 import com.reyaly.reyalyhealthtracker.common.composable.EmailField
 import com.reyaly.reyalyhealthtracker.common.composable.PasswordField
-import com.reyaly.reyalyhealthtracker.common.composable.RepeatPasswordField
 import com.reyaly.reyalyhealthtracker.common.ext.textButton
-import com.reyaly.reyalyhealthtracker.screens.emailandpw.EmailAndPwViewModel
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.firebase.auth.FirebaseAuth
 import com.reyaly.reyalyhealthtracker.ui.theme.dark_sky_blue
+import com.reyaly.reyalyhealthtracker.ui.theme.errorDarkRed
+import com.reyaly.reyalyhealthtracker.ui.theme.errorPink
 import com.reyaly.reyalyhealthtracker.ui.theme.light_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.med_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.sky_blue
 
 @Composable
-fun SignUpScreen(
-    onSignInRedirect: () -> Unit,
-    onSuccess: () -> Unit,
+fun EmailAndPasswordScreen(
     modifier: Modifier = Modifier,
-    viewModel: SignUpViewModel = viewModel()
+    onSuccess: () -> Unit,
+    viewModel: EmailAndPwViewModel = viewModel()
 ) {
+//    val auth: FirebaseAuth = FirebaseAuth.getInstance()
+//
+//    if (auth.currentUser != null) {
+//        onSuccess()
+//    }
+
     val uiState by viewModel.uiState
 
     val focusManager = LocalFocusManager.current
@@ -63,15 +71,18 @@ fun SignUpScreen(
     var headerList: List<Color>
     var backgroundColor: Color
     var shadowColor: Color
+    var errorColor: Color
 
     if (isSystemInDarkTheme()) {
         headerList = listOf<Color>(med_sky_blue, dark_sky_blue)
         backgroundColor = dark_sky_blue
         shadowColor = Color.LightGray
+        errorColor = errorPink
     } else {
         headerList = listOf<Color>(sky_blue, med_sky_blue)
         backgroundColor = light_sky_blue
         shadowColor = Color.Black
+        errorColor = errorDarkRed
     }
 
     Column(
@@ -86,7 +97,6 @@ fun SignUpScreen(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-
         Column(
             modifier = modifier
                 .fillMaxWidth()
@@ -135,22 +145,27 @@ fun SignUpScreen(
         ) {
             Column(
                 modifier = modifier.padding(horizontal = 5.dp, vertical = 20.dp),
+                verticalArrangement = Arrangement.Center
+
             ) {
                 Text(
-                    stringResource(R.string.create_account),
+                    stringResource(R.string.login_details),
                     style = MaterialTheme.typography.headlineSmall,
                 )
             }
-            Column(
-                modifier = modifier.padding(5.dp)
-            ) {
-                BasicField(
-                    R.string.name,
-                    value = uiState.name,
-                    onNewValue = viewModel::onNameChange,
-                    errorMsg = uiState.nameError,
-                    modifier = modifier.fillMaxWidth(.80f)
-                )
+            if (viewModel.loginError != "") {
+                Column(
+                    modifier = modifier,
+                    verticalArrangement = Arrangement.Center
+
+                ) {
+                    Text(
+                        viewModel.loginError,
+                        style = MaterialTheme.typography.bodyLarge,
+                        textAlign = TextAlign.Center,
+                        color = errorColor
+                    )
+                }
             }
             Column(
                 modifier = modifier.padding(5.dp)
@@ -170,40 +185,31 @@ fun SignUpScreen(
                     onNewValue = viewModel::onPasswordChange,
                     errorMsg = uiState.passwordError,
                     modifier = modifier.fillMaxWidth(.80f)
-                )
-            }
-            Column(
-                modifier = modifier.padding(5.dp)
-            ) {
-                RepeatPasswordField(
-                    value = uiState.repeatPassword,
-                    onNewValue = { viewModel.onRepeatPasswordChange(it) },
-                    errorMsg = uiState.repeatPasswordError,
-                    modifier = modifier.fillMaxWidth(.80f)
-                )
+                    )
             }
 
             Column(
                 modifier = modifier.padding(horizontal = 5.dp, vertical = 10.dp)
             ) {
-                BasicButton(R.string.sign_up, Modifier.width(150.dp)) {
-                    viewModel.onSignUpClick(onSuccess = { onSuccess() })
+                BasicButton(R.string.sign_in, Modifier.width(150.dp)) {
+                    viewModel.onSignInClick(onSuccess = { onSuccess() })
                 }
             }
-            Column (
-                modifier = modifier.padding(bottom = 10.dp)
+            Column(
+                modifier = modifier
             ) {
-                BasicTextButton(R.string.sign_in_redirector, Modifier.textButton()) { onSignInRedirect() }
+                BasicTextButton(R.string.forgot_password, Modifier.textButton()) {
+                    viewModel.onForgotPasswordClick()
+                }
             }
         }
         Spacer(modifier = modifier)
-
 
     }
 }
 
 //@Preview
 //@Composable
-//fun SignUpPreview() {
-//    SignUpScreen(onSignInRedirect = {})
+//fun EAPPreview() {
+//    EmailAndPasswordScreen(modifier = Modifier)
 //}

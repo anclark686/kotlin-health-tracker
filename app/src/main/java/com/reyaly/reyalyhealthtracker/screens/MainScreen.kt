@@ -27,7 +27,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.reyaly.reyalyhealthtracker.R
 import com.reyaly.reyalyhealthtracker.screens.dashboard.DashboardScreen
-import com.reyaly.reyalyhealthtracker.viewmodels.user.UserViewModel
 import com.reyaly.reyalyhealthtracker.screens.exercise.ExerciseScreen
 import com.reyaly.reyalyhealthtracker.screens.food.FoodScreen
 import com.reyaly.reyalyhealthtracker.screens.home.HomeScreen
@@ -37,31 +36,23 @@ import com.reyaly.reyalyhealthtracker.screens.water.WaterScreen
 import com.reyaly.reyalyhealthtracker.screens.weight.WeightScreen
 import android.util.Log
 import android.widget.Toast
-import androidx.activity.compose.ManagedActivityResultLauncher
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.common.api.ApiException
-import com.google.firebase.Firebase
-import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.auth.auth
+import com.reyaly.reyalyhealthtracker.screens.emailandpw.EmailAndPasswordScreen
 import com.reyaly.reyalyhealthtracker.screens.signin.SignInScreen
+import com.reyaly.reyalyhealthtracker.screens.signup.SignUpScreen
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 
 private val TAG = "Main screen"
 
 enum class MainScreen(@StringRes val title: Int) {
     Home(title = R.string.app_name),
     SignIn(title = R.string.nav_sign_in),
+    SignUp(title = R.string.nav_sign_up),
+    EmailAndPW(title = R.string.nav_email_and_pw),
     Dashboard(title = R.string.nav_dashboard),
     Settings(title = R.string.nav_settings),
     Food(title = R.string.nav_food),
@@ -109,7 +100,6 @@ fun MainAppBar(
 
 @Composable
 fun MainApp(
-    userViewModel: UserViewModel,
     navController: NavHostController = rememberNavController(),
 ) {
     // Get current back stack entry
@@ -122,12 +112,14 @@ fun MainApp(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-
+    fun loginToDashboard() {
+        navController.popBackStack(MainScreen.Home.name, inclusive = false, saveState = false)
+        navController.navigate(MainScreen.Dashboard.name)
+    }
 
     fun logoutWithRedirect() {
-        userViewModel.logout()
-        navController.navigate(MainScreen.Home.name)
         navController.popBackStack(MainScreen.Home.name, inclusive = false, saveState = false)
+        navController.navigate(MainScreen.Home.name)
     }
 
     Scaffold(
@@ -153,17 +145,9 @@ fun MainApp(
                 var exit by remember { mutableStateOf(false) }
                 val context = LocalContext.current
 
-                Log.d(TAG, "Hellooooooooooooooooooooooooooooooooooooo")
-                Log.d(TAG, navController.previousBackStackEntry.toString())
-                Log.d(TAG, "(currentDestination?.route.toString() == \"Home\").toString())")
-                Log.d(TAG, (currentDestination?.route.toString() == "Home").toString())
-                Log.d(TAG, "(currentDestination?.route.toString() != \"Home\").toString())")
-                Log.d(TAG, (currentDestination?.route.toString() != "Home").toString())
-
                 HomeScreen(
-//                    userViewModel = userViewModel,
                     onDashboardClick = { navController.navigate(MainScreen.Dashboard.name) },
-                    onLoginClick = { userViewModel.login() }
+                    onLoginClick = { navController.navigate(MainScreen.SignIn.name) }
                 )
 
                 LaunchedEffect(key1 = exit) {
@@ -187,12 +171,27 @@ fun MainApp(
             }
             composable(route = MainScreen.SignIn.name) {
                 // TODO
-                SignInScreen()
+                SignInScreen(
+                    onEmailAndPwClick = { navController.navigate(MainScreen.EmailAndPW.name) },
+                    onSignUpRedirect = { navController.navigate(MainScreen.SignUp.name) }
+                )
+            }
+            composable(route = MainScreen.EmailAndPW.name) {
+                // TODO
+                EmailAndPasswordScreen(
+                    onSuccess = { loginToDashboard() }
+                )
+            }
+            composable(route = MainScreen.SignUp.name) {
+                // TODO
+                SignUpScreen(
+                    onSignInRedirect = { navController.navigate(MainScreen.SignIn.name) },
+                    onSuccess = { loginToDashboard() }
+                )
             }
             composable(route = MainScreen.Dashboard.name) {
                 // TODO
                 DashboardScreen(
-//                    userViewModel = userViewModel,
                     onSettingsClick = { navController.navigate(MainScreen.Settings.name) },
                     onExerciseClick = { navController.navigate(MainScreen.Exercise.name) },
                     onFoodClick = { navController.navigate(MainScreen.Food.name) },

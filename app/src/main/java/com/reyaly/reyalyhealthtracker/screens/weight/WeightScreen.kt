@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -20,6 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.reyaly.reyalyhealthtracker.R
+import com.reyaly.reyalyhealthtracker.common.composable.BasicButton
 import com.reyaly.reyalyhealthtracker.ui.theme.med_sky_blue
 
 @Composable
@@ -28,7 +30,7 @@ fun WeightScreen(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier,
+        modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
         Column(
@@ -38,15 +40,8 @@ fun WeightScreen(
                 .fillMaxWidth()
                 .padding(5.dp)
         ) {
-            Button(
-                modifier = modifier.padding(25.dp),
-                onClick = { onDashboardClick() },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = med_sky_blue,
-                    contentColor = Color.White
-                )
-            ) {
-                Text(stringResource(R.string.text_dashboard), fontSize = 20.sp)
+            BasicButton(R.string.text_dashboard, Modifier.padding(25.dp)) {
+                onDashboardClick()
             }
         }
         Text(
@@ -61,6 +56,6 @@ fun WeightScreen(
 fun WeightPreview() {
     WeightScreen(
         onDashboardClick = {},
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
     )
 }

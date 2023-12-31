@@ -83,6 +83,6 @@ fun LoggedIn(
 fun LoggedInPreview() {
     LoggedIn(
         onDashboardClick = { },
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
     )
 }

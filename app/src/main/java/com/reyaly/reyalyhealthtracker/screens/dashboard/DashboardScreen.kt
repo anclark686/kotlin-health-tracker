@@ -16,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,7 +41,6 @@ import java.time.format.DateTimeFormatter
 
 @Composable
 fun DashboardScreen(
-//    userViewModel: UserViewModel,
     onSettingsClick: () -> Unit,
     onExerciseClick: () -> Unit,
     onFoodClick: () -> Unit,
@@ -54,17 +54,20 @@ fun DashboardScreen(
     var headerList: List<Color>
     var shadowColor: Color
     var colorList: List<Color>
+    var dividerColor: Color
 
     if (isSystemInDarkTheme()) {
         backgroundColor = dark_sky_blue
         colorList = listOf<Color>(dark_sky_blue, med_sky_blue, dark_sky_blue)
         headerList = listOf<Color>(med_sky_blue, dark_sky_blue)
         shadowColor = Color.LightGray
+        dividerColor = med_sky_blue
     } else {
         backgroundColor = light_sky_blue
         colorList = listOf<Color>(med_sky_blue, sky_blue, med_sky_blue)
         headerList = listOf<Color>(sky_blue, med_sky_blue)
         shadowColor = Color.Black
+        dividerColor = dark_sky_blue
     }
 
 
@@ -76,22 +79,6 @@ fun DashboardScreen(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-
-//        Column(
-//            modifier = modifier.padding(25.dp),
-//            horizontalAlignment = Alignment.CenterHorizontally
-//        ) {
-//            Button(
-//                modifier = Modifier.width(150.dp),
-//                onClick = { onSettingsClick() },
-//                colors = ButtonDefaults.buttonColors(
-//                    containerColor = med_sky_blue,
-//                    contentColor = Color.White
-//                )
-//            ) {
-//                Text(stringResource(R.string.text_settings), fontSize = 20.sp)
-//            }
-//        }
 
         Column(
             modifier = modifier
@@ -111,7 +98,12 @@ fun DashboardScreen(
                     fontWeight = FontWeight.Bold
                 )
             }
-
+            Divider(
+                modifier = modifier
+                    .fillMaxWidth(),
+                thickness = 2.dp,
+                color = dividerColor
+            )
         }
 
         Column(

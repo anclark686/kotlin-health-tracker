@@ -21,18 +21,26 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.reyaly.reyalyhealthtracker.R
+import com.reyaly.reyalyhealthtracker.screens.emailandpw.EmailAndPwViewModel
 import com.reyaly.reyalyhealthtracker.ui.theme.med_sky_blue
-import com.reyaly.reyalyhealthtracker.viewmodels.user.UserViewModel
 
 @Composable
 fun SettingsScreen(
     onDashboardClick: () -> Unit,
     onLogoutClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+//    viewModel: SettingsViewModel = viewModel()
 ) {
+
+//    fun logout() {
+//        viewModel.onSignOut().also {
+//            onLogoutClick()
+//        }
+//    }
     Column(
-        modifier = modifier,
+        modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
         Column(
@@ -67,7 +75,7 @@ fun SettingsScreen(
         )
         Button(
             modifier = modifier.padding(25.dp),
-            onClick = { onLogoutClick() },
+            onClick = {  },
             colors = ButtonDefaults.buttonColors(
                 containerColor = med_sky_blue,
                 contentColor = Color.White
@@ -85,6 +93,6 @@ fun SettingsPreview() {
     SettingsScreen(
         onDashboardClick = {},
         onLogoutClick = {},
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
     )
 }

@@ -65,7 +65,7 @@ fun Descriptions(modifier: Modifier = Modifier) {
                     .align(Alignment.CenterHorizontally)
             ) {
                 Image(
-                    painter = painterResource(R.drawable.weight),
+                    painter = painterResource(R.drawable.ic_weight),
                     contentDescription = "scale",
                     modifier = modifier
                         .width(100.dp)
@@ -97,7 +97,7 @@ fun Descriptions(modifier: Modifier = Modifier) {
                     .align(Alignment.CenterHorizontally)
             ) {
                 Image(
-                    painter = painterResource(R.drawable.food),
+                    painter = painterResource(R.drawable.ic_food),
                     contentDescription = "Logo",
                     modifier = modifier
                         .width(100.dp)
@@ -129,7 +129,7 @@ fun Descriptions(modifier: Modifier = Modifier) {
                     .align(Alignment.CenterHorizontally)
             ) {
                 Image(
-                    painter = painterResource(R.drawable.water),
+                    painter = painterResource(R.drawable.ic_water),
                     contentDescription = "Logo",
                     modifier = modifier
                         .width(100.dp)
@@ -161,7 +161,7 @@ fun Descriptions(modifier: Modifier = Modifier) {
                     .align(Alignment.CenterHorizontally)
             ) {
                 Image(
-                    painter = painterResource(R.drawable.exercise),
+                    painter = painterResource(R.drawable.ic_exercise),
                     contentDescription = "Logo",
                     modifier = modifier
                         .width(100.dp)
@@ -193,7 +193,7 @@ fun Descriptions(modifier: Modifier = Modifier) {
                     .align(Alignment.CenterHorizontally)
             ) {
                 Image(
-                    painter = painterResource(R.drawable.meds),
+                    painter = painterResource(R.drawable.ic_meds),
                     contentDescription = "Logo",
                     modifier = modifier
                         .width(100.dp)

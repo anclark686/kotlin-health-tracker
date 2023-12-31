@@ -72,6 +72,6 @@ fun LoggedOut(
 fun LoggedOutPreview() {
     LoggedOut(
         onLoginClick = {},
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
     )
 }
