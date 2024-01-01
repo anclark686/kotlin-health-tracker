@@ -43,6 +43,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.sp
 import com.reyaly.reyalyhealthtracker.R
 import com.reyaly.reyalyhealthtracker.ui.theme.dark_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.errorDarkRed
@@ -178,7 +179,7 @@ private fun PasswordField(
         Text(
           modifier = modifier,
           text = errorMsg,
-          color = if (isSystemInDarkTheme()) errorPink else errorDarkRed
+          color = if (isSystemInDarkTheme()) errorPink else errorDarkRed,
         )
       }
     },

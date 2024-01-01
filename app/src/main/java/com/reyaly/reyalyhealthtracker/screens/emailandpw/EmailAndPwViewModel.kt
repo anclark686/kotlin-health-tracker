@@ -1,6 +1,7 @@
 package com.reyaly.reyalyhealthtracker.screens.emailandpw
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -17,12 +18,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 class EmailAndPwViewModel: ViewModel() {
     val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
-    private val _uiState = mutableStateOf(EmailAndPwUiState())
-    val uiState: State<EmailAndPwUiState> = _uiState
+    private val _uiState = MutableStateFlow(EmailAndPwUiState())
+    val uiState = _uiState.asStateFlow()
+
     private val email
         get() = uiState.value.email
     private val password
@@ -40,20 +43,20 @@ class EmailAndPwViewModel: ViewModel() {
         _uiState.value = _uiState.value.copy(passwordError = null)
     }
 
-    fun onSignInClick(onSuccess: () -> Unit): Boolean  {
+    fun onSignInClick(onSuccess: () -> Unit) {
 
         Log.d("Login", email.toString())
         Log.d("Login", password.toString())
         if (!email.isValidEmail()) {
             Log.d("Login", "Please insert a valid email.")
             _uiState.value = _uiState.value.copy(emailError = "Please insert a valid email.")
-            return false
+            return
         }
 
         if (password.isBlank()) {
             Log.d("Login", "Password cannot be empty.")
             _uiState.value = _uiState.value.copy(passwordError = "Password cannot be empty.")
-            return false
+            return
         }
 
         auth.signInWithEmailAndPassword(email, password)
@@ -75,17 +78,24 @@ class EmailAndPwViewModel: ViewModel() {
                     }
                 }
             }
-        return true
+        return
     }
 
-    fun onForgotPasswordClick(): String {
+    fun onForgotPasswordClick(onForgotPw: () -> Unit) {
         if (!email.isValidEmail()) {
-            return "Please insert a valid email."
+            Log.d("Login", "Please insert a valid email.")
+            _uiState.value = _uiState.value.copy(emailError = "Please insert a valid email.")
+            return
         }
 
-//        launchCatching {
-//            accountService.sendRecoveryEmail(email)
-//        }
-        return "Successfully logged in"
+        auth.sendPasswordResetEmail(email)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.d("Login", "Email sent.")
+                    onForgotPw()
+                }
+            }
+
+        return
     }
 }

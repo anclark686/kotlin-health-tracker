@@ -5,5 +5,7 @@ data class EmailAndPwUiState (
     val password: String = "",
     val emailError: String? = null,
     val passwordError: String? = null,
-    val success: Boolean = false
+    val success: Boolean = false,
+    val isLoginSuccessful: Boolean = false,
+    val isChangePwSuccessful: Boolean = false,
 )

@@ -1,5 +1,6 @@
 package com.reyaly.reyalyhealthtracker.screens.dashboard
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -26,12 +27,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.reyaly.reyalyhealthtracker.R
+import com.reyaly.reyalyhealthtracker.common.components.LogoBanner
 import com.reyaly.reyalyhealthtracker.ui.theme.dark_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.light_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.med_sky_blue
@@ -51,7 +54,6 @@ fun DashboardScreen(
 ) {
     val formatter = DateTimeFormatter.ofPattern("MM/dd/yyy")
     var backgroundColor: Color
-    var headerList: List<Color>
     var shadowColor: Color
     var colorList: List<Color>
     var dividerColor: Color
@@ -59,13 +61,11 @@ fun DashboardScreen(
     if (isSystemInDarkTheme()) {
         backgroundColor = dark_sky_blue
         colorList = listOf<Color>(dark_sky_blue, med_sky_blue, dark_sky_blue)
-        headerList = listOf<Color>(med_sky_blue, dark_sky_blue)
         shadowColor = Color.LightGray
         dividerColor = med_sky_blue
     } else {
         backgroundColor = light_sky_blue
         colorList = listOf<Color>(med_sky_blue, sky_blue, med_sky_blue)
-        headerList = listOf<Color>(sky_blue, med_sky_blue)
         shadowColor = Color.Black
         dividerColor = dark_sky_blue
     }
@@ -74,15 +74,15 @@ fun DashboardScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .background(color = Color.White),
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        LogoBanner()
 
         Column(
             modifier = modifier
-                .background(Brush.verticalGradient(headerList))
+                .background(color = backgroundColor)
                 .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
@@ -381,6 +381,6 @@ fun DashboardPreview() {
         onMedClick = { },
         onWaterClick = { },
         onWeightClick = { },
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
     )
 }

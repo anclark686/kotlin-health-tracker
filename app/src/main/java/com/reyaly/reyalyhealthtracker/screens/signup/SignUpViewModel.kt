@@ -9,12 +9,14 @@ import com.reyaly.reyalyhealthtracker.common.ext.isValidEmail
 import com.reyaly.reyalyhealthtracker.common.ext.isValidPassword
 import com.reyaly.reyalyhealthtracker.common.ext.passwordMatches
 import com.reyaly.reyalyhealthtracker.screens.emailandpw.EmailAndPwUiState
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 class SignUpViewModel: ViewModel() {
     val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
-    private val _uiState = mutableStateOf(SignUpUiState())
-    val uiState: State<SignUpUiState> = _uiState
+    private val _uiState = MutableStateFlow(SignUpUiState())
+    val uiState = _uiState.asStateFlow()
 
     private val name
         get() = uiState.value.name
@@ -46,33 +48,34 @@ class SignUpViewModel: ViewModel() {
     }
 
 
-    fun onSignUpClick(onSuccess: () -> Unit): String {
+    fun onSignUpClick(onSuccess: () -> Unit) {
         Log.d("signUp", "Name = $name")
         Log.d("signUp", "email = $email")
         Log.d("signUp", "pw = $password")
         Log.d("signUp", "repeat pw = ${_uiState.value.repeatPassword}")
+
         if (name == "") {
             Log.d("signUp", "Name cannot be blank.")
             _uiState.value = _uiState.value.copy(nameError = "Name cannot be blank.")
-            return "Name cannot be blank."
+            return
         }
 
         if (!email.isValidEmail()) {
             Log.d("signUp", "Please insert a valid email.")
             _uiState.value = _uiState.value.copy(emailError = "Please insert a valid email.")
-            return "Please insert a valid email."
+            return
         }
 
         if (!password.isValidPassword()) {
             Log.d("signUp", "Password cannot be empty.")
             _uiState.value = _uiState.value.copy(passwordError = "Your password should have at least six digits and include one digit, one lower case letter and one upper case letter.")
-            return "Your password should have at least six digits and include one digit, one lower case letter and one upper case letter."
+            return
         }
 
         if (!password.passwordMatches(uiState.value.repeatPassword)) {
             Log.d("signUp", "Password cannot be empty.")
             _uiState.value = _uiState.value.copy(repeatPasswordError = "Passwords do not match.")
-            return "Passwords do not match."
+            return
         }
 
         auth.createUserWithEmailAndPassword(email, password)
@@ -105,6 +108,6 @@ class SignUpViewModel: ViewModel() {
 //                    }
                 }
             }
-        return "Successfully signed up"
+        return
     }
 }

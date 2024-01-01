@@ -52,11 +52,13 @@ import com.reyaly.reyalyhealthtracker.ui.theme.med_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.sky_blue
 
 @Composable
-fun BasicTextButton(@StringRes text: Int, modifier: Modifier, action: () -> Unit) {
+fun BasicTextButton(@StringRes text: Int, modifier: Modifier, action: () -> Unit, color: Color = Color.Unspecified) {
   TextButton(onClick = action, modifier = modifier) {
     Text(
       text = stringResource(text),
-      textAlign = TextAlign.Center
+      textAlign = TextAlign.Center,
+      color = color,
+      fontSize = 18.sp,
     )
   }
 }
@@ -73,7 +75,7 @@ fun BasicButton(@StringRes text: Int, modifier: Modifier, action: () -> Unit) {
   ) {
     Text(
       text = stringResource(text),
-      fontSize = 16.sp,
+      fontSize = 18.sp,
       textAlign = TextAlign.Center)
   }
 }
@@ -146,6 +148,26 @@ fun SignInButtonPreview2() {
 @Composable
 fun SignInButtonPreview3() {
   SignInButton(text = R.string.nav_sign_in, action = { /*TODO*/ }, contentColor = dark_sky_blue, icon = R.drawable.ic_phone)
+}
+
+@Composable
+fun DashboardButton(modifier: Modifier = Modifier, onDashboardClick: () -> Unit) {
+  Column(
+    horizontalAlignment = Alignment.CenterHorizontally,
+    modifier = modifier
+      .fillMaxWidth()
+      .padding(5.dp)
+  ) {
+    BasicButton(R.string.text_dashboard, Modifier.padding(25.dp)) {
+      onDashboardClick()
+    }
+  }
+}
+
+@Preview
+@Composable
+fun DashboardButtonPreview3() {
+  DashboardButton(modifier = Modifier, onDashboardClick = {})
 }
 
 @Composable

@@ -1,5 +1,7 @@
 package com.reyaly.reyalyhealthtracker.screens
 
+import android.app.Activity.RESULT_OK
+import android.content.Context
 import androidx.activity.result.ActivityResult
 import android.content.Intent
 import androidx.activity.compose.BackHandler
@@ -36,30 +38,52 @@ import com.reyaly.reyalyhealthtracker.screens.water.WaterScreen
 import com.reyaly.reyalyhealthtracker.screens.weight.WeightScreen
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
+import com.reyaly.reyalyhealthtracker.screens.changepw.ChangePwScreen
 import com.reyaly.reyalyhealthtracker.screens.emailandpw.EmailAndPasswordScreen
+import com.reyaly.reyalyhealthtracker.screens.emailandpw.EmailAndPwViewModel
+import com.reyaly.reyalyhealthtracker.screens.intake.IntakeScreen
+import com.reyaly.reyalyhealthtracker.screens.resetemail.ResetEmailSentScreen
+import com.reyaly.reyalyhealthtracker.screens.signin.GoogleAuthUiClient
 import com.reyaly.reyalyhealthtracker.screens.signin.SignInScreen
+import com.reyaly.reyalyhealthtracker.screens.signin.SignInViewModel
 import com.reyaly.reyalyhealthtracker.screens.signup.SignUpScreen
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 private val TAG = "Main screen"
 
-enum class MainScreen(@StringRes val title: Int) {
-    Home(title = R.string.app_name),
-    SignIn(title = R.string.nav_sign_in),
-    SignUp(title = R.string.nav_sign_up),
-    EmailAndPW(title = R.string.nav_email_and_pw),
-    Dashboard(title = R.string.nav_dashboard),
-    Settings(title = R.string.nav_settings),
-    Food(title = R.string.nav_food),
-    Water(title = R.string.nav_water),
-    Exercise(title = R.string.nav_exercise),
-    Med(title = R.string.nav_med),
-    Weight(title = R.string.nav_weight)
+enum class MainScreen(@StringRes val title: Int, val route: String) {
+    Home(title = R.string.app_name, route = "Home"),
+    SignIn(title = R.string.nav_sign_in, route = "SignIn"),
+    SignInModify(title = R.string.nav_sign_in, route = "SignIn/{modify}"),
+    SignUp(title = R.string.nav_sign_up, route = "SignUp"),
+    EmailAndPW(title = R.string.nav_email_and_pw, route = "EmailAndPW"),
+    EmailAndPWModify(title = R.string.nav_email_and_pw, route = "EmailAndPW/{modify}"),
+    ResetEmail(title = R.string.nav_reset_email, route = "ResetEmail"),
+    ChangePassword(title = R.string.nav_change_pw, route = "ChangePassword"),
+    Intake(title = R.string.nav_intake, route = "Intake"),
+    Dashboard(title = R.string.nav_dashboard, route = "Dashboard"),
+    Settings(title = R.string.nav_settings, route = "Settings"),
+    Food(title = R.string.nav_food, route = "Food"),
+    Water(title = R.string.nav_water, route = "Water"),
+    Exercise(title = R.string.nav_exercise, route = "Exercise"),
+    Med(title = R.string.nav_med, route = "Med"),
+    Weight(title = R.string.nav_weight, route = "Weight"),
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -100,54 +124,72 @@ fun MainAppBar(
 
 @Composable
 fun MainApp(
-    navController: NavHostController = rememberNavController(),
+    lifecycleScope: LifecycleCoroutineScope,
+    googleAuthUiClient: GoogleAuthUiClient,
+    applicationContext: Context,
+    navController: NavHostController = rememberNavController()
 ) {
+
     // Get current back stack entry
     val backStackEntry by navController.currentBackStackEntryAsState()
     // Get the name of the current screen
+    var currentStr: String?
+    if (backStackEntry?.destination?.route?.contains("modify") == true) {
+        currentStr = backStackEntry?.destination?.route?.replace("/{modify}", "")
+    } else {
+        currentStr = backStackEntry?.destination?.route
+    }
+
     val currentScreen = MainScreen.valueOf(
-        backStackEntry?.destination?.route ?: MainScreen.Home.name
+        currentStr ?: MainScreen.Home.route
     )
 
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentDestination = navBackStackEntry?.destination
-
     fun loginToDashboard() {
-        navController.popBackStack(MainScreen.Home.name, inclusive = false, saveState = false)
-        navController.navigate(MainScreen.Dashboard.name)
+        navController.popBackStack(MainScreen.Home.route, inclusive = false, saveState = false)
+        navController.navigate(MainScreen.Dashboard.route)
+    }
+
+    fun toSettingsWithToast() {
+        navController.popBackStack(MainScreen.Home.route, inclusive = false, saveState = false)
+        navController.navigate(MainScreen.Settings.route)
+        Toast.makeText(
+            applicationContext,
+            "Password successfully changed.",
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     fun logoutWithRedirect() {
-        navController.popBackStack(MainScreen.Home.name, inclusive = false, saveState = false)
-        navController.navigate(MainScreen.Home.name)
+        navController.popBackStack(MainScreen.Home.route, inclusive = false, saveState = false)
+        navController.navigate(MainScreen.Home.route)
     }
 
     Scaffold(
         topBar = {
             MainAppBar(
                 currentScreen = currentScreen,
-                canNavigateBack = navController.previousBackStackEntry != null && currentDestination?.route.toString() != "Home",
+                canNavigateBack = navController.previousBackStackEntry != null && currentScreen.toString() != "Home",
                 navigateUp = { navController.navigateUp() },
-                navToSettings = { navController.navigate(MainScreen.Settings.name) },
-                whatPage = currentDestination?.route.toString()
+                navToSettings = { navController.navigate(MainScreen.Settings.route) },
+                whatPage = currentScreen.toString()
             )
         }
     ) { innerPadding ->
 
         NavHost(
             navController = navController,
-            startDestination = MainScreen.Home.name,
+            startDestination = MainScreen.Home.route,
             modifier = Modifier.padding(innerPadding)
         ) {
-            composable(route = MainScreen.Home.name) {
-                // TODO
-
+            Log.d(TAG, currentScreen.toString())
+            composable(route = MainScreen.Home.route) {
+                Log.d("main", MainScreen.Home.route)
                 var exit by remember { mutableStateOf(false) }
                 val context = LocalContext.current
 
                 HomeScreen(
-                    onDashboardClick = { navController.navigate(MainScreen.Dashboard.name) },
-                    onLoginClick = { navController.navigate(MainScreen.SignIn.name) }
+                    onDashboardClick = { navController.navigate(MainScreen.Dashboard.route) },
+                    onLoginClick = { navController.navigate(MainScreen.SignIn.route) }
                 )
 
                 LaunchedEffect(key1 = exit) {
@@ -169,72 +211,222 @@ fun MainApp(
                     }
                 }
             }
-            composable(route = MainScreen.SignIn.name) {
-                // TODO
+
+            composable(route = MainScreen.SignIn.route) {
+                val signInViewModel = viewModel<SignInViewModel>()
+                val signInstate by signInViewModel.state.collectAsStateWithLifecycle()
+
+                val launcher = rememberLauncherForActivityResult(
+                    contract = ActivityResultContracts.StartIntentSenderForResult(),
+                    onResult = { result ->
+                        if(result.resultCode == RESULT_OK) {
+                            lifecycleScope.launch {
+                                val signInResult = googleAuthUiClient.signInWithIntent(
+                                    intent = result.data ?: return@launch
+                                )
+
+                                signInViewModel.onSignInResult(signInResult, modify = null, callback = { loginToDashboard() })
+
+                                Log.d(TAG, "Sign in successful")
+                                Toast.makeText(
+                                    applicationContext,
+                                    "Sign in Successful",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    }
+                )
+
+                LaunchedEffect(key1 = signInstate.isDeleteSuccessful) {
+                    if(signInstate.isDeleteSuccessful) {
+                        Toast.makeText(
+                            applicationContext,
+                            "Account successfully deleted.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
                 SignInScreen(
-                    onEmailAndPwClick = { navController.navigate(MainScreen.EmailAndPW.name) },
-                    onSignUpRedirect = { navController.navigate(MainScreen.SignUp.name) }
+                    onEmailAndPwClick = { navController.navigate(MainScreen.EmailAndPW.route) },
+                    onEmailAndPwClickDelete = { navController.navigate("EmailAndPW/delete") },
+                    onEmailAndPwClickChange = { navController.navigate("EmailAndPW/change") },
+                    onSignInClick = {
+                        lifecycleScope.launch {
+                            val signInIntentSender = googleAuthUiClient.signIn()
+                            launcher.launch(
+                                IntentSenderRequest.Builder(
+                                    signInIntentSender ?: return@launch
+                                ).build()
+                            )
+                        }
+                    },
+                    onResetPassword = {  },
+                    onDeleteAccount = {  },
+                    modify = null
                 )
             }
-            composable(route = MainScreen.EmailAndPW.name) {
-                // TODO
+
+            composable(route = "SignIn/{modify}", arguments = listOf(navArgument("modify") { type = NavType.StringType })) {
+                val modify = it.arguments?.getString("modify")
+                Log.d("mainScreen", modify.toString())
+
+                val signInViewModel = viewModel<SignInViewModel>()
+                val signInstate by signInViewModel.state.collectAsStateWithLifecycle()
+
+                val launcher = rememberLauncherForActivityResult(
+                    contract = ActivityResultContracts.StartIntentSenderForResult(),
+                    onResult = { result ->
+                        if(result.resultCode == RESULT_OK) {
+                            lifecycleScope.launch {
+                                val signInResult = googleAuthUiClient.signInWithIntent(
+                                    intent = result.data ?: return@launch
+                                )
+
+                                if (modify == "delete") {
+                                    signInViewModel.onSignInResult(signInResult, modify = modify, callback = { navController.navigate(MainScreen.Home.route) })
+                                } else {
+                                    signInViewModel.onSignInResult(signInResult, modify = modify, callback = { loginToDashboard() })
+                                }
+                                Log.d(TAG, "Sign in successful")
+                                Toast.makeText(
+                                    applicationContext,
+                                    "Sign in Successful",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    }
+                )
+
+                LaunchedEffect(key1 = signInstate.isDeleteSuccessful) {
+                    if(signInstate.isDeleteSuccessful) {
+                        Toast.makeText(
+                            applicationContext,
+                            "Account successfully deleted.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+                SignInScreen(
+                    onEmailAndPwClick = { navController.navigate(MainScreen.EmailAndPW.route) },
+                    onEmailAndPwClickDelete = { navController.navigate("EmailAndPW/delete") },
+                    onEmailAndPwClickChange = { navController.navigate("EmailAndPW/change") },
+                    onSignInClick = {
+                        lifecycleScope.launch {
+                            val signInIntentSender = googleAuthUiClient.signIn()
+                            launcher.launch(
+                                IntentSenderRequest.Builder(
+                                    signInIntentSender ?: return@launch
+                                ).build()
+                            )
+                        }
+                    },
+                    onResetPassword = {  },
+                    onDeleteAccount = {  },
+                    modify = modify
+                )
+            }
+
+            composable(route = MainScreen.EmailAndPW.route) {
                 EmailAndPasswordScreen(
-                    onSuccess = { loginToDashboard() }
+                    onSuccess = { loginToDashboard() },
+                    onSignUpRedirect = { navController.navigate(MainScreen.SignUp.route) },
+                    onForgotPw = { navController.navigate(MainScreen.ResetEmail.route) },
+                    onResetPassword = { navController.navigate(MainScreen.ChangePassword.route) },
+                    onDeleteAccount = { navController.navigate(MainScreen.Home.route) },
+                    modify = null
                 )
             }
-            composable(route = MainScreen.SignUp.name) {
-                // TODO
+
+            composable(route = "EmailAndPW/{modify}", arguments = listOf(navArgument("modify") { type = NavType.StringType })) {
+                val modify = it.arguments?.getString("modify")
+                Log.d("mainScreen", modify.toString())
+
+                EmailAndPasswordScreen(
+                    onSuccess = { loginToDashboard() },
+                    onSignUpRedirect = { navController.navigate(MainScreen.SignUp.route) },
+                    onForgotPw = { navController.navigate(MainScreen.ResetEmail.route) },
+                    onResetPassword = { navController.navigate(MainScreen.ChangePassword.route) },
+                    onDeleteAccount = { navController.navigate(MainScreen.Home.route) },
+                    modify = modify
+                )
+            }
+
+            composable(route = MainScreen.SignUp.route) {
                 SignUpScreen(
-                    onSignInRedirect = { navController.navigate(MainScreen.SignIn.name) },
+                    onSignInRedirect = { navController.navigate(MainScreen.EmailAndPW.route) },
                     onSuccess = { loginToDashboard() }
                 )
             }
-            composable(route = MainScreen.Dashboard.name) {
-                // TODO
-                DashboardScreen(
-                    onSettingsClick = { navController.navigate(MainScreen.Settings.name) },
-                    onExerciseClick = { navController.navigate(MainScreen.Exercise.name) },
-                    onFoodClick = { navController.navigate(MainScreen.Food.name) },
-                    onMedClick = { navController.navigate(MainScreen.Med.name) },
-                    onWaterClick = { navController.navigate(MainScreen.Water.name) },
-                    onWeightClick = { navController.navigate(MainScreen.Weight.name) }
+
+            composable(route = MainScreen.ResetEmail.route) {
+                ResetEmailSentScreen(
+                    onLoginClick = { navController.navigate(MainScreen.EmailAndPW.route) }
                 )
             }
-            composable(route = MainScreen.Settings.name) {
-                // TODO
+
+            composable(route = MainScreen.Dashboard.route) {
+                DashboardScreen(
+                    onSettingsClick = { navController.navigate(MainScreen.Settings.route) },
+                    onExerciseClick = { navController.navigate(MainScreen.Exercise.route) },
+                    onFoodClick = { navController.navigate(MainScreen.Food.route) },
+                    onMedClick = { navController.navigate(MainScreen.Med.route) },
+                    onWaterClick = { navController.navigate(MainScreen.Water.route) },
+                    onWeightClick = { navController.navigate(MainScreen.Weight.route) }
+                )
+            }
+
+            composable(route = MainScreen.Settings.route) {
                 SettingsScreen(
-                    onDashboardClick = { navController.navigate(MainScreen.Dashboard.name) },
+                    onLoginClick = { navController.navigate(MainScreen.SignIn.route) },
+                    onLoginChangeClick = { navController.navigate("SignIn/change") },
+                    onLoginDeleteClick = { navController.navigate("SignIn/delete") },
                     onLogoutClick = { logoutWithRedirect() }
                 )
             }
-            composable(route = MainScreen.Food.name) {
-                // TODO
+
+            composable(route = MainScreen.ChangePassword.route) {
+                ChangePwScreen(
+                    onSettingsRedirect = { toSettingsWithToast() }
+                )
+            }
+
+            composable(route = MainScreen.Intake.route) {
+                IntakeScreen(
+                    onDashboardClick = { navController.navigate(MainScreen.Dashboard.route) }
+                )
+            }
+
+            composable(route = MainScreen.Food.route) {
                 FoodScreen(
-                    onDashboardClick = { navController.navigate(MainScreen.Dashboard.name) }
+                    onDashboardClick = { navController.navigate(MainScreen.Dashboard.route) }
                 )
             }
-            composable(route = MainScreen.Water.name) {
-                // TODO
+
+            composable(route = MainScreen.Water.route) {
                 WaterScreen(
-                    onDashboardClick = { navController.navigate(MainScreen.Dashboard.name) }
+                    onDashboardClick = { navController.navigate(MainScreen.Dashboard.route) }
                 )
             }
-            composable(route = MainScreen.Exercise.name) {
-                // TODO
+
+            composable(route = MainScreen.Exercise.route) {
                 ExerciseScreen(
-                    onDashboardClick = { navController.navigate(MainScreen.Dashboard.name) }
+                    onDashboardClick = { navController.navigate(MainScreen.Dashboard.route) }
                 )
             }
-            composable(route = MainScreen.Weight.name) {
-                // TODO
+
+            composable(route = MainScreen.Weight.route) {
                 WeightScreen(
-                    onDashboardClick = { navController.navigate(MainScreen.Dashboard.name) }
+                    onDashboardClick = { navController.navigate(MainScreen.Dashboard.route) }
                 )
             }
-            composable(route = MainScreen.Med.name) {
-                // TODO
+
+            composable(route = MainScreen.Med.route) {
                 MedScreen(
-                    onDashboardClick = { navController.navigate(MainScreen.Dashboard.name) }
+                    onDashboardClick = { navController.navigate(MainScreen.Dashboard.route) }
                 )
             }
         }

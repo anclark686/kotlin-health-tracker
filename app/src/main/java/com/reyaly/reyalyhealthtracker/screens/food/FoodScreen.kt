@@ -21,6 +21,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.reyaly.reyalyhealthtracker.R
 import com.reyaly.reyalyhealthtracker.common.composable.BasicButton
+import com.reyaly.reyalyhealthtracker.common.composable.DashboardButton
+import com.reyaly.reyalyhealthtracker.common.components.LogoBanner
 import com.reyaly.reyalyhealthtracker.ui.theme.med_sky_blue
 
 @Composable
@@ -32,17 +34,11 @@ fun FoodScreen(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = modifier
-                .align(Alignment.CenterHorizontally)
-                .fillMaxWidth()
-                .padding(5.dp)
-        ) {
-            BasicButton(R.string.text_dashboard, Modifier.padding(25.dp)) {
-                onDashboardClick()
-            }
+        Column(modifier = modifier) {
+            LogoBanner()
+            DashboardButton(modifier = modifier, onDashboardClick = { onDashboardClick() })
         }
+
         Text(
             text = stringResource(R.string.text_food),
             style = MaterialTheme.typography.headlineSmall

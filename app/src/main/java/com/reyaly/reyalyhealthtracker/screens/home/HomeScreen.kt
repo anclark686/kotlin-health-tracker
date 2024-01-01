@@ -57,7 +57,7 @@ fun HomeScreen(
     ) {
         Row(modifier = modifier.background(color = backgroundColor) ) {
             Image(
-                painter = painterResource(R.drawable.rhc_logo_words),
+                painter = painterResource(R.drawable.rht_logo_words),
                 contentDescription = "Logo",
                 modifier = modifier
                     .fillMaxWidth()
