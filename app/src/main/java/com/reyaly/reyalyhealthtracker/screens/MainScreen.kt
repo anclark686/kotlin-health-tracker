@@ -41,6 +41,7 @@ import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -61,6 +62,11 @@ import com.reyaly.reyalyhealthtracker.screens.signin.GoogleAuthUiClient
 import com.reyaly.reyalyhealthtracker.screens.signin.SignInScreen
 import com.reyaly.reyalyhealthtracker.screens.signin.SignInViewModel
 import com.reyaly.reyalyhealthtracker.screens.signup.SignUpScreen
+import com.reyaly.reyalyhealthtracker.ui.theme.dark_sky_blue
+import com.reyaly.reyalyhealthtracker.ui.theme.errorDarkRed
+import com.reyaly.reyalyhealthtracker.ui.theme.errorPink
+import com.reyaly.reyalyhealthtracker.ui.theme.light_sky_blue
+import com.reyaly.reyalyhealthtracker.ui.theme.sky_blue
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -99,7 +105,7 @@ fun MainAppBar(
     TopAppBar(
         title = { Text(stringResource(currentScreen.title)) },
         colors = TopAppBarDefaults.mediumTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer
+            containerColor = if (isSystemInDarkTheme()) dark_sky_blue else light_sky_blue
         ),
         modifier = modifier,
         navigationIcon = {
@@ -139,7 +145,6 @@ fun MainApp(
     } else {
         currentStr = backStackEntry?.destination?.route
     }
-
     val currentScreen = MainScreen.valueOf(
         currentStr ?: MainScreen.Home.route
     )
@@ -189,7 +194,8 @@ fun MainApp(
 
                 HomeScreen(
                     onDashboardClick = { navController.navigate(MainScreen.Dashboard.route) },
-                    onLoginClick = { navController.navigate(MainScreen.SignIn.route) }
+                    onLoginClick = { navController.navigate(MainScreen.SignIn.route) },
+                    onIntakeClick = { navController.navigate(MainScreen.Intake.route) }
                 )
 
                 LaunchedEffect(key1 = exit) {
@@ -370,7 +376,6 @@ fun MainApp(
 
             composable(route = MainScreen.Dashboard.route) {
                 DashboardScreen(
-                    onSettingsClick = { navController.navigate(MainScreen.Settings.route) },
                     onExerciseClick = { navController.navigate(MainScreen.Exercise.route) },
                     onFoodClick = { navController.navigate(MainScreen.Food.route) },
                     onMedClick = { navController.navigate(MainScreen.Med.route) },
@@ -396,7 +401,7 @@ fun MainApp(
 
             composable(route = MainScreen.Intake.route) {
                 IntakeScreen(
-                    onDashboardClick = { navController.navigate(MainScreen.Dashboard.route) }
+
                 )
             }
 

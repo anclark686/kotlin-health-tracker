@@ -1,0 +1,21 @@
+Fitness Calculator API
+https://zylalabs.com/api-marketplace/data/fitness+calculator+api/428
+GET BODY MASS INDEX
+GET BASAL METABOLIC RATE
+GET BODY FAT PERCENTAGE
+GET IDEAL BODY WEIGHT
+GET A BODY SHAPE INDEX
+GET TOTAL DAILY ENERGY EXPENDITURE
+
+FITNESS CALCULATOR
+https://rapidapi.com/malaaddincelik/api/fitness-calculator/details
+/bmi endpoint
+/bodyfat
+/dailycalorie
+/idealweight
+/macrocalculator
+/burnedcalorie
+/food endpoint
+
+Food APIs
+https://rapidapi.com/collection/nutrition

@@ -16,12 +16,14 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
+    surface = dark_sky_blue,
     primary = med_sky_blue,
     secondary = dark_sky_blue,
     tertiary = sky_blue
 )
 
 private val LightColorScheme = lightColorScheme(
+    surface = sky_blue,
     primary = med_sky_blue,
     secondary = dark_sky_blue,
     tertiary = sky_blue

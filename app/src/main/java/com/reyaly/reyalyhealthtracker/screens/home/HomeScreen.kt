@@ -32,6 +32,7 @@ import com.reyaly.reyalyhealthtracker.ui.theme.light_sky_blue
 fun HomeScreen(
     onDashboardClick: () -> Unit,
     onLoginClick: () -> Unit,
+    onIntakeClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val auth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -80,6 +81,12 @@ fun HomeScreen(
                 ) {
                     Text("Logout")
                 }
+                Button(
+                    modifier = modifier,
+                    onClick = { onIntakeClick() }
+                ) {
+                    Text("intake")
+                }
             }
         }
         Row(modifier = modifier) {
@@ -94,6 +101,7 @@ fun HomePreview() {
     HomeScreen(
         onDashboardClick = {},
         onLoginClick = {},
+        onIntakeClick = {},
         modifier = Modifier.fillMaxSize()
     )
 }

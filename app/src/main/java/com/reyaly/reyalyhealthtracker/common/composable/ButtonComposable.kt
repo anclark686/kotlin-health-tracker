@@ -158,7 +158,7 @@ fun DashboardButton(modifier: Modifier = Modifier, onDashboardClick: () -> Unit)
       .fillMaxWidth()
       .padding(5.dp)
   ) {
-    BasicButton(R.string.text_dashboard, Modifier.padding(25.dp)) {
+    BasicButton(R.string.text_dashboard, Modifier) {
       onDashboardClick()
     }
   }

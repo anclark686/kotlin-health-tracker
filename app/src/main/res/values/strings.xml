@@ -12,6 +12,26 @@
     <string name="ok">OK</string>
     <string name="delete_dismiss">Go Back</string>
     <string name="delete_confirm">Confirm</string>
+    <string name="submit">Submit</string>
+    <string name="add_new">Add New</string>
+    <string name="dropdown_select_one">--Select One--</string>
+
+    <!-- Nav -->
+    <string name="nav_dashboard">Dashboard</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_food">Food Tracker</string>
+    <string name="nav_water">Water Tracker</string>
+    <string name="nav_exercise">Exercise Tracker</string>
+    <string name="nav_med">Med Tracker</string>
+    <string name="nav_weight">Weight Tracker</string>
+    <string name="nav_settings">Settings</string>
+    <string name="nav_sign_in">Sign In</string>
+    <string name="nav_sign_up">Sign Up</string>
+    <string name="nav_email_and_pw">Email and Password</string>
+    <string name="nav_reset_email">Reset Email Sent</string>
+    <string name="nav_intake">Intake</string>
+    <string name="nav_change_pw">Change Password</string>
+    <string name="nav_logout">Logout</string>
 
     <!-- SignIn/Up Screen -->
     <string name="sign_in">Sign in</string>
@@ -37,31 +57,106 @@
     <string name="settings_account">Account Management</string>
     <string name="settings_name">Name:</string>
     <string name="settings_email">Email:</string>
+    <string name="settings_phone">Phone:</string>
     <string name="settings_birthday">Birthday:</string>
-    <string name="settings_sex">Phone:</string>
+    <string name="settings_age">Age:</string>
+    <string name="settings_height">Height:</string>
+    <string name="settings_sex">Sex:</string>
     <string name="settings_gender">Gender:</string>
     <string name="settings_joined">Joined:</string>
+    <string name="settings_modify">Modify</string>
     <string name="settings_change_pw">Change Password</string>
     <string name="settings_delete_account">Delete Account</string>
     <string name="settings_delete_sure">Are you sure you want to delete your account?</string>
     <string name="settings_delete_permanent">WARNING: This action will be permanent, and all information will be lost.</string>
 
-    <string name="nav_dashboard">Dashboard</string>
-    <string name="nav_home">Home</string>
-    <string name="nav_food">Food Tracker</string>
-    <string name="nav_water">Water Tracker</string>
-    <string name="nav_exercise">Exercise Tracker</string>
-    <string name="nav_med">Med Tracker</string>
-    <string name="nav_weight">Weight Tracker</string>
-    <string name="nav_settings">Settings</string>
-    <string name="nav_sign_in">Sign In</string>
-    <string name="nav_sign_up">Sign Up</string>
-    <string name="nav_email_and_pw">Email and Password</string>
-    <string name="nav_reset_email">Reset Email Sent</string>
-    <string name="nav_intake">Intake</string>
-    <string name="nav_change_pw">Change Password</string>
-    <string name="nav_logout">Logout</string>
+    <!-- Intake -->
+    <string name="intake_label_basic_info">Basic Info</string>
+    <string name="intake_label_med_info">Med Info</string>
+    <string name="intake_label_health_info">Health Info</string>
 
+    <string name="intake_input_first_name">First Name</string>
+    <string name="intake_input_last_name">Last Name</string>
+    <string name="intake_input_phone">Phone Number</string>
+    <string name="intake_input_sex">Sex</string>
+    <string name="intake_input_gender">Gender</string>
+    <string name="intake_input_birthday">Birthday</string>
+    <string name="intake_input_height">Height</string>
+
+    <string name="intake_input_curr_weight">Current Weight</string>
+    <string name="intake_input_goal_weight">Goal Weight</string>
+    <string name="intake_input_weight_activity">Weight Goals</string>
+
+    <string name="intake_input_activity_level">Activity Level</string>
+
+    <string name="intake_input_med_name">Name</string>
+    <string name="intake_input_med_dose">Dose</string>
+    <string name="intake_input_med_time">Time</string>
+
+    <string name="intake_dropdown_sex_male">Male</string>
+    <string name="intake_dropdown_sex_female">Female</string>
+
+    <string name="intake_dropdown_gender_male">Male</string>
+    <string name="intake_dropdown_gender_female">Female</string>
+    <string name="intake_dropdown_gender_non_binary">Non-binary</string>
+    <string name="intake_dropdown_gender_agender">Agender</string>
+    <string name="intake_dropdown_gender_other">Other</string>
+
+    <string name="intake_dropdown_goal_maintain">Maintain Weight</string>
+    <string name="intake_dropdown_goal_mildloss">Mild Weight Loss</string>
+    <string name="intake_dropdown_goal_weightloss">Weight Loss</string>
+    <string name="intake_dropdown_goal_extremeloss">Extreme Weight Loss</string>
+    <string name="intake_dropdown_goal_mildgain">Mild Weight Gain</string>
+    <string name="intake_dropdown_goal_weightgain">Weight Gain</string>
+    <string name="intake_dropdown_goal_extremegain">Extreme Weight Gain</string>
+
+    <string name="intake_dropdown_activity_bmr">BMR</string>
+    <string name="intake_dropdown_activity_sedentary">Sedentary</string>
+    <string name="intake_dropdown_activity_light">Light Activity</string>
+    <string name="intake_dropdown_activity_moderate">Moderate Activity</string>
+    <string name="intake_dropdown_activity_daily">Daily Activity</string>
+    <string name="intake_dropdown_activity_very">Very Active</string>
+    <string name="intake_dropdown_activity_intense">Intense Activity</string>
+
+    <string name="intake_dropdown_height_4_0">4\'0\"</string>
+    <string name="intake_dropdown_height_4_1">4\'1\"</string>
+    <string name="intake_dropdown_height_4_2">4\'2\"</string>
+    <string name="intake_dropdown_height_4_3">4\'3\"</string>
+    <string name="intake_dropdown_height_4_4">4\'4\"</string>
+    <string name="intake_dropdown_height_4_5">4\'5\"</string>
+    <string name="intake_dropdown_height_4_6">4\'6\"</string>
+    <string name="intake_dropdown_height_4_7">4\'7\"</string>
+    <string name="intake_dropdown_height_4_8">4\'8\"</string>
+    <string name="intake_dropdown_height_4_9">4\'9\"</string>
+    <string name="intake_dropdown_height_4_10">4\'10\"</string>
+    <string name="intake_dropdown_height_4_11">4\'11\"</string>
+    <string name="intake_dropdown_height_5_0">5\'0\"</string>
+    <string name="intake_dropdown_height_5_1">5\'1\"</string>
+    <string name="intake_dropdown_height_5_2">5\'2\"</string>
+    <string name="intake_dropdown_height_5_3">5\'3\"</string>
+    <string name="intake_dropdown_height_5_4">5\'4\"</string>
+    <string name="intake_dropdown_height_5_5">5\'5\"</string>
+    <string name="intake_dropdown_height_5_6">5\'6\"</string>
+    <string name="intake_dropdown_height_5_7">5\'7\"</string>
+    <string name="intake_dropdown_height_5_8">5\'8\"</string>
+    <string name="intake_dropdown_height_5_9">5\'9\"</string>
+    <string name="intake_dropdown_height_5_10">5\'10\"</string>
+    <string name="intake_dropdown_height_5_11">5\'11\"</string>
+    <string name="intake_dropdown_height_6_0">6\'0\"</string>
+    <string name="intake_dropdown_height_6_1">6\'1\"</string>
+    <string name="intake_dropdown_height_6_2">6\'2\"</string>
+    <string name="intake_dropdown_height_6_3">6\'3\"</string>
+    <string name="intake_dropdown_height_6_4">6\'4\"</string>
+    <string name="intake_dropdown_height_6_5">6\'5\"</string>
+    <string name="intake_dropdown_height_6_6">6\'6\"</string>
+    <string name="intake_dropdown_height_6_7">6\'7\"</string>
+    <string name="intake_dropdown_height_6_8">6\'8\"</string>
+    <string name="intake_dropdown_height_6_9">6\'9\"</string>
+    <string name="intake_dropdown_height_6_10">6\'10\"</string>
+    <string name="intake_dropdown_height_6_11">6\'11\"</string>
+    <string name="intake_dropdown_height_7_0">7\'0\"</string>
+
+    <!-- Dashboard -->
     <string name="text_trackers">Trackers</string>
     <string name="text_dashboard">Dashboard</string>
     <string name="text_exercise">Exercise</string>

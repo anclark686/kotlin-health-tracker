@@ -48,21 +48,6 @@ class MainActivity : ComponentActivity() {
         )
     }
 
-    fun googleSignIn(
-        launcher: ManagedActivityResultLauncher<IntentSenderRequest, ActivityResult>,
-        callback: () -> Unit
-    ) {
-        lifecycleScope.launch {
-            val signInIntentSender = googleAuthUiClient.signIn()
-            launcher.launch(
-                IntentSenderRequest.Builder(
-                    signInIntentSender ?: return@launch
-                ).build()
-            )
-        }
-        callback()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
