@@ -117,6 +117,7 @@ fun DashboardScreen(
                 )
             }
         )
+        Spacer(modifier = modifier.padding(20.dp))
     }
 }
 
