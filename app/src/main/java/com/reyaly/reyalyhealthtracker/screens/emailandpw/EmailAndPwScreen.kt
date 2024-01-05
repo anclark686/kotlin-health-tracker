@@ -33,6 +33,7 @@ import com.reyaly.reyalyhealthtracker.common.composable.EmailField
 import com.reyaly.reyalyhealthtracker.common.composable.PasswordField
 import com.reyaly.reyalyhealthtracker.common.ext.textButton
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.input.pointer.pointerInput
@@ -47,15 +48,17 @@ import com.reyaly.reyalyhealthtracker.ui.theme.errorPink
 import com.reyaly.reyalyhealthtracker.ui.theme.light_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.med_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.sky_blue
+import kotlinx.coroutines.launch
 
 @Composable
 fun EmailAndPasswordScreen(
-    modifier: Modifier = Modifier,
-    onSuccess: () -> Unit,
+    onNewUser: () -> Unit,
+    onExistingUser: () -> Unit,
     onForgotPw: () -> Unit,
     onSignUpRedirect: () -> Unit,
     onResetPassword: () -> Unit,
     onDeleteAccount: () -> Unit,
+    modifier: Modifier = Modifier,
     viewModel: EmailAndPwViewModel = viewModel(),
     modify: String? = null
 ) {
@@ -63,6 +66,8 @@ fun EmailAndPasswordScreen(
     val uiState by viewModel.uiState.collectAsState()
 
     val focusManager = LocalFocusManager.current
+
+    val coroutineScope = rememberCoroutineScope()
 
     var backgroundColor: Color
     var shadowColor: Color
@@ -155,15 +160,23 @@ fun EmailAndPasswordScreen(
             ) {
                 if (modify == "delete") {
                     BasicButton(R.string.sign_in, Modifier.width(150.dp)) {
-                        viewModel.onSignInClick(onSuccess = { onDeleteAccount() })
+                        coroutineScope.launch {
+                            viewModel.onSignInClick(onSuccess = { onDeleteAccount() })
+                        }
                     }
                 } else if (modify == "change") {
                     BasicButton(R.string.sign_in, Modifier.width(150.dp)) {
-                        viewModel.onSignInClick(onSuccess = { onResetPassword() })
+                        coroutineScope.launch {
+                            viewModel.onSignInClick(onSuccess = { onResetPassword() })
+                        }
                     }
                 } else {
                     BasicButton(R.string.sign_in, Modifier.width(150.dp)) {
-                        viewModel.onSignInClick(onSuccess = { onSuccess() })
+                        coroutineScope.launch {
+                            viewModel.onSignInClick(
+                                onSuccess = { onExistingUser() },
+                                onNewUser = { onNewUser() })
+                        }
                     }
                 }
 
@@ -175,7 +188,9 @@ fun EmailAndPasswordScreen(
                     text = R.string.forgot_password,
                     modifier = modifier.textButton(),
                     action = {
-                        viewModel.onForgotPasswordClick(onForgotPw = { onForgotPw() })
+                        coroutineScope.launch {
+                            viewModel.onForgotPasswordClick(onForgotPw = { onForgotPw() })
+                        }
                     }
                 )
             }

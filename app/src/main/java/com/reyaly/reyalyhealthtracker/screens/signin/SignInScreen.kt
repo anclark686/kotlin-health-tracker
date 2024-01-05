@@ -42,8 +42,6 @@ fun SignInScreen(
     onEmailAndPwClickDelete: () -> Unit,
     onEmailAndPwClickChange: () -> Unit,
     onSignInClick: () -> Unit,
-    onResetPassword: () -> Unit,
-    onDeleteAccount: () -> Unit,
     modifier: Modifier = Modifier,
     modify: String? = null
 ) {

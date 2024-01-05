@@ -79,8 +79,7 @@ fun HealthInfo(
 
         Column(
             modifier = modifier
-                .fillMaxWidth()
-                .padding(bottom = 14.dp),
+                .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             BasicExposedDropdown(
@@ -93,8 +92,7 @@ fun HealthInfo(
 
         Column(
             modifier = modifier
-                .fillMaxWidth()
-                .padding(bottom = 14.dp),
+                .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             BasicExposedDropdown(

@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.Modifier
@@ -44,6 +45,7 @@ import com.reyaly.reyalyhealthtracker.ui.theme.sky_blue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.reyaly.reyalyhealthtracker.common.components.ContentSection
 import com.reyaly.reyalyhealthtracker.screens.settings.components.AccountManagement
+import kotlinx.coroutines.launch
 
 @Composable
 fun SettingsScreen(
@@ -51,9 +53,12 @@ fun SettingsScreen(
     onLogoutClick: () -> Unit,
     onLoginChangeClick: () -> Unit,
     onLoginDeleteClick: () -> Unit,
+    onReturnHome: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SettingsViewModel = viewModel()
 ) {
+    val coroutineScope = rememberCoroutineScope()
+
     val openDeleteDialog = remember { mutableStateOf(false) }
 
     Column(
@@ -67,7 +72,11 @@ fun SettingsScreen(
             openDialog = openDeleteDialog,
             youSure = R.string.settings_delete_sure,
             warning = R.string.settings_delete_permanent,
-            onAction = { viewModel.deleteAccount(onSignInRedirect = { onLoginDeleteClick() })}
+            onAction = {
+                coroutineScope.launch {
+                    viewModel.deleteAccount(onSignInRedirect = { onLoginDeleteClick() }, onReturnHome = { onReturnHome() })
+                }
+            }
         )
 
         LogoBanner()
@@ -113,12 +122,15 @@ fun SettingsScreen(
     }
 }
 
-//@Preview
-//@Composable
-//fun SettingsPreview() {
-//    SettingsScreen(
-//        onDashboardClick = {},
-//        onLogoutClick = {},
-//        modifier = Modifier
-//    )
-//}
+@Preview
+@Composable
+fun SettingsPreview() {
+    SettingsScreen(
+        onLoginClick = {},
+        onLogoutClick = {},
+        onLoginChangeClick = {},
+        onLoginDeleteClick = {},
+        onReturnHome = {},
+        modifier = Modifier
+    )
+}

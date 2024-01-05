@@ -24,16 +24,6 @@ data class IntakeUiState(
     val goalWeightError: String? = null,
     val weightGoalsError: String? = null,
     val activityLevelError: String? = null,
-
-    val medList: MutableList<Medication> = mutableListOf<Medication>(),
-
-    val nameError: String? = null,
-    val doseError: String? = null,
-    val timeError: String? = null,
 )
 
-data class Medication(
-    val name: String = "",
-    val dose: String = "",
-    val time: String = "",
-)
+

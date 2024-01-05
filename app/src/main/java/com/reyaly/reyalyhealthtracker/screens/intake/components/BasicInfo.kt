@@ -1,5 +1,7 @@
 package com.reyaly.reyalyhealthtracker.screens.intake.components
 
+//import android.widget.DatePicker
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -7,10 +9,15 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,8 +29,13 @@ import com.reyaly.reyalyhealthtracker.R
 import com.reyaly.reyalyhealthtracker.common.composable.BasicButton
 import com.reyaly.reyalyhealthtracker.common.composable.BasicExposedDropdown
 import com.reyaly.reyalyhealthtracker.common.composable.BasicField
+//import com.reyaly.reyalyhealthtracker.common.composable.CustomDatePicker
+import com.reyaly.reyalyhealthtracker.common.composable.PhoneField
+import com.reyaly.reyalyhealthtracker.common.composable.DateField
 import com.reyaly.reyalyhealthtracker.screens.intake.IntakeViewModel
+import java.time.LocalDate
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BasicInfo(
     modifier: Modifier = Modifier,
@@ -84,6 +96,8 @@ fun BasicInfo(
         stringResource(R.string.intake_dropdown_height_7_0),
     )
 
+    val datePickerState = rememberDatePickerState()
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -118,19 +132,18 @@ fun BasicInfo(
             modifier = modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            BasicField(
-                text = R.string.intake_input_phone,
+            PhoneField(
                 value = uiState.phoneNum,
                 onNewValue = viewModel::onPhoneNumChange,
                 errorMsg = uiState.phoneNumError,
             )
-        }
 
+        }
         Column(
             modifier = modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            BasicField(
+            DateField(
                 text = R.string.intake_input_birthday,
                 value = uiState.birthday,
                 onNewValue = viewModel::onBirthdayChange,
@@ -140,8 +153,7 @@ fun BasicInfo(
 
         Column(
             modifier = modifier
-                .fillMaxWidth()
-                .padding(bottom = 14.dp),
+                .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             BasicExposedDropdown(
@@ -154,8 +166,7 @@ fun BasicInfo(
 
         Column(
             modifier = modifier
-                .fillMaxWidth()
-                .padding(bottom = 14.dp),
+                .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             BasicExposedDropdown(
@@ -168,8 +179,7 @@ fun BasicInfo(
 
         Column(
             modifier = modifier
-                .fillMaxWidth()
-                .padding(bottom = 14.dp),
+                .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             BasicExposedDropdown(

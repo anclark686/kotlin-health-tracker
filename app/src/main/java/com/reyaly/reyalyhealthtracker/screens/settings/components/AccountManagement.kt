@@ -85,13 +85,13 @@ fun AccountManagement(
 
 }
 
-//@Preview
-//@Composable
-//fun AccountManagementPreview() {
-//    val openDeleteDialog = remember { mutableStateOf(false) }
-//    AccountManagement(
-//        openDialog = openDeleteDialog,
-//        onLogoutClick =  {  },
-//        onLoginChangeClick = { },
-//    )
-//}
+@Preview
+@Composable
+fun AccountManagementPreview() {
+    val openDeleteDialog = remember { mutableStateOf(false) }
+    AccountManagement(
+        openDialog = openDeleteDialog,
+        onLogoutClick =  {  },
+        onLoginChangeClick =  {  },
+    )
+}

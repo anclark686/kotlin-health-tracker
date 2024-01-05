@@ -46,6 +46,7 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -58,6 +59,7 @@ import com.reyaly.reyalyhealthtracker.screens.emailandpw.EmailAndPasswordScreen
 import com.reyaly.reyalyhealthtracker.screens.emailandpw.EmailAndPwViewModel
 import com.reyaly.reyalyhealthtracker.screens.intake.IntakeScreen
 import com.reyaly.reyalyhealthtracker.screens.resetemail.ResetEmailSentScreen
+import com.reyaly.reyalyhealthtracker.screens.settings.SettingsViewModel
 import com.reyaly.reyalyhealthtracker.screens.signin.GoogleAuthUiClient
 import com.reyaly.reyalyhealthtracker.screens.signin.SignInScreen
 import com.reyaly.reyalyhealthtracker.screens.signin.SignInViewModel
@@ -154,6 +156,11 @@ fun MainApp(
         navController.navigate(MainScreen.Dashboard.route)
     }
 
+    fun loginToIntake() {
+        navController.popBackStack(MainScreen.Home.route, inclusive = false, saveState = false)
+        navController.navigate(MainScreen.Intake.route)
+    }
+
     fun toSettingsWithToast() {
         navController.popBackStack(MainScreen.Home.route, inclusive = false, saveState = false)
         navController.navigate(MainScreen.Settings.route)
@@ -173,7 +180,8 @@ fun MainApp(
         topBar = {
             MainAppBar(
                 currentScreen = currentScreen,
-                canNavigateBack = navController.previousBackStackEntry != null && currentScreen.toString() != "Home",
+//                canNavigateBack = navController.previousBackStackEntry != null && currentScreen.toString() !in listOf("Home", "Intake"),
+                canNavigateBack = navController.previousBackStackEntry != null && currentScreen.toString() !in listOf("Home"),
                 navigateUp = { navController.navigateUp() },
                 navToSettings = { navController.navigate(MainScreen.Settings.route) },
                 whatPage = currentScreen.toString()
@@ -231,14 +239,14 @@ fun MainApp(
                                     intent = result.data ?: return@launch
                                 )
 
-                                signInViewModel.onSignInResult(signInResult, modify = null, callback = { loginToDashboard() })
+                                signInViewModel.onSignInResult(
+                                    signInResult,
+                                    modify = null,
+                                    onExistingUser = { loginToDashboard() },
+                                    onNewUser = { loginToIntake() }
+                                )
 
                                 Log.d(TAG, "Sign in successful")
-                                Toast.makeText(
-                                    applicationContext,
-                                    "Sign in Successful",
-                                    Toast.LENGTH_SHORT
-                                ).show()
                             }
                         }
                     }
@@ -268,8 +276,6 @@ fun MainApp(
                             )
                         }
                     },
-                    onResetPassword = {  },
-                    onDeleteAccount = {  },
                     modify = null
                 )
             }
@@ -291,16 +297,21 @@ fun MainApp(
                                 )
 
                                 if (modify == "delete") {
-                                    signInViewModel.onSignInResult(signInResult, modify = modify, callback = { navController.navigate(MainScreen.Home.route) })
+                                    signInViewModel.onSignInResult(
+                                        signInResult,
+                                        modify = modify,
+                                        onExistingUser = { navController.navigate(MainScreen.Home.route) },
+                                        onNewUser = { }
+                                        )
                                 } else {
-                                    signInViewModel.onSignInResult(signInResult, modify = modify, callback = { loginToDashboard() })
+                                    signInViewModel.onSignInResult(
+                                        signInResult,
+                                        modify = modify,
+                                        onExistingUser = { loginToDashboard() },
+                                        onNewUser = { loginToIntake() }
+                                    )
                                 }
                                 Log.d(TAG, "Sign in successful")
-                                Toast.makeText(
-                                    applicationContext,
-                                    "Sign in Successful",
-                                    Toast.LENGTH_SHORT
-                                ).show()
                             }
                         }
                     }
@@ -330,15 +341,14 @@ fun MainApp(
                             )
                         }
                     },
-                    onResetPassword = {  },
-                    onDeleteAccount = {  },
                     modify = modify
                 )
             }
 
             composable(route = MainScreen.EmailAndPW.route) {
                 EmailAndPasswordScreen(
-                    onSuccess = { loginToDashboard() },
+                    onExistingUser = { loginToDashboard() },
+                    onNewUser = { loginToIntake() },
                     onSignUpRedirect = { navController.navigate(MainScreen.SignUp.route) },
                     onForgotPw = { navController.navigate(MainScreen.ResetEmail.route) },
                     onResetPassword = { navController.navigate(MainScreen.ChangePassword.route) },
@@ -352,7 +362,8 @@ fun MainApp(
                 Log.d("mainScreen", modify.toString())
 
                 EmailAndPasswordScreen(
-                    onSuccess = { loginToDashboard() },
+                    onExistingUser = { loginToDashboard() },
+                    onNewUser = { loginToIntake() },
                     onSignUpRedirect = { navController.navigate(MainScreen.SignUp.route) },
                     onForgotPw = { navController.navigate(MainScreen.ResetEmail.route) },
                     onResetPassword = { navController.navigate(MainScreen.ChangePassword.route) },
@@ -375,6 +386,15 @@ fun MainApp(
             }
 
             composable(route = MainScreen.Dashboard.route) {
+                val settingsViewModel = viewModel<SettingsViewModel>()
+
+                LaunchedEffect(key1 = true
+                ) {
+                    if (!settingsViewModel.getUser()) {
+                        navController.navigate(MainScreen.Intake.route)
+                    }
+                }
+
                 DashboardScreen(
                     onExerciseClick = { navController.navigate(MainScreen.Exercise.route) },
                     onFoodClick = { navController.navigate(MainScreen.Food.route) },
@@ -389,6 +409,7 @@ fun MainApp(
                     onLoginClick = { navController.navigate(MainScreen.SignIn.route) },
                     onLoginChangeClick = { navController.navigate("SignIn/change") },
                     onLoginDeleteClick = { navController.navigate("SignIn/delete") },
+                    onReturnHome = { navController.navigate(MainScreen.Home.route) },
                     onLogoutClick = { logoutWithRedirect() }
                 )
             }
@@ -401,7 +422,7 @@ fun MainApp(
 
             composable(route = MainScreen.Intake.route) {
                 IntakeScreen(
-
+                    onUserAdded = { loginToDashboard() }
                 )
             }
 

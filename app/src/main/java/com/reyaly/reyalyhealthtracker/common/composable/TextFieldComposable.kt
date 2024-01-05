@@ -28,8 +28,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -50,9 +52,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -217,91 +223,5 @@ private fun PasswordField(
         )
       }
     },
-//    keyboardActions = KeyboardActions(
-//      onDone = { focusManager.moveFocus(FocusDirection.Next) }
-//    ),
-
-  )
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun BasicExposedDropdown(
-  @StringRes text: Int,
-  list: List<String>,
-  onNewValue: (String) -> Unit,
-  modifier: Modifier = Modifier,
-  errorMsg: String? = null
-  ) {
-  var expanded by remember { mutableStateOf(false) }
-  val initialValue = stringResource(R.string.dropdown_select_one)
-  var selectedText by remember { mutableStateOf(initialValue) }
-
-  Box(
-    modifier = modifier
-      .fillMaxWidth(),
-    contentAlignment = Alignment.Center
-  ) {
-    ExposedDropdownMenuBox(
-      expanded = expanded,
-      onExpandedChange = {
-        expanded = !expanded
-      }
-    ) {
-      OutlinedTextField(
-        value = selectedText,
-        label = { Text(text = stringResource(text)) },
-        onValueChange = {},
-        readOnly = true,
-        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-        modifier = Modifier.menuAnchor(),
-        colors = OutlinedTextFieldDefaults.colors(
-          focusedContainerColor = Color.White,
-          unfocusedContainerColor = Color.White,
-          errorContainerColor = Color.White,
-          focusedTextColor = Color.Black,
-          unfocusedTextColor = Color.Black,
-        ),
-        isError = errorMsg != null,
-        supportingText = {
-          if (errorMsg != null) {
-            Text(
-              modifier = modifier,
-              text = errorMsg,
-              color = if (isSystemInDarkTheme()) errorPink else errorDarkRed
-            )
-          }
-        },
-      )
-      ExposedDropdownMenu(
-        expanded = expanded,
-        onDismissRequest = { expanded = false },
-        modifier = modifier.background(color = if (isSystemInDarkTheme()) med_sky_blue else sky_blue),
-      ) {
-        list.forEach { item ->
-          DropdownMenuItem(
-            text = { Text(text = item) },
-            onClick = {
-              selectedText = item
-              onNewValue(item)
-              expanded = false
-            })
-        }
-      }
-    }
-  }
-}
-
-@Preview
-@Composable
-fun BasicExposedDropdownPreview() {
-  val sexItems = listOf(
-    stringResource(R.string.intake_dropdown_sex_male),
-    stringResource(R.string.intake_dropdown_sex_female),
-  )
-  BasicExposedDropdown(
-    text = R.string.intake_input_sex,
-    list = sexItems,
-    onNewValue = { }
   )
 }

@@ -2,8 +2,13 @@ package com.reyaly.reyalyhealthtracker.screens.intake
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.reyaly.reyalyhealthtracker.model.User
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
+import com.reyaly.reyalyhealthtracker.storage.user.addUser
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.tasks.await
 
 private const val TAG = "Intake"
 
@@ -12,8 +17,7 @@ class IntakeViewModel: ViewModel() {
     private val _uiState = MutableStateFlow(IntakeUiState())
     val uiState = _uiState.asStateFlow()
 
-    private val _medState = MutableStateFlow(Medication())
-    val medState = _medState.asStateFlow()
+    val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     private val firstName
         get() = uiState.value.firstName
@@ -47,19 +51,6 @@ class IntakeViewModel: ViewModel() {
     private val activityLevel
         get() = uiState.value.activityLevel
 
-    private val medList
-        get() = uiState.value.medList
-
-    private val name
-        get() = medState.value.name
-
-    private val dose
-        get() = medState.value.dose
-
-    private val time
-        get() = medState.value.time
-
-
     fun onFirstNameChange(newValue: String) {
         _uiState.value = _uiState.value.copy(firstName = newValue)
         _uiState.value = _uiState.value.copy(firstNameError = null)
@@ -71,8 +62,8 @@ class IntakeViewModel: ViewModel() {
     }
 
     fun onPhoneNumChange(newValue: String) {
-        _uiState.value = _uiState.value.copy(phoneNum = newValue)
         _uiState.value = _uiState.value.copy(phoneNumError = null)
+        _uiState.value = _uiState.value.copy(phoneNum = newValue)
     }
 
     fun onBirthdayChange(newValue: String) {
@@ -115,57 +106,8 @@ class IntakeViewModel: ViewModel() {
         _uiState.value = _uiState.value.copy(activityLevelError = null)
     }
 
-    fun onNameChange(newValue: String) {
-        _medState.value = medState.value.copy(name = newValue)
-        _uiState.value = uiState.value.copy(nameError = null)
-    }
-
-    fun onDoseChange(newValue: String) {
-        _medState.value = medState.value.copy(dose = newValue)
-        _uiState.value = uiState.value.copy(doseError = null)
-    }
-
-    fun onTimeChange(newValue: String) {
-        _medState.value = medState.value.copy(time = newValue)
-        _uiState.value = uiState.value.copy(timeError = null)
-    }
-
     private val blankMessage = "Field cannot be blank"
     private val chooseOption = "Please select an option"
-
-    private fun validateMed(): Boolean {
-        Log.d(TAG, "name = $name")
-        Log.d(TAG, "dose = $dose")
-        Log.d(TAG, "time = $time")
-
-        var invalidCount = 0
-        if (name.isBlank()) {
-            _uiState.value = _uiState.value.copy(nameError = blankMessage)
-            invalidCount++
-        }
-        if (dose.isBlank()) {
-            _uiState.value = _uiState.value.copy(doseError = blankMessage)
-            invalidCount++
-        }
-        if (time.isBlank()) {
-            _uiState.value = _uiState.value.copy(timeError = blankMessage)
-            invalidCount++
-        }
-
-        return invalidCount == 0
-    }
-
-    fun onAddNewMed() {
-        if (validateMed()) {
-            medList.add(Medication(name, dose, time))
-            Log.d(TAG, _uiState.value.medList.toString())
-            _medState.value = medState.value.copy(name = "")
-            _medState.value = medState.value.copy(dose = "")
-            _medState.value = medState.value.copy(time = "")
-        } else {
-            return
-        }
-    }
 
     private fun validateForm(): Boolean {
         Log.d(TAG, "firstName = $firstName")
@@ -230,9 +172,32 @@ class IntakeViewModel: ViewModel() {
         return invalidCount == 0
     }
 
-    fun submitIntake() {
+    suspend fun submitIntake(callback: () -> Unit) {
+        val firebaseUser = auth.currentUser!!
         if (validateForm()) {
+            val user = User(
+                firebaseUser.uid,
+                firebaseUser.email,
+                firstName,
+                lastName,
+                phoneNum,
+                birthday,
+                height,
+                sex,
+                gender,
+                currWeight,
+                goalWeight,
+                weightGoals,
+                activityLevel,
+            )
             Log.d(TAG, "Do something with the form input...")
+            try {
+                addUser(user).also { callback() }
+
+                Log.d(TAG, "User Added")
+            } catch (e: Exception) {
+                Log.d(TAG, "an error occurred: $e")
+            }
         } else {
             return
         }

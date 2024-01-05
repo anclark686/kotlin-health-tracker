@@ -7,42 +7,32 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.proto.TargetGlobal
 import com.reyaly.reyalyhealthtracker.screens.settings.SettingsUiState
+import com.reyaly.reyalyhealthtracker.storage.user.deleteUserData
+import com.reyaly.reyalyhealthtracker.storage.user.findUser
+import com.reyaly.reyalyhealthtracker.storage.user.updateUserLoginTime
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
+private const val TAG = "signIn"
 class SignInViewModel: ViewModel() {
     val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     private val _state = MutableStateFlow(SignInState())
     val state = _state.asStateFlow()
 
-    private fun deleteAccountFinal() {
+    private suspend fun deleteAccountFinal() {
         val user = auth.currentUser!!
 
-        user.delete()
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Log.d("Settings", "User account deleted.")
-                }
-            }
+        user.delete().await().also { deleteUserData(user.uid) }
+        Log.d(TAG, "user deleted")
     }
 
-//    private fun updatePwFinal() {
-//        val user = auth.currentUser!!
-//        val password =
-//        user.updatePassword(password)
-//            .addOnCompleteListener { task ->
-//                if (task.isSuccessful) {
-//                    Log.d("Settings", "User password updated.")
-//                }
-//            }
-//    }
-
-    fun onSignInResult(result: SignInResult, callback: () -> Unit, modify: String? = null) {
+    suspend fun onSignInResult(result: SignInResult, onExistingUser: () -> Unit, onNewUser: () -> Unit, modify: String? = null) {
         _state.update { it.copy(
             isSignInSuccessful = result.data != null,
             signInError = result.errorMessage
@@ -50,9 +40,19 @@ class SignInViewModel: ViewModel() {
 
         if (modify == "delete") {
             deleteAccountFinal()
+            onExistingUser()
+        } else {
+            if (result.data != null) {
+                val firebaseUser = auth.currentUser!!
+                if (findUser(firebaseUser.uid) != null) {
+                    Log.d(TAG, findUser(firebaseUser.uid).toString())
+                    onExistingUser()
+                    updateUserLoginTime(firebaseUser.uid)
+                } else {
+                    onNewUser()
+                }
+            }
         }
-
-        callback()
     }
 
     fun resetState() {
