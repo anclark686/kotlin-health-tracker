@@ -82,7 +82,10 @@ fun BreakfastScreen(
 
     val openDialog = remember { mutableStateOf(false) }
 
-    AddFoodModal(openDialog = openDialog)
+    AddFoodModal(
+        openDialog = openDialog,
+        onAdd = {}
+    )
 
     Column(
         modifier = modifier

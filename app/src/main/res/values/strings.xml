@@ -256,6 +256,8 @@
     <string name="food_item_protein">Protein</string>
     <string name="food_item_fat">Fat</string>
     <string name="food_item_carbs">Carbs</string>
+    <string name="food_item_quantity">Quantity</string>
+    <string name="food_item_serving">ServingSize</string>
     <string name="food_macros_show">Show</string>
     <string name="food_macros_hide">Hide</string>
 

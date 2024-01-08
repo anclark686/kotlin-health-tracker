@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.reyaly.reyalyhealthtracker.R
+import com.reyaly.reyalyhealthtracker.common.composable.BasicExposedDropdown
 import com.reyaly.reyalyhealthtracker.common.composable.BasicField
 import com.reyaly.reyalyhealthtracker.common.composable.BasicTextButton
 import com.reyaly.reyalyhealthtracker.common.composable.SearchField
@@ -50,6 +51,7 @@ import com.reyaly.reyalyhealthtracker.ui.theme.med_sky_blue
 @Composable
 fun AddFoodModal(
     openDialog: MutableState<Boolean>,
+    onAdd: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val dialogWidth = 300.dp
@@ -67,6 +69,8 @@ fun AddFoodModal(
     }
 
     val openManual = remember { mutableStateOf(false) }
+
+    val quantities = (1..10).map{x -> x.toString()}
 
     if (openDialog.value) {
         Dialog(onDismissRequest = { openDialog.value = false }) {
@@ -121,8 +125,8 @@ fun AddFoodModal(
                         modifier = modifier
                             .fillMaxWidth()
                             .height(300.dp)
-                            .verticalScroll(rememberScrollState())
-                            .padding(10.dp),
+                            .padding(10.dp)
+                            .verticalScroll(rememberScrollState()),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
@@ -135,6 +139,7 @@ fun AddFoodModal(
                         Text(text = "Results... Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
                     }
                 } else {
+
                     Column(
                         modifier = modifier.fillMaxWidth(),
                         verticalArrangement = Arrangement.Center,
@@ -146,9 +151,10 @@ fun AddFoodModal(
                             action = { openManual.value = false }
                         )
                     }
-
+                    Spacer(modifier = modifier.padding(20.dp))
                     Column(
-                        modifier = modifier.fillMaxWidth(),
+                        modifier = modifier
+                            .fillMaxWidth(),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
@@ -157,26 +163,47 @@ fun AddFoodModal(
                             value = "hello",
                             onNewValue = {}
                         )
-                        BasicField(
-                            text = R.string.food_item_calories,
-                            value = "hello",
+                        BasicExposedDropdown(
+                            text = R.string.food_item_quantity,
+                            list = quantities,
                             onNewValue = {}
                         )
-                        BasicField(
-                            text = R.string.food_item_protein,
-                            value = "hello",
-                            onNewValue = {}
-                        )
-                        BasicField(
-                            text = R.string.food_item_fat,
-                            value = "hello",
-                            onNewValue = {}
-                        )
-                        BasicField(
-                            text = R.string.food_item_carbs,
-                            value = "hello",
-                            onNewValue = {}
-                        )
+                        Row() {
+                            BasicField(
+                                modifier = modifier
+                                    .weight(.5f)
+                                    .padding(horizontal = 10.dp),
+                                text = R.string.food_item_calories,
+                                value = "hello",
+                                onNewValue = {}
+                            )
+                            BasicField(
+                                modifier = modifier
+                                    .weight(.5f)
+                                    .padding(horizontal = 10.dp),
+                                text = R.string.food_item_protein,
+                                value = "hello",
+                                onNewValue = {}
+                            )
+                        }
+                        Row() {
+                            BasicField(
+                                modifier = modifier
+                                    .weight(.5f)
+                                    .padding(horizontal = 10.dp),
+                                text = R.string.food_item_fat,
+                                value = "hello",
+                                onNewValue = {}
+                            )
+                            BasicField(
+                                modifier = modifier
+                                    .weight(.5f)
+                                    .padding(horizontal = 10.dp),
+                                text = R.string.food_item_carbs,
+                                value = "hello",
+                                onNewValue = {}
+                            )
+                        }
                     }
                 }
 
@@ -205,7 +232,7 @@ fun AddFoodModal(
                         BasicTextButton(
                             text = R.string.add,
                             modifier = modifier.fillMaxWidth(.6f),
-                            action = {  }
+                            action = { onAdd() }
                         )
                     }
                 }
@@ -220,5 +247,6 @@ fun AddFoodModalPreview() {
     val openDialog = remember { mutableStateOf(true) }
     AddFoodModal(
         openDialog = openDialog,
+        onAdd = {}
     )
 }
