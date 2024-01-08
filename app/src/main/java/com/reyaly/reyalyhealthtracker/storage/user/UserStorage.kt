@@ -21,6 +21,7 @@ suspend fun addUser(user:User) {
             Log.w(TAG, "Error adding document", e)
         }
     users.document(user.uid).update("joined", FieldValue.serverTimestamp()).await()
+    users.document(user.uid).update("timestamp", FieldValue.serverTimestamp()).await()
 }
 suspend fun findUser(uid: String): User? {
     val userData = users.document(uid).get().await()

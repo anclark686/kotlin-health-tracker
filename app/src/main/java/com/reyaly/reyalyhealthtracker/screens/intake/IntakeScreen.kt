@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,20 +24,28 @@ import com.reyaly.reyalyhealthtracker.common.components.LogoBanner
 import com.reyaly.reyalyhealthtracker.common.composable.BasicButton
 import com.reyaly.reyalyhealthtracker.screens.intake.components.BasicInfo
 import com.reyaly.reyalyhealthtracker.screens.intake.components.HealthInfo
-import com.reyaly.reyalyhealthtracker.screens.med.components.MedInfo
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.reyaly.reyalyhealthtracker.screens.intake.components.WelcomeModal
 import kotlinx.coroutines.launch
 
 
 @Composable
 fun IntakeScreen(
     onUserAdded: () -> Unit,
+    onLogout: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: IntakeViewModel = viewModel()
 ) {
     val focusManager = LocalFocusManager.current
 
     val coroutineScope = rememberCoroutineScope()
+    val openDialog = remember { mutableStateOf(true) }
+
+    WelcomeModal(
+        openDialog = openDialog,
+        onLogout = { onLogout() },
+        modifier = Modifier,
+    )
 
     Column(
         modifier = modifier
@@ -86,6 +96,7 @@ fun IntakeScreen(
 @Composable
 fun IntakeScreenPreview() {
     IntakeScreen(
-        onUserAdded = {}
+        onUserAdded = {},
+        onLogout = {}
     )
 }

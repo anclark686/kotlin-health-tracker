@@ -32,6 +32,7 @@ import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Phone
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -223,5 +224,52 @@ private fun PasswordField(
         )
       }
     },
+  )
+}
+
+
+@Composable
+fun SearchField(
+  @StringRes text: Int,
+  value: String,
+  onNewValue: (String) -> Unit,
+  onSearch: () -> Unit,
+  modifier: Modifier = Modifier,
+  errorMsg: String? = null
+) {
+  val focusManager = LocalFocusManager.current
+
+  OutlinedTextField(
+    singleLine = true,
+    modifier = modifier,
+    value = value,
+    onValueChange = { onNewValue(it) },
+    label = { Text(text = stringResource(text)) },
+    placeholder = { Text(stringResource(R.string.search)) },
+    colors = OutlinedTextFieldDefaults.colors(
+      focusedContainerColor = Color.White,
+      unfocusedContainerColor = Color.White,
+      errorContainerColor = Color.White,
+      focusedTextColor = Color.Black,
+      unfocusedTextColor = Color.Black,
+    ),
+    isError = errorMsg != null,
+    supportingText = {
+      if (errorMsg != null) {
+        Text(
+          modifier = modifier,
+          text = errorMsg,
+          color = if (isSystemInDarkTheme()) errorPink else errorDarkRed
+        )
+      }
+    },
+    trailingIcon = {
+      IconButton(onClick = { onSearch() }) {
+        Icon(imageVector = Icons.Default.Search, contentDescription = "Search")
+      }
+    },
+    keyboardActions = KeyboardActions(
+      onDone = { focusManager.moveFocus(FocusDirection.Next) }
+    ),
   )
 }

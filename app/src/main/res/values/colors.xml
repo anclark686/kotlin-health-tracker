@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="sky_blue">#FF9EEFFB</color>
-    <color name="med_sky_blue">#FF0FC5E0</color>
-    <color name="dark_sky_blue">#FF047E90</color>
+    <color name="light_sky_blue">#FFdcf9fa</color>
+    <color name="sky_blue">#FF5ce1e6</color>
+    <color name="med_sky_blue">#FF0097b2</color>
+    <color name="dark_sky_blue">#FF16536e</color>
     <color name="royal_blue">#FF0076FF</color>
     <color name="navy_blue">#FF023774</color>
     <color name="black">#FF000000</color>

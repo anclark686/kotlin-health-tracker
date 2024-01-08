@@ -118,7 +118,6 @@ fun SettingsScreen(
             }
             Spacer(modifier = modifier.padding(20.dp))
         }
-
     }
 }
 

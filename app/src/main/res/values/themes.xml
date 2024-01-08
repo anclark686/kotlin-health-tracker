@@ -2,4 +2,14 @@
 <resources>
 
     <style name="Theme.ReyalyHealthTracker" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="DialogLightTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">#FF5ce1e6</item>
+        <item name="android:colorAccent">#FF5ce1e6</item>
+    </style>
+
+    <style name="DialogDarkTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">#FF0097b2</item>
+        <item name="android:colorAccent">#FF0097b2</item>
+        <item name="colorPrimary">#FF16536e</item>
+    </style>
 </resources>

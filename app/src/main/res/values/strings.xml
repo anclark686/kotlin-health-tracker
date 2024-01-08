@@ -3,23 +3,36 @@
     <string name="back_button">Back</string>
     <string name="name">Name</string>
     <string name="email">Email</string>
+    <string name="phone">Phone</string>
     <string name="password">Password</string>
     <string name="repeat_password">Repeat Password</string>
     <string name="generic_error">Something wrong happened. Please try again.</string>
     <string name="email_error">Please insert a valid email.</string>
     <string name="cancel">Cancel</string>
+    <string name="close">Close</string>
     <string name="try_again">Try again</string>
     <string name="ok">OK</string>
+    <string name="cont">Continue</string>
     <string name="delete_dismiss">Go Back</string>
     <string name="delete_confirm">Confirm</string>
     <string name="submit">Submit</string>
+    <string name="add">Add</string>
     <string name="add_new">Add New</string>
     <string name="dropdown_select_one">--Select One--</string>
+    <string name="loading">Loading…</string>
+    <string name="modify">Modify</string>
+    <string name="search">Search</string>
+    <string name="manual">Add Manually</string>
+    <string name="results">Results</string>
 
     <!-- Nav -->
     <string name="nav_dashboard">Dashboard</string>
     <string name="nav_home">Home</string>
     <string name="nav_food">Food Tracker</string>
+    <string name="nav_breakfast">Breakfast Diary</string>
+    <string name="nav_lunch">Lunch Diary</string>
+    <string name="nav_dinner">Dinner Diary</string>
+    <string name="nav_snack">Snack Diary</string>
     <string name="nav_water">Water Tracker</string>
     <string name="nav_exercise">Exercise Tracker</string>
     <string name="nav_med">Med Tracker</string>
@@ -29,7 +42,7 @@
     <string name="nav_sign_up">Sign Up</string>
     <string name="nav_email_and_pw">Email and Password</string>
     <string name="nav_reset_email">Reset Email Sent</string>
-    <string name="nav_intake">Intake</string>
+    <string name="nav_intake">Account Setup</string>
     <string name="nav_change_pw">Change Password</string>
     <string name="nav_logout">Logout</string>
 
@@ -61,16 +74,20 @@
     <string name="settings_birthday">Birthday:</string>
     <string name="settings_age">Age:</string>
     <string name="settings_height">Height:</string>
-    <string name="settings_sex">Sex:</string>
-    <string name="settings_gender">Gender:</string>
+    <string name="settings_weight">Weight:</string>
+    <string name="settings_weight_goals">Weight Goals:</string>
+    <string name="settings_activity_level">Activity Level:</string>
     <string name="settings_joined">Joined:</string>
-    <string name="settings_modify">Modify</string>
     <string name="settings_change_pw">Change Password</string>
     <string name="settings_delete_account">Delete Account</string>
     <string name="settings_delete_sure">Are you sure you want to delete your account?</string>
     <string name="settings_delete_permanent">WARNING: This action will be permanent, and all information will be lost.</string>
 
     <!-- Intake -->
+    <string name="intake_welcome_header">Welcome to Reyaly Health Tracker!</string>
+    <string name="intake_welcome_first">It looks like it\'s your first time here!</string>
+    <string name="intake_welcome_info">We\'ll just need a little info about you to setup your account.</string>
+    <string name="intake_welcome_continue">Click continue to get started.</string>
     <string name="intake_label_basic_info">Basic Info</string>
     <string name="intake_label_med_info">Med Info</string>
     <string name="intake_label_health_info">Health Info</string>
@@ -88,10 +105,6 @@
     <string name="intake_input_weight_activity">Weight Goals</string>
 
     <string name="intake_input_activity_level">Activity Level</string>
-
-    <string name="intake_input_med_name">Name</string>
-    <string name="intake_input_med_dose">Dose</string>
-    <string name="intake_input_med_time">Time</string>
 
     <string name="intake_dropdown_sex_male">Male</string>
     <string name="intake_dropdown_sex_female">Female</string>
@@ -186,5 +199,85 @@
     <string name="dashboard_curr_weight">Current Weight:</string>
     <string name="dashboard_goal_weight">Goal Weight:</string>
     <string name="dashboard_weight_diff">Weight Difference:</string>
+
+    <!-- Med -->
+    <string name="med_no_meds">No medications found. Click \"Add New\" to add a medication.</string>
+    <string name="med_input_med_name">Name</string>
+    <string name="med_input_med_dose">Dose</string>
+    <string name="med_input_med_time">Time</string>
+    <string name="med_edit_meds">Edit Meds</string>
+
+    <!-- Weight -->
+    <string name="weight_chart">Progress Chart</string>
+    <string name="weight_goal_tracker">Goal Tracker</string>
+    <string name="weight_on_way">Are you on the way to meeting your goals?</string>
+    <string name="weight_curr_weight">Current Weight:</string>
+    <string name="weight_goal_weight">Goal Weight:</string>
+    <string name="weight_diff">That\'s a difference of</string>
+    <string name="weight_score">Score: </string>
+    <string name="weight_only">Only</string>
+    <string name="weight_to_go">to go!</string>
+
+    <string name="weight_stats">Weight Statistics</string>
+    <string name="weight_goal_highest">Highest Weight:</string>
+    <string name="weight_goal_lowest">Lowest Weight:</string>
+    <string name="weight_goal_lost">Pounds Lost:</string>
+    <string name="weight_goal_gained">Pounds Gained:</string>
+    <string name="weight_BMI">BMI:</string>
+    <string name="weight_fat">Body Fat %:</string>
+    <string name="weight_ideal">Ideal Weight:</string>
+
+    <string name="weight_add">Weigh in!</string>
+    <string name="weight_enter">Enter your new weight:</string>
+    <string name="weight_new">New Weight</string>
+
+    <!-- Food -->
+    <string name="food_diaries">Food Diaries</string>
+    <string name="food_info">Calorie Info</string>
+    <string name="food_activity_level">Activity Level</string>
+    <string name="food_calorie_allowance">Allowance:</string>
+    <string name="food_calories_used">Used:</string>
+    <string name="food_calories_burned">Burned:</string>
+    <string name="food_calories_remaining">Remaining:</string>
+    <string name="food_macros">Macros</string>
+    <string name="food_diet_choice">Diet Preference</string>
+    <string name="food_balanced">Balanced</string>
+    <string name="food_low_carb">Low Carb</string>
+    <string name="food_low_fat">Low Fat</string>
+    <string name="food_high_protein">High Protein</string>
+    <string name="food_macros_protein">Protein:</string>
+    <string name="food_macros_carbs">Carbs:</string>
+    <string name="food_macros_fat">Fat:</string>
+
+    <!-- Food Tables -->
+    <string name="food_item_name">Name</string>
+    <string name="food_item_brand">Brand</string>
+    <string name="food_item_calories">Calories</string>
+    <string name="food_item_protein">Protein</string>
+    <string name="food_item_fat">Fat</string>
+    <string name="food_item_carbs">Carbs</string>
+    <string name="food_macros_show">Show</string>
+    <string name="food_macros_hide">Hide</string>
+
+    <string name="add_food">Add Food</string>
+    <string name="breakfast_items">Breakfast Items</string>
+    <string name="lunch_items">Lunch Items</string>
+    <string name="dinner_items">Dinner Items</string>
+    <string name="snack_items">Snack Items</string>
+
+    <!-- Breakfast Lunch Dinner Snack -->
+    <string name="breakfast_stats">Breakfast Stats</string>
+    <string name="lunch_stats">Lunch Stats</string>
+    <string name="dinner_stats">Dinner Stats</string>
+    <string name="snack_stats">Snack Stats</string>
+    <string name="blds_stats_count">Total Items:</string>
+    <string name="blds_stats_calories">Total Calories:</string>
+    <string name="blds_stats_protein">Total Protein</string>
+    <string name="blds_stats_fat">Total Fat</string>
+    <string name="blds_stats_carbs">Total Carbs</string>
+
+    <!-- Water -->
+    <string name="water_add">Add Water</string>
+
     <string name="default_web_client_id">761702154186-9gpfd37qfmfuoitcb8gbul83montdgat.apps.googleusercontent.com</string>
 </resources>

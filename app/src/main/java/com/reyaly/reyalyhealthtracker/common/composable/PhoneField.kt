@@ -1,6 +1,7 @@
 package com.reyaly.reyalyhealthtracker.common.composable
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Phone
@@ -10,7 +11,9 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.buildAnnotatedString
@@ -32,6 +35,7 @@ fun PhoneField(
     onNewValue: (String) -> Unit,
     errorMsg: String? = null
 ) {
+    val focusManager = LocalFocusManager.current
     OutlinedTextField(
         value = value,
         onValueChange = { it ->
@@ -59,7 +63,10 @@ fun PhoneField(
                     color = if (isSystemInDarkTheme()) errorPink else errorDarkRed,
                 )
             }
-        }
+        },
+        keyboardActions = KeyboardActions(
+            onDone = { focusManager.moveFocus(FocusDirection.Next) }
+        ),
     )
 }
 

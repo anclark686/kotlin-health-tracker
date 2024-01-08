@@ -144,7 +144,7 @@ fun UserProfileInfo(
                         color = labelColor
                     )
                     Spacer(modifier = modifier.padding(5.dp))
-                    uiState.user?.joined?.let {
+                    uiState.user?.joinedStr?.let {
                         Text(
                             text = it.toString(),
                             fontSize = 18.sp,
@@ -220,9 +220,7 @@ fun UserProfileInfo(
                 .padding(10.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            BasicButton(text = R.string.settings_modify, modifier = modifier) {
-                
-            }
+            BasicButton(text = R.string.modify, modifier = modifier, action = { })
         }
     }
 }

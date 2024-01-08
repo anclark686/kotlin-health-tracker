@@ -22,3 +22,6 @@ https://rapidapi.com/collection/nutrition
 
 store weight in pounds, ask user lbs or kgs, do conversion
 need map of height to inches and centimeters
+
+https://spoonacular.com/food-api/docs#Search-Grocery-Products
+https://api.spoonacular.com/food/products/search?

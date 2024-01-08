@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import com.reyaly.reyalyhealthtracker.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
+import com.reyaly.reyalyhealthtracker.helpers.convertHeightToCm
+import com.reyaly.reyalyhealthtracker.helpers.convertWeightToKg
 import com.reyaly.reyalyhealthtracker.storage.user.addUser
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -122,6 +124,9 @@ class IntakeViewModel: ViewModel() {
         Log.d(TAG, "weightGoals = $weightGoals")
         Log.d(TAG, "activityLevel = $activityLevel")
 
+        Log.d(TAG, "currWeightInKG = ${convertWeightToKg(currWeight)}")
+        Log.d(TAG, "goalWeightInKG = ${convertWeightToKg(goalWeight)}")
+        Log.d(TAG, "heightInCM = ${convertHeightToCm(height)}")
 
         var invalidCount = 0
         if (firstName.isBlank()) {
@@ -176,19 +181,22 @@ class IntakeViewModel: ViewModel() {
         val firebaseUser = auth.currentUser!!
         if (validateForm()) {
             val user = User(
-                firebaseUser.uid,
-                firebaseUser.email,
-                firstName,
-                lastName,
-                phoneNum,
-                birthday,
-                height,
-                sex,
-                gender,
-                currWeight,
-                goalWeight,
-                weightGoals,
-                activityLevel,
+                uid = firebaseUser.uid,
+                email = firebaseUser.email,
+                firstName = firstName,
+                lastName = lastName,
+                phoneNum = phoneNum,
+                birthday = birthday,
+                height = height,
+                heightInCm = convertHeightToCm(height),
+                sex = sex,
+                gender = gender,
+                currWeight = currWeight,
+                currWeightInKg = convertWeightToKg(currWeight),
+                goalWeight = goalWeight,
+                goalWeightInKg = convertWeightToKg(goalWeight),
+                weightGoals = weightGoals,
+                activityLevel = activityLevel,
             )
             Log.d(TAG, "Do something with the form input...")
             try {

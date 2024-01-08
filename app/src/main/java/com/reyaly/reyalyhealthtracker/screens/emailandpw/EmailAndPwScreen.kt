@@ -159,25 +159,34 @@ fun EmailAndPasswordScreen(
                 modifier = modifier.padding(horizontal = 5.dp, vertical = 10.dp)
             ) {
                 if (modify == "delete") {
-                    BasicButton(R.string.sign_in, Modifier.width(150.dp)) {
+                    BasicButton(
+                        text = R.string.sign_in,
+                        modifier = Modifier.width(150.dp),
+                        action = {
                         coroutineScope.launch {
                             viewModel.onSignInClick(onSuccess = { onDeleteAccount() })
                         }
-                    }
+                    })
                 } else if (modify == "change") {
-                    BasicButton(R.string.sign_in, Modifier.width(150.dp)) {
+                    BasicButton(
+                        text = R.string.sign_in,
+                        modifier = Modifier.width(150.dp),
+                        action = {
                         coroutineScope.launch {
                             viewModel.onSignInClick(onSuccess = { onResetPassword() })
                         }
-                    }
+                    })
                 } else {
-                    BasicButton(R.string.sign_in, Modifier.width(150.dp)) {
+                    BasicButton(
+                        R.string.sign_in,
+                        modifier = Modifier.width(150.dp),
+                        action = {
                         coroutineScope.launch {
                             viewModel.onSignInClick(
                                 onSuccess = { onExistingUser() },
                                 onNewUser = { onNewUser() })
                         }
-                    }
+                    })
                 }
 
             }

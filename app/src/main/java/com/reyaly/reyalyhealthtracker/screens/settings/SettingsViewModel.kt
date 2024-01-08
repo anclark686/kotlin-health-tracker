@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.reyaly.reyalyhealthtracker.common.ext.isValidPassword
 import com.reyaly.reyalyhealthtracker.common.ext.passwordMatches
+import com.reyaly.reyalyhealthtracker.helpers.convertTimestampToDateStr
 import com.reyaly.reyalyhealthtracker.model.User
 import com.reyaly.reyalyhealthtracker.screens.emailandpw.EmailAndPwUiState
 import com.reyaly.reyalyhealthtracker.screens.intake.IntakeUiState
@@ -31,6 +32,7 @@ class SettingsViewModel : ViewModel() {
             _uiState.value = _uiState.value.copy(userIsLoading = false)
         }
         if (user != null) {
+            user.joinedStr = convertTimestampToDateStr(user.joined)
             _uiState.value = _uiState.value.copy(user = user)
             return true
         }

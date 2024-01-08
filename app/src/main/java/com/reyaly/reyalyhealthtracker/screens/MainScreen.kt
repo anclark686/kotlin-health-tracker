@@ -54,16 +54,20 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import com.reyaly.reyalyhealthtracker.screens.breakfast.BreakfastScreen
 import com.reyaly.reyalyhealthtracker.screens.changepw.ChangePwScreen
+import com.reyaly.reyalyhealthtracker.screens.dinner.DinnerScreen
 import com.reyaly.reyalyhealthtracker.screens.emailandpw.EmailAndPasswordScreen
 import com.reyaly.reyalyhealthtracker.screens.emailandpw.EmailAndPwViewModel
 import com.reyaly.reyalyhealthtracker.screens.intake.IntakeScreen
+import com.reyaly.reyalyhealthtracker.screens.lunch.LunchScreen
 import com.reyaly.reyalyhealthtracker.screens.resetemail.ResetEmailSentScreen
 import com.reyaly.reyalyhealthtracker.screens.settings.SettingsViewModel
 import com.reyaly.reyalyhealthtracker.screens.signin.GoogleAuthUiClient
 import com.reyaly.reyalyhealthtracker.screens.signin.SignInScreen
 import com.reyaly.reyalyhealthtracker.screens.signin.SignInViewModel
 import com.reyaly.reyalyhealthtracker.screens.signup.SignUpScreen
+import com.reyaly.reyalyhealthtracker.screens.snack.SnackScreen
 import com.reyaly.reyalyhealthtracker.ui.theme.dark_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.errorDarkRed
 import com.reyaly.reyalyhealthtracker.ui.theme.errorPink
@@ -88,6 +92,10 @@ enum class MainScreen(@StringRes val title: Int, val route: String) {
     Dashboard(title = R.string.nav_dashboard, route = "Dashboard"),
     Settings(title = R.string.nav_settings, route = "Settings"),
     Food(title = R.string.nav_food, route = "Food"),
+    Breakfast(title = R.string.nav_breakfast, route = "Breakfast"),
+    Lunch(title = R.string.nav_lunch, route = "Lunch"),
+    Dinner(title = R.string.nav_dinner, route = "Dinner"),
+    Snack(title = R.string.nav_snack, route = "Snack"),
     Water(title = R.string.nav_water, route = "Water"),
     Exercise(title = R.string.nav_exercise, route = "Exercise"),
     Med(title = R.string.nav_med, route = "Med"),
@@ -121,7 +129,7 @@ fun MainAppBar(
             }
         },
         actions = {
-            if (whatPage != "Settings") {
+            if (whatPage !in listOf("Settings", "Intake")) {
                 IconButton(onClick = { navToSettings() }) {
                     Icon(Icons.Filled.Settings, null)
                 }
@@ -422,13 +430,47 @@ fun MainApp(
 
             composable(route = MainScreen.Intake.route) {
                 IntakeScreen(
-                    onUserAdded = { loginToDashboard() }
+                    onUserAdded = { loginToDashboard() },
+                    onLogout = { logoutWithRedirect() }
                 )
             }
 
             composable(route = MainScreen.Food.route) {
                 FoodScreen(
-                    onDashboardClick = { navController.navigate(MainScreen.Dashboard.route) }
+                    onDashboardClick = { navController.navigate(MainScreen.Dashboard.route) },
+                    onBreakfastClick = { navController.navigate(MainScreen.Breakfast.route) },
+                    onLunchClick = { navController.navigate(MainScreen.Lunch.route) },
+                    onDinnerClick = { navController.navigate(MainScreen.Dinner.route) },
+                    onSnackClick = { navController.navigate(MainScreen.Snack.route) },
+                    onWaterClick = { navController.navigate(MainScreen.Water.route) },
+                )
+            }
+
+            composable(route = MainScreen.Breakfast.route) {
+                BreakfastScreen(
+                    onDashboardClick = { navController.navigate(MainScreen.Dashboard.route) },
+                    onFoodClick = { navController.navigate(MainScreen.Food.route) }
+                )
+            }
+
+            composable(route = MainScreen.Lunch.route) {
+                LunchScreen(
+                    onDashboardClick = { navController.navigate(MainScreen.Dashboard.route) },
+                    onFoodClick = { navController.navigate(MainScreen.Food.route) }
+                )
+            }
+
+            composable(route = MainScreen.Dinner.route) {
+                DinnerScreen(
+                    onDashboardClick = { navController.navigate(MainScreen.Dashboard.route) },
+                    onFoodClick = { navController.navigate(MainScreen.Food.route) }
+                )
+            }
+
+            composable(route = MainScreen.Snack.route) {
+                SnackScreen(
+                    onDashboardClick = { navController.navigate(MainScreen.Dashboard.route) },
+                    onFoodClick = { navController.navigate(MainScreen.Food.route) }
                 )
             }
 

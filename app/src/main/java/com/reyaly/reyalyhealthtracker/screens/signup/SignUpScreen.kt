@@ -150,9 +150,11 @@ fun SignUpScreen(
             Column(
                 modifier = modifier.padding(horizontal = 5.dp, vertical = 10.dp)
             ) {
-                BasicButton(R.string.sign_up, Modifier.width(150.dp)) {
-                    viewModel.onSignUpClick(onSuccess = { onSuccess() })
-                }
+                BasicButton(
+                    text = R.string.sign_up,
+                    modifier = Modifier.width(150.dp),
+                    action = { viewModel.onSignUpClick(onSuccess = { onSuccess() }) }
+                )
             }
             Column (
                 modifier = modifier.padding(bottom = 10.dp)

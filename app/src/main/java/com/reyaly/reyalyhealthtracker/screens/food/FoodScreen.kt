@@ -4,6 +4,7 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,14 +26,23 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.reyaly.reyalyhealthtracker.R
+import com.reyaly.reyalyhealthtracker.common.components.ContentSection
 import com.reyaly.reyalyhealthtracker.common.composable.BasicButton
 import com.reyaly.reyalyhealthtracker.common.composable.DashboardButton
 import com.reyaly.reyalyhealthtracker.common.components.LogoBanner
+import com.reyaly.reyalyhealthtracker.screens.food.components.CalorieInfo
+import com.reyaly.reyalyhealthtracker.screens.food.components.DiaryEntryPoints
+import com.reyaly.reyalyhealthtracker.screens.food.components.Macros
 import com.reyaly.reyalyhealthtracker.ui.theme.med_sky_blue
 
 @Composable
 fun FoodScreen(
     onDashboardClick: () -> Unit,
+    onBreakfastClick: () -> Unit,
+    onLunchClick: () -> Unit,
+    onDinnerClick: () -> Unit,
+    onSnackClick: () -> Unit,
+    onWaterClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val focusManager = LocalFocusManager.current
@@ -52,11 +62,29 @@ fun FoodScreen(
             LogoBanner()
             DashboardButton(modifier = modifier, onDashboardClick = { onDashboardClick() })
         }
-
-        Text(
-            text = stringResource(R.string.text_food),
-            style = MaterialTheme.typography.headlineSmall
+        ContentSection(
+            contentComposable = {
+                DiaryEntryPoints(
+                    onBreakfastClick = { onBreakfastClick() },
+                    onLunchClick = { onLunchClick() },
+                    onDinnerClick = { onDinnerClick() },
+                    onSnackClick = { onSnackClick() },
+                    onWaterClick = { onWaterClick() },
+                ) },
+            text = R.string.food_diaries
         )
+
+        ContentSection(
+            contentComposable = { CalorieInfo() },
+            text = R.string.food_info
+        )
+
+        ContentSection(
+            contentComposable = { Macros() },
+            text = R.string.food_macros
+        )
+
+        Spacer(modifier = modifier.padding(20.dp))
     }
 }
 
@@ -65,6 +93,11 @@ fun FoodScreen(
 fun FoodPreview() {
     FoodScreen(
         onDashboardClick = {},
+        onBreakfastClick = {},
+        onLunchClick = {},
+        onDinnerClick = {},
+        onSnackClick = {},
+        onWaterClick = {},
         modifier = Modifier
     )
 }

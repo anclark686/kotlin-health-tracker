@@ -64,7 +64,7 @@ fun BasicTextButton(@StringRes text: Int, modifier: Modifier, action: () -> Unit
 }
 
 @Composable
-fun BasicButton(@StringRes text: Int, modifier: Modifier, action: () -> Unit) {
+fun BasicButton(@StringRes text: Int, action: () -> Unit, modifier: Modifier = Modifier) {
   Button(
     onClick = action,
     modifier = modifier,
@@ -158,9 +158,7 @@ fun DashboardButton(modifier: Modifier = Modifier, onDashboardClick: () -> Unit)
       .fillMaxWidth()
       .padding(5.dp)
   ) {
-    BasicButton(R.string.text_dashboard, Modifier) {
-      onDashboardClick()
-    }
+    BasicButton(R.string.text_dashboard, action = {onDashboardClick()})
   }
 }
 
