@@ -22,7 +22,8 @@
     <string name="loading">Loading…</string>
     <string name="modify">Modify</string>
     <string name="search">Search</string>
-    <string name="manual">Add Manually</string>
+    <string name="search_switch">Switch to Search</string>
+    <string name="manual">Switch to Manual</string>
     <string name="results">Results</string>
 
     <!-- Nav -->
@@ -280,6 +281,16 @@
 
     <!-- Water -->
     <string name="water_add">Add Water</string>
+    <string name="water_chart">Water Chart</string>
+    <string name="water_some">Add Some Water</string>
+    <string name="water_add_ounces">Switch to Ounces</string>
+    <string name="water_add_cups">Switch to Cups</string>
+    <string name="water_cups">Water in Cups</string>
+    <string name="water_ounces">Water in Ounces</string>
+    <string name="water_stats">Water Stats</string>
+    <string name="water_recommended">Recommended:</string>
+    <string name="water_total">Total Ounces:</string>
+    <string name="water_left">Ounces Remaining:</string>
 
     <string name="default_web_client_id">761702154186-9gpfd37qfmfuoitcb8gbul83montdgat.apps.googleusercontent.com</string>
 </resources>

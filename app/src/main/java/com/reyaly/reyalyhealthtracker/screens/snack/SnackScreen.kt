@@ -119,7 +119,7 @@ fun SnackScreen(
             Spacer(modifier = modifier.padding(20.dp))
             Image(
                 painter = painterResource(R.drawable.ic_snack),
-                contentDescription = "breakfast",
+                contentDescription = "snack",
                 modifier = modifier
                     .width(150.dp)
                     .padding(horizontal = 5.dp)

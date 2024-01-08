@@ -119,7 +119,7 @@ fun DinnerScreen(
             Spacer(modifier = modifier.padding(20.dp))
             Image(
                 painter = painterResource(R.drawable.ic_dinner),
-                contentDescription = "breakfast",
+                contentDescription = "dinner",
                 modifier = modifier
                     .width(150.dp)
                     .padding(horizontal = 5.dp)

@@ -65,7 +65,6 @@ fun DeleteModal(
 
     if (openDialog.value) {
         Dialog(onDismissRequest = { openDialog.value = false }) {
-            // Draw a rectangle shape with rounded corners inside the dialog
             Column(
                 modifier
                     .size(dialogWidth, dialogHeight)

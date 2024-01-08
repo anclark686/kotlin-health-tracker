@@ -113,7 +113,7 @@ fun AddFoodModal(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         SearchField(
-                            text = R.string.search,
+                            text = R.string.search_switch,
                             value = "Hello",
                             onNewValue = {},
                             onSearch = {},

@@ -1,5 +1,6 @@
 package com.reyaly.reyalyhealthtracker.screens.weight
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -29,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -78,10 +80,19 @@ fun WeightScreen(
             DashboardButton(modifier = modifier, onDashboardClick = { onDashboardClick() })
         }
 
-        ContentSection(
-            contentComposable = { ProgressChart() },
-            text = R.string.weight_chart
-        )
+        Column(
+            modifier = modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Spacer(modifier = modifier.padding(20.dp))
+            Image(
+                painter = painterResource(R.drawable.ic_scale),
+                contentDescription = "lunch",
+                modifier = modifier
+                    .width(150.dp)
+                    .padding(horizontal = 5.dp)
+            )
+        }
 
         Column(
             modifier = modifier.padding(top = 20.dp).fillMaxSize(),
@@ -94,10 +105,15 @@ fun WeightScreen(
             )
         }
 
-//        ContentSection(
-//            contentComposable = { GoalTracker() },
-//            text = R.string.weight_goal_tracker
-//        )
+        ContentSection(
+            contentComposable = { ProgressChart() },
+            text = R.string.weight_chart
+        )
+
+        ContentSection(
+            contentComposable = { GoalTracker() },
+            text = R.string.weight_goal_tracker
+        )
 
         ContentSection(
             contentComposable = { WeightStats() },
