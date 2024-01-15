@@ -15,6 +15,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -25,21 +28,25 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.reyaly.reyalyhealthtracker.R
 import com.reyaly.reyalyhealthtracker.common.components.AddFoodModal
 import com.reyaly.reyalyhealthtracker.common.components.ContentSection
+import com.reyaly.reyalyhealthtracker.common.components.DateSelector
 import com.reyaly.reyalyhealthtracker.common.components.FoodTable
 import com.reyaly.reyalyhealthtracker.common.components.LogoBanner
 import com.reyaly.reyalyhealthtracker.common.composable.BasicButton
 import com.reyaly.reyalyhealthtracker.common.composable.DashboardButton
 import com.reyaly.reyalyhealthtracker.model.FoodItem
+import com.reyaly.reyalyhealthtracker.screens.AppViewModel
 import com.reyaly.reyalyhealthtracker.screens.breakfast.components.BreakfastStats
+import com.reyaly.reyalyhealthtracker.storage.date.checkIfDateExists
 
 @Composable
 fun BreakfastScreen(
     onDashboardClick: () -> Unit,
     onFoodClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val focusManager = LocalFocusManager.current
 
@@ -47,35 +54,32 @@ fun BreakfastScreen(
         documentId = "1234",
         meal = "breakfast",
         name = "eggs",
-        brand = "generic",
         calories = "1234",
         protein = "20g",
         fat = "15g",
         carbs = "20g",
-        apiId = 1234
+        apiId = "1234"
     )
     val food2 = FoodItem(
         documentId = "1234",
         meal = "breakfast",
         name = "eggs",
-        brand = "generic",
         calories = "1234",
         protein = "20g",
         fat = "15g",
         carbs = "20g",
-        apiId = 1234
+        apiId = "1234"
     )
 
     val food3 = FoodItem(
         documentId = "1234",
         meal = "breakfast",
         name = "eggs",
-        brand = "generic",
         calories = "1234",
         protein = "20g",
         fat = "15g",
         carbs = "20g",
-        apiId = 1234
+        apiId = "1234"
     )
 
     val foods = listOf<FoodItem>(food1, food2, food3)
@@ -83,6 +87,7 @@ fun BreakfastScreen(
     val openDialog = remember { mutableStateOf(false) }
 
     AddFoodModal(
+        meal = "breakfast",
         openDialog = openDialog,
         onAdd = {}
     )
@@ -112,6 +117,8 @@ fun BreakfastScreen(
             }
         }
 
+        DateSelector()
+
         Column(
             modifier = modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -134,6 +141,7 @@ fun BreakfastScreen(
                 contentComposable = { FoodTable(foods) },
                 text = R.string.breakfast_items
             )
+            Spacer(modifier = modifier.padding(15.dp))
             BasicButton(
                 text = R.string.add_food,
                 modifier = modifier.padding(10.dp),

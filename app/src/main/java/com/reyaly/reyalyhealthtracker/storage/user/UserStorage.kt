@@ -4,7 +4,6 @@ import android.util.Log
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.reyaly.reyalyhealthtracker.model.Medication
 import com.reyaly.reyalyhealthtracker.model.User
 import kotlinx.coroutines.tasks.await
 
@@ -27,9 +26,8 @@ suspend fun findUser(uid: String): User? {
     val userData = users.document(uid).get().await()
     val meds = users.document(uid).collection("meds").get().await()
     if (userData != null) {
-        val user = userData.toObject(User::class.java)
-        user?.meds = meds.map { med ->  med.toObject(Medication::class.java) }
-        return user
+        //        user?.meds = meds.map { med ->  med.toObject(Medication::class.java) }
+        return userData.toObject(User::class.java)
     }
     return null
 }

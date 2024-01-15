@@ -166,12 +166,11 @@ fun MacrosTablePreview() {
         documentId = "1234",
         meal = "breakfast",
         name = "eggs",
-        brand = "generic",
         calories = "1234",
         protein = "20g",
         fat = "15g",
         carbs = "20g",
-        apiId = 1234
+        apiId = "1234"
     )
     MacrosTable(
         food

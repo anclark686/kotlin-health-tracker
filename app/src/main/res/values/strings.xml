@@ -29,7 +29,7 @@
     <!-- Nav -->
     <string name="nav_dashboard">Dashboard</string>
     <string name="nav_home">Home</string>
-    <string name="nav_food">Food Tracker</string>
+    <string name="nav_food">Meal Tracker</string>
     <string name="nav_breakfast">Breakfast Diary</string>
     <string name="nav_lunch">Lunch Diary</string>
     <string name="nav_dinner">Dinner Diary</string>
@@ -179,7 +179,7 @@
     <string name="text_settings">Settings</string>
     <string name="text_water">Water</string>
     <string name="text_weight">Weight</string>
-    <string name="text_food">Food</string>
+    <string name="text_food">Meals</string>
 
     <string name="home_header">Welcome to Reyaly Health Tracker!</string>
     <string name="home_login">Sign in to get started</string>
@@ -192,7 +192,7 @@
     <string name="home_med">Keeping up with your medications can be a daunting task. With the med tracker, you can easily keep tabs on what medications you\'re taking, what time of day they\'re due, and whether or not you\'ve taken them. Easily set reminders to ensure medications are taken on time.</string>
 
     <string name="dashboard_stats">Here\'s your daily stats</string>
-    <string name="dashboard_date">Today\s Date:</string>
+    <string name="dashboard_date">Date:</string>
     <string name="dashboard_streak">Logging Streak:</string>
     <string name="dashboard_max_cal">Calorie Goal:</string>
     <string name="dashboard_cal_in">Calories Consumed:</string>
@@ -200,6 +200,7 @@
     <string name="dashboard_curr_weight">Current Weight:</string>
     <string name="dashboard_goal_weight">Goal Weight:</string>
     <string name="dashboard_weight_diff">Weight Difference:</string>
+    <string name="dashboard_water">Water Consumed</string>
 
     <!-- Med -->
     <string name="med_no_meds">No medications found. Click \"Add New\" to add a medication.</string>
@@ -291,6 +292,15 @@
     <string name="water_recommended">Recommended:</string>
     <string name="water_total">Total Ounces:</string>
     <string name="water_left">Ounces Remaining:</string>
+
+    <!-- Exercise -->
+    <string name="exercise_add">Add Exercise</string>
+    <string name="exercise_workouts">Add Exercise</string>
+    <string name="exercise_intensity_passive">Passive</string>
+    <string name="exercise_intensity_light">Light</string>
+    <string name="exercise_intensity_moderate">Moderate</string>
+    <string name="exercise_intensity_vigorous">Vigorous</string>
+    <string name="exercise_intensity_extreme">Extreme</string>
 
     <string name="default_web_client_id">761702154186-9gpfd37qfmfuoitcb8gbul83montdgat.apps.googleusercontent.com</string>
 </resources>

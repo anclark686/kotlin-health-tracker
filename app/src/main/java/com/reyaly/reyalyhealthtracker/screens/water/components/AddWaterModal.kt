@@ -97,7 +97,6 @@ fun AddWaterModal(
                             text = R.string.water_ounces,
                             value = "Hello",
                             onNewValue = { },
-                            modifier = modifier.padding(horizontal = 15.dp)
                         )
                     }
                 } else {
@@ -120,7 +119,6 @@ fun AddWaterModal(
                             text = R.string.water_cups,
                             list = cups,
                             onNewValue = {},
-                            modifier = modifier.padding(horizontal = 15.dp)
                         )
                     }
                 }

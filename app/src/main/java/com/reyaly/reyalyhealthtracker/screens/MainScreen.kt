@@ -44,6 +44,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -68,6 +69,7 @@ import com.reyaly.reyalyhealthtracker.screens.signin.SignInScreen
 import com.reyaly.reyalyhealthtracker.screens.signin.SignInViewModel
 import com.reyaly.reyalyhealthtracker.screens.signup.SignUpScreen
 import com.reyaly.reyalyhealthtracker.screens.snack.SnackScreen
+import com.reyaly.reyalyhealthtracker.storage.date.checkIfDateExists
 import com.reyaly.reyalyhealthtracker.ui.theme.dark_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.errorDarkRed
 import com.reyaly.reyalyhealthtracker.ui.theme.errorPink
@@ -143,7 +145,7 @@ fun MainApp(
     lifecycleScope: LifecycleCoroutineScope,
     googleAuthUiClient: GoogleAuthUiClient,
     applicationContext: Context,
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
 ) {
 
     // Get current back stack entry

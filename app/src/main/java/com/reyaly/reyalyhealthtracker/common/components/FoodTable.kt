@@ -200,23 +200,21 @@ fun FoodTablePreview() {
         documentId = "1234",
         meal = "breakfast",
         name = "eggs",
-        brand = "generic",
         calories = "1234",
         protein = "20g",
         fat = "15g",
         carbs = "20g",
-        apiId = 1234
+        apiId = "1234"
     )
     val food2 = FoodItem(
         documentId = "1234",
         meal = "breakfast",
         name = "eggs",
-        brand = "generic",
         calories = "1234",
         protein = "20g",
         fat = "15g",
         carbs = "20g",
-        apiId = 1234
+        apiId = "1234"
     )
     val foods = listOf<FoodItem>(food1, food2)
     FoodTable(

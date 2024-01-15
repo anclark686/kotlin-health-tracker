@@ -50,8 +50,9 @@ import com.reyaly.reyalyhealthtracker.ui.theme.med_sky_blue
 
 @Composable
 fun AddFoodModal(
+    meal: String,
     openDialog: MutableState<Boolean>,
-    onAdd: () -> Unit,
+    onAdd: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val dialogWidth = 300.dp
@@ -232,7 +233,7 @@ fun AddFoodModal(
                         BasicTextButton(
                             text = R.string.add,
                             modifier = modifier.fillMaxWidth(.6f),
-                            action = { onAdd() }
+                            action = { onAdd(meal) }
                         )
                     }
                 }
@@ -246,6 +247,7 @@ fun AddFoodModal(
 fun AddFoodModalPreview() {
     val openDialog = remember { mutableStateOf(true) }
     AddFoodModal(
+        "breakfast",
         openDialog = openDialog,
         onAdd = {}
     )

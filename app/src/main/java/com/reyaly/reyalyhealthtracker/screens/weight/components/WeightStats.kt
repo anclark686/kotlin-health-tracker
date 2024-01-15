@@ -41,8 +41,7 @@ fun WeightStats(
     }
 
     Column(
-        modifier = modifier
-            .background(color = Color.White),
+        modifier = modifier,
         verticalArrangement = Arrangement.SpaceBetween,
 //        horizontalAlignment = Alignment.CenterHorizontally
     ) {

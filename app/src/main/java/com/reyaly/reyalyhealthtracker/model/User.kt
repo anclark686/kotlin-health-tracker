@@ -18,10 +18,13 @@ data class User(
     var goalWeight: String? = "",
     var goalWeightInKg: String? = "",
     var weightGoals: String? = "",
+    var calorieGoal: String? = "",
+    var fatGoal: String? = "",
+    var proteinGoal: String? = "",
+    var carbsGoal: String? = "",
     var activityLevel: String? = "",
     var timestamp: Timestamp? = null,
     var timestampStr: String? = null,
-    var meds: List<Medication>? = null,
     var joined: Timestamp? = null,
     var joinedStr: String? = null
 )

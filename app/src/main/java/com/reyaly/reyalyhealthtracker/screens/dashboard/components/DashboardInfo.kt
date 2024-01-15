@@ -17,7 +17,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.reyaly.reyalyhealthtracker.R
+import com.reyaly.reyalyhealthtracker.screens.dashboard.DashboardViewModel
 import com.reyaly.reyalyhealthtracker.ui.theme.dark_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.light_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.med_sky_blue
@@ -27,7 +29,8 @@ import java.time.format.DateTimeFormatter
 
 @Composable
 fun DashboardInfo(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+//    viewModel: DashboardViewModel = viewModel()
 ) {
     val formatter = DateTimeFormatter.ofPattern("MM/dd/yyy")
     Column(
@@ -52,23 +55,6 @@ fun DashboardInfo(
 
                 Text(
                     text = LocalDate.now().format(formatter),
-                    fontSize = 18.sp,
-                    textAlign = TextAlign.Center
-                )
-            }
-
-            Row(
-                modifier = modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = stringResource(R.string.dashboard_streak),
-                    fontSize = 18.sp,
-                    textAlign = TextAlign.Center,
-                    fontWeight = FontWeight.Bold
-                )
-                Text(
-                    text = "**TODO**",
                     fontSize = 18.sp,
                     textAlign = TextAlign.Center
                 )
