@@ -29,15 +29,6 @@ fun HealthInfo(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    val activityLevelItems = listOf(
-        stringResource(R.string.intake_dropdown_activity_sedentary),
-        stringResource(R.string.intake_dropdown_activity_light),
-        stringResource(R.string.intake_dropdown_activity_moderate),
-        stringResource(R.string.intake_dropdown_activity_daily),
-        stringResource(R.string.intake_dropdown_activity_very),
-        stringResource(R.string.intake_dropdown_activity_intense),
-    )
-
     val weightGoalsItems = listOf(
         stringResource(R.string.intake_dropdown_goal_maintain),
         stringResource(R.string.intake_dropdown_goal_mildloss),
@@ -46,6 +37,15 @@ fun HealthInfo(
         stringResource(R.string.intake_dropdown_goal_mildgain),
         stringResource(R.string.intake_dropdown_goal_weightgain),
         stringResource(R.string.intake_dropdown_goal_extremegain),
+    )
+
+    val activityLevelItems = listOf(
+        stringResource(R.string.intake_dropdown_activity_sedentary),
+        stringResource(R.string.intake_dropdown_activity_light),
+        stringResource(R.string.intake_dropdown_activity_moderate),
+        stringResource(R.string.intake_dropdown_activity_daily),
+        stringResource(R.string.intake_dropdown_activity_very),
+        stringResource(R.string.intake_dropdown_activity_intense),
     )
 
     Column(

@@ -34,6 +34,7 @@ import com.reyaly.reyalyhealthtracker.common.components.LogoBanner
 import com.reyaly.reyalyhealthtracker.screens.med.components.MedInfo
 import com.reyaly.reyalyhealthtracker.ui.theme.med_sky_blue
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.reyaly.reyalyhealthtracker.common.components.DateSelector
 
 @Composable
 fun MedScreen(
@@ -58,6 +59,8 @@ fun MedScreen(
             LogoBanner()
             DashboardButton(modifier = modifier, onDashboardClick = { onDashboardClick() })
         }
+
+//        DateSelector()
 
         ContentSection(
             contentComposable = { MedInfo() },

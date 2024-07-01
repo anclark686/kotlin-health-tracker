@@ -25,6 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.reyaly.reyalyhealthtracker.R
+import com.reyaly.reyalyhealthtracker.common.components.DateSelector
 import com.reyaly.reyalyhealthtracker.common.composable.BasicButton
 import com.reyaly.reyalyhealthtracker.common.composable.DashboardButton
 import com.reyaly.reyalyhealthtracker.common.components.LogoBanner
@@ -33,7 +34,7 @@ import com.reyaly.reyalyhealthtracker.ui.theme.med_sky_blue
 @Composable
 fun ExerciseScreen(
     onDashboardClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val focusManager = LocalFocusManager.current
 
@@ -52,6 +53,8 @@ fun ExerciseScreen(
             LogoBanner()
             DashboardButton(modifier = modifier, onDashboardClick = { onDashboardClick() })
         }
+
+//        DateSelector()
 
         Text(
             text = stringResource(R.string.text_exercise),

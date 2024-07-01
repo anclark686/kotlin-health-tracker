@@ -117,7 +117,7 @@ fun SnackScreen(
             }
         }
 
-        DateSelector()
+//        DateSelector()
 
         Column(
             modifier = modifier.fillMaxWidth(),

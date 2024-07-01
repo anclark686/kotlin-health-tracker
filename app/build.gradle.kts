@@ -74,6 +74,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:${rootProject.extra["lifecycle_version"]}")
     implementation("androidx.navigation:navigation-compose:2.5.3")
     implementation("androidx.compose.ui:ui-text-google-fonts:1.5.4")
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
 
     // Auth0 dependencies
     implementation("com.auth0.android:auth0:2.+")

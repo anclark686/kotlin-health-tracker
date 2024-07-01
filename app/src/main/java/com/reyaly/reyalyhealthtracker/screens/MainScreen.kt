@@ -199,6 +199,16 @@ fun MainApp(
         }
     ) { innerPadding ->
 
+//        LaunchedEffect(key1 = appUiState.dateChoice) {
+//            appViewModel.auth.uid?.let {
+//                checkIfDateExists(
+//                    it,
+//                    appUiState.dateChoice
+//                )
+//            }
+//            Log.d(TAG, appUiState.dateChoice.toString())
+//        }
+
         NavHost(
             navController = navController,
             startDestination = MainScreen.Home.route,

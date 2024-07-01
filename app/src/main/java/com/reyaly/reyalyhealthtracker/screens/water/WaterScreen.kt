@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.reyaly.reyalyhealthtracker.R
 import com.reyaly.reyalyhealthtracker.common.components.ContentSection
+import com.reyaly.reyalyhealthtracker.common.components.DateSelector
 import com.reyaly.reyalyhealthtracker.common.composable.BasicButton
 import com.reyaly.reyalyhealthtracker.common.composable.DashboardButton
 import com.reyaly.reyalyhealthtracker.common.components.LogoBanner
@@ -70,6 +71,8 @@ fun WaterScreen(
             LogoBanner()
             DashboardButton(modifier = modifier, onDashboardClick = { onDashboardClick() })
         }
+
+//        DateSelector()
 
         Column(
             modifier = modifier.fillMaxWidth(),

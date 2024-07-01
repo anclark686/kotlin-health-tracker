@@ -99,7 +99,7 @@ fun DashboardScreen(
             )
         }
 
-        DateSelector()
+//        DateSelector()
 
         ContentSection(
             text = R.string.dashboard_stats,

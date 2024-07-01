@@ -20,9 +20,9 @@ fun convertWeightToKg(weight: String): String {
     return kgDbl.toString()
 }
 
-fun convertHeightToCm(weight: String): String {
-    val newWeightStr = weight.replace('"', ' ').replace('\'', ' ')
-    val (feet, inches) = newWeightStr.split(" ")
+fun convertHeightToCm(height: String): String {
+    val newHeightStr = height.replace('"', ' ').replace('\'', ' ')
+    val (feet, inches) = newHeightStr.split(" ")
     val totalHeightInInches = (feet.toInt() * 12) + inches.toInt()
     val heightInCm = totalHeightInInches * 2.54
     return heightInCm.toString()

@@ -23,14 +23,15 @@ import com.reyaly.reyalyhealthtracker.R
 import com.reyaly.reyalyhealthtracker.screens.AppViewModel
 import com.reyaly.reyalyhealthtracker.screens.dashboard.DashboardViewModel
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun DateSelector(
-    modifier: Modifier = Modifier,
-    viewModel: AppViewModel = viewModel(),
-    initialDate: LocalDate? = null
+    initialDate: LocalDate,
+    onChange: (String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
 
     Column(
         modifier = modifier
@@ -48,21 +49,15 @@ fun DateSelector(
                     .weight(.33f)
                     .width(250.dp)
                     .padding(15.dp)
-                    .clickable{ viewModel.onDateChange("back") }
+                    .clickable{ onChange("back") }
             )
-            if (initialDate != null) {
-                Text(
-                    text = initialDate.format(uiState.formatter),
-                    style = MaterialTheme.typography.headlineSmall,
-                    textAlign = TextAlign.Center
-                )
-            } else {
-                Text(
-                    text = uiState.dateChoice.format(uiState.formatter),
-                    style = MaterialTheme.typography.headlineSmall,
-                    textAlign = TextAlign.Center
-                )
-            }
+
+            Text(
+                text = initialDate.format(formatter),
+                style = MaterialTheme.typography.headlineSmall,
+                textAlign = TextAlign.Center
+            )
+
             Image(
                 painter = painterResource(R.drawable.ic_arrow_forward),
                 contentDescription = "login",
@@ -70,7 +65,7 @@ fun DateSelector(
                     .weight(.33f)
                     .width(250.dp)
                     .padding(15.dp)
-                    .clickable{ viewModel.onDateChange("forward") }
+                    .clickable{ onChange("forward") }
             )
         }
     }
@@ -80,6 +75,7 @@ fun DateSelector(
 @Composable
 fun DateSelectorPreview() {
     DateSelector(
-
+        initialDate = LocalDate.now(),
+        onChange = { }
     )
 }
