@@ -108,6 +108,8 @@ fun WaterScreen(
             contentComposable = { WaterStats() },
             text = R.string.water_stats
         )
+
+        Spacer(modifier = modifier.padding(20.dp))
     }
 }
 

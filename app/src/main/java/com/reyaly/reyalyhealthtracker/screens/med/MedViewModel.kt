@@ -75,11 +75,13 @@ class MedViewModel : ViewModel() {
 
     suspend fun onAddNewMed() {
         val firebaseUser = auth.currentUser!!
+        val med = Medication(name = name, dose = dose, time = time)
         if (validateMed()) {
-            val med = Medication(name, dose, time)
-            medList.add(med)
             try {
-                addMedication(firebaseUser.uid, med)
+                val response = addMedication(firebaseUser.uid, med)
+                Log.d(TAG, response)
+                med.documentId = response
+                medList.add(med)
                 Log.d(TAG, med.toString())
                 Log.d(TAG, _uiState.value.medList.toString())
                 _medState.value = medState.value.copy(name = "")

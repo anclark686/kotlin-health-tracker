@@ -11,8 +11,15 @@ private const val NAME = "meds"
 val users = Firebase.firestore.collection("users")
 
 
-suspend fun addMedication(uid: String, med: Medication) {
-    users.document(uid).collection(NAME).add(med).await()
+suspend fun addMedication(uid: String, med: Medication): String {
+//    users.document(uid).collection(NAME).add(med).addOnSuccessListener { documentReference ->
+//        Log.d(TAG, "DocumentSnapshot written with ID: ${documentReference.id}")
+//        return documentReference.id
+//    }
+
+    val dataRef = users.document(uid).collection(NAME).document()
+    dataRef.set(med).await()
+    return dataRef.id
 }
 
 suspend fun editMedication(uid: String, medId: String) {
