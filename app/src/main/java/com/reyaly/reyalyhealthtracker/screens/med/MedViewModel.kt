@@ -75,7 +75,7 @@ class MedViewModel : ViewModel() {
 
     suspend fun onAddNewMed() {
         val firebaseUser = auth.currentUser!!
-        val med = Medication(name = name, dose = dose, time = time)
+        val med = Medication(name = name.lowercase(), dose = dose, time = time)
         if (validateMed()) {
             try {
                 val response = addMedication(firebaseUser.uid, med)

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -50,14 +51,14 @@ fun WeightStats(
                 .padding(horizontal = 10.dp, vertical = 5.dp)
         ) {
             Row (
-                modifier = modifier
+                modifier = modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     text = stringResource(R.string.weight_curr_weight),
                     fontSize = 18.sp,
                     color = labelColor
                 )
-                Spacer(modifier = modifier.padding(5.dp))
                 Text(
                     text = "**SOMETHING**",
                     fontSize = 18.sp
@@ -70,14 +71,14 @@ fun WeightStats(
                 .padding(horizontal = 10.dp, vertical = 5.dp)
         ) {
             Row (
-                modifier = modifier
+                modifier = modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     text = stringResource(R.string.weight_goal_highest),
                     fontSize = 18.sp,
                     color = labelColor
                 )
-                Spacer(modifier = modifier.padding(5.dp))
                 Text(
                     text = "**SOMETHING**",
                     fontSize = 18.sp
@@ -90,14 +91,14 @@ fun WeightStats(
                 .padding(horizontal = 10.dp, vertical = 5.dp)
         ) {
             Row (
-                modifier = modifier
+                modifier = modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     text = stringResource(R.string.weight_goal_lowest),
                     fontSize = 18.sp,
                     color = labelColor
                 )
-                Spacer(modifier = modifier.padding(5.dp))
                 Text(
                     text = "**SOMETHING**",
                     fontSize = 18.sp
@@ -110,14 +111,14 @@ fun WeightStats(
                 .padding(horizontal = 10.dp, vertical = 5.dp)
         ) {
             Row (
-                modifier = modifier
+                modifier = modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     text = stringResource(R.string.weight_goal_lost),
                     fontSize = 18.sp,
                     color = labelColor
                 )
-                Spacer(modifier = modifier.padding(5.dp))
                 Text(
                     text = "**SOMETHING**",
                     fontSize = 18.sp
@@ -130,14 +131,14 @@ fun WeightStats(
                 .padding(horizontal = 10.dp, vertical = 5.dp)
         ) {
             Row (
-                modifier = modifier
+                modifier = modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     text = stringResource(R.string.weight_goal_gained),
                     fontSize = 18.sp,
                     color = labelColor
                 )
-                Spacer(modifier = modifier.padding(5.dp))
                 Text(
                     text = "**SOMETHING**",
                     fontSize = 18.sp
@@ -150,14 +151,14 @@ fun WeightStats(
                 .padding(horizontal = 10.dp, vertical = 5.dp)
         ) {
             Row (
-                modifier = modifier
+                modifier = modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     text = stringResource(R.string.weight_BMI),
                     fontSize = 18.sp,
                     color = labelColor
                 )
-                Spacer(modifier = modifier.padding(5.dp))
                 Text(
                     text = "**SOMETHING**",
                     fontSize = 18.sp
@@ -170,14 +171,14 @@ fun WeightStats(
                 .padding(horizontal = 10.dp, vertical = 5.dp)
         ) {
             Row (
-                modifier = modifier
+                modifier = modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     text = stringResource(R.string.weight_fat),
                     fontSize = 18.sp,
                     color = labelColor
                 )
-                Spacer(modifier = modifier.padding(5.dp))
                 Text(
                     text = "**SOMETHING**",
                     fontSize = 18.sp
@@ -190,14 +191,14 @@ fun WeightStats(
                 .padding(horizontal = 10.dp, vertical = 5.dp)
         ) {
             Row (
-                modifier = modifier
+                modifier = modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     text = stringResource(R.string.weight_ideal),
                     fontSize = 18.sp,
                     color = labelColor
                 )
-                Spacer(modifier = modifier.padding(5.dp))
                 Text(
                     text = "**SOMETHING**",
                     fontSize = 18.sp

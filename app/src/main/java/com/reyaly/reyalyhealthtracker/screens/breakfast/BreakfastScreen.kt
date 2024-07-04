@@ -1,5 +1,6 @@
 package com.reyaly.reyalyhealthtracker.screens.breakfast
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -12,12 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -25,10 +21,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.reyaly.reyalyhealthtracker.R
 import com.reyaly.reyalyhealthtracker.common.components.AddFoodModal
 import com.reyaly.reyalyhealthtracker.common.components.ContentSection
@@ -36,12 +30,12 @@ import com.reyaly.reyalyhealthtracker.common.components.DateSelector
 import com.reyaly.reyalyhealthtracker.common.components.FoodTable
 import com.reyaly.reyalyhealthtracker.common.components.LogoBanner
 import com.reyaly.reyalyhealthtracker.common.composable.BasicButton
-import com.reyaly.reyalyhealthtracker.common.composable.DashboardButton
+import com.reyaly.reyalyhealthtracker.helpers.changeDate
 import com.reyaly.reyalyhealthtracker.model.FoodItem
-import com.reyaly.reyalyhealthtracker.screens.AppViewModel
 import com.reyaly.reyalyhealthtracker.screens.breakfast.components.BreakfastStats
-import com.reyaly.reyalyhealthtracker.storage.date.checkIfDateExists
+import java.time.LocalDate
 
+private val TAG = "Breakfast screen"
 @Composable
 fun BreakfastScreen(
     onDashboardClick: () -> Unit,
@@ -86,6 +80,12 @@ fun BreakfastScreen(
 
     val openDialog = remember { mutableStateOf(false) }
 
+    var date = remember { mutableStateOf(LocalDate.now() ) }
+
+    fun onDateChange(direction: String) {
+        date = changeDate(date, direction)
+    }
+
     AddFoodModal(
         meal = "breakfast",
         openDialog = openDialog,
@@ -105,6 +105,12 @@ fun BreakfastScreen(
     ) {
         Column(modifier = modifier) {
             LogoBanner()
+
+            DateSelector(
+                initialDate = date,
+                onChange = ::onDateChange
+            )
+
             Row(
                 modifier = modifier
                     .fillMaxWidth()
@@ -116,8 +122,6 @@ fun BreakfastScreen(
                 BasicButton(text = R.string.nav_food, modifier = modifier, action = { onFoodClick() })
             }
         }
-
-//        DateSelector()
 
         Column(
             modifier = modifier.fillMaxWidth(),

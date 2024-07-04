@@ -1,12 +1,14 @@
 package com.reyaly.reyalyhealthtracker.helpers
 
 import android.util.Log
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import com.google.firebase.Timestamp
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import kotlin.math.round
-import kotlin.math.roundToInt
 
 fun convertTimestampToDateStr(timestamp: Timestamp?): String {
     val date = timestamp!!.toDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -26,4 +28,18 @@ fun convertHeightToCm(height: String): String {
     val totalHeightInInches = (feet.toInt() * 12) + inches.toInt()
     val heightInCm = totalHeightInInches * 2.54
     return heightInCm.toString()
+}
+
+fun changeDate(previousDate: MutableState<LocalDate>, direction: String): MutableState<LocalDate> {
+    Log.d("In the helper", direction)
+    Log.d("In the helper", (direction == "add").toString())
+
+    var newDate = previousDate
+
+    newDate.value = if (direction == "add") {
+        previousDate.value.plusDays(1)
+    } else {
+        previousDate.value.minusDays(1)
+    }
+    return newDate
 }

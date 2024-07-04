@@ -37,10 +37,12 @@ import com.reyaly.reyalyhealthtracker.common.components.FoodTable
 import com.reyaly.reyalyhealthtracker.common.components.LogoBanner
 import com.reyaly.reyalyhealthtracker.common.composable.BasicButton
 import com.reyaly.reyalyhealthtracker.common.composable.DashboardButton
+import com.reyaly.reyalyhealthtracker.helpers.changeDate
 import com.reyaly.reyalyhealthtracker.model.FoodItem
 import com.reyaly.reyalyhealthtracker.screens.AppViewModel
 import com.reyaly.reyalyhealthtracker.screens.dinner.components.DinnerStats
 import com.reyaly.reyalyhealthtracker.storage.date.checkIfDateExists
+import java.time.LocalDate
 
 @Composable
 fun DinnerScreen(
@@ -86,6 +88,12 @@ fun DinnerScreen(
 
     val openDialog = remember { mutableStateOf(false) }
 
+    var date = remember { mutableStateOf(LocalDate.now() ) }
+
+    fun onDateChange(direction: String) {
+        date = changeDate(date, direction)
+    }
+
     AddFoodModal(
         meal = "dinner",
         openDialog = openDialog,
@@ -105,6 +113,12 @@ fun DinnerScreen(
     ) {
         Column(modifier = modifier) {
             LogoBanner()
+
+            DateSelector(
+                initialDate = date,
+                onChange = ::onDateChange
+            )
+
             Row(
                 modifier = modifier
                     .fillMaxWidth()

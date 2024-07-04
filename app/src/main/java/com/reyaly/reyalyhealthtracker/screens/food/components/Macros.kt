@@ -65,57 +65,65 @@ fun Macros(
             )
         }
 
-        Column(
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(10.dp),
-
-            ) {
-            Row (
+            Column(
                 modifier = modifier
+                    .padding(horizontal = 10.dp, vertical = 5.dp)
             ) {
-                Text(
-                    text = stringResource(R.string.food_macros_protein),
-                    fontSize = 18.sp,
-                    color = labelColor
-                )
-                Spacer(modifier = modifier.padding(5.dp))
-                Text(
-                    text = "**SOMETHING**",
-                    fontSize = 18.sp
-                )
+                Row (
+                    modifier = modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = stringResource(R.string.food_macros_protein),
+                        fontSize = 18.sp,
+                        color = labelColor
+                    )
+                    Text(
+                        text = "**SOMETHING**",
+                        fontSize = 18.sp
+                    )
+                }
             }
 
-            Row (
+            Column(
                 modifier = modifier
+                    .padding(horizontal = 10.dp, vertical = 5.dp)
             ) {
-                Text(
-                    text = stringResource(R.string.food_macros_carbs),
-                    fontSize = 18.sp,
-                    color = labelColor
-                )
-                Spacer(modifier = modifier.padding(5.dp))
-                Text(
-                    text = "**SOMETHING**",
-                    fontSize = 18.sp
-                )
+                Row (
+                    modifier = modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = stringResource(R.string.food_macros_carbs),
+                        fontSize = 18.sp,
+                        color = labelColor
+                    )
+                    Text(
+                        text = "**SOMETHING**",
+                        fontSize = 18.sp
+                    )
+                }
             }
 
-            Row (
+            Column(
                 modifier = modifier
+                    .padding(horizontal = 10.dp, vertical = 5.dp)
             ) {
-                Text(
-                    text = stringResource(R.string.food_macros_fat),
-                    fontSize = 18.sp,
-                    color = labelColor
-                )
-                Spacer(modifier = modifier.padding(5.dp))
-                Text(
-                    text = "**SOMETHING**",
-                    fontSize = 18.sp
-                )
+                Row (
+                    modifier = modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = stringResource(R.string.food_macros_fat),
+                        fontSize = 18.sp,
+                        color = labelColor
+                    )
+                    Text(
+                        text = "**SOMETHING**",
+                        fontSize = 18.sp
+                    )
+                }
             }
-        }
         Spacer(modifier = modifier.padding(10.dp))
     }
 }

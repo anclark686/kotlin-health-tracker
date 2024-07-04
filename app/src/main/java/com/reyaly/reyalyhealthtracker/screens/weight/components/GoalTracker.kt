@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
@@ -72,14 +73,14 @@ fun GoalTracker(
                 .padding(horizontal = 10.dp, vertical = 5.dp)
         ) {
             Row (
-                modifier = modifier
+                modifier = modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     text = stringResource(R.string.weight_curr_weight),
                     fontSize = 18.sp,
                     color = labelColor
                 )
-                Spacer(modifier = modifier.padding(5.dp))
                 Text(
                     text = "**SOMETHING**",
                     fontSize = 18.sp
@@ -92,14 +93,14 @@ fun GoalTracker(
                 .padding(horizontal = 10.dp, vertical = 5.dp)
         ) {
             Row (
-                modifier = modifier
+                modifier = modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     text = stringResource(R.string.weight_goal_weight),
                     fontSize = 18.sp,
                     color = labelColor
                 )
-                Spacer(modifier = modifier.padding(5.dp))
                 Text(
                     text = "**SOMETHING**",
                     fontSize = 18.sp
@@ -112,14 +113,14 @@ fun GoalTracker(
                 .padding(horizontal = 10.dp, vertical = 5.dp)
         ) {
             Row(
-                modifier = modifier
+                modifier = modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     text = stringResource(R.string.weight_score),
                     fontSize = 18.sp,
                     color = labelColor
                 )
-                Spacer(modifier = modifier.padding(5.dp))
                 Text(
                     text = "**SOMETHING**",
                     fontSize = 18.sp

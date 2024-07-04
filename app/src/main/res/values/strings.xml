@@ -296,11 +296,19 @@
     <!-- Exercise -->
     <string name="exercise_add">Add Exercise</string>
     <string name="exercise_workouts">Add Exercise</string>
+    <string name="exercise_cardio">Cardio Exercises</string>
+    <string name="exercise_strength">Strength Training</string>
+    <string name="exercise_stats">Exercise Stats</string>
     <string name="exercise_intensity_passive">Passive</string>
     <string name="exercise_intensity_light">Light</string>
     <string name="exercise_intensity_moderate">Moderate</string>
     <string name="exercise_intensity_vigorous">Vigorous</string>
     <string name="exercise_intensity_extreme">Extreme</string>
+    <string name="exercise_stats_unique">Unique Exercises:</string>
+    <string name="exercise_stats_time">Time Spent:</string>
+    <string name="exercise_stats_calories">Calories Burned:</string>
+    <string name="exercise_stats_favorite">Favorite Exercise:</string>
+
 
     <string name="default_web_client_id">761702154186-9gpfd37qfmfuoitcb8gbul83montdgat.apps.googleusercontent.com</string>
 </resources>

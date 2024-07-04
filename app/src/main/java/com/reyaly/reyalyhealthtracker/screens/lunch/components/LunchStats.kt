@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -48,14 +49,14 @@ fun LunchStats(
                 .padding(horizontal = 10.dp, vertical = 5.dp)
         ) {
             Row (
-                modifier = modifier
+                modifier = modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     text = stringResource(R.string.blds_stats_count),
                     fontSize = 18.sp,
                     color = labelColor
                 )
-                Spacer(modifier = modifier.padding(5.dp))
                 Text(
                     text = "**SOMETHING**",
                     fontSize = 18.sp
@@ -68,14 +69,14 @@ fun LunchStats(
                 .padding(horizontal = 10.dp, vertical = 5.dp)
         ) {
             Row (
-                modifier = modifier
+                modifier = modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     text = stringResource(R.string.blds_stats_calories),
                     fontSize = 18.sp,
                     color = labelColor
                 )
-                Spacer(modifier = modifier.padding(5.dp))
                 Text(
                     text = "**SOMETHING**",
                     fontSize = 18.sp
@@ -88,14 +89,14 @@ fun LunchStats(
                 .padding(horizontal = 10.dp, vertical = 5.dp)
         ) {
             Row (
-                modifier = modifier
+                modifier = modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     text = stringResource(R.string.blds_stats_protein),
                     fontSize = 18.sp,
                     color = labelColor
                 )
-                Spacer(modifier = modifier.padding(5.dp))
                 Text(
                     text = "**SOMETHING**",
                     fontSize = 18.sp
@@ -108,14 +109,14 @@ fun LunchStats(
                 .padding(horizontal = 10.dp, vertical = 5.dp)
         ) {
             Row (
-                modifier = modifier
+                modifier = modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     text = stringResource(R.string.blds_stats_fat),
                     fontSize = 18.sp,
                     color = labelColor
                 )
-                Spacer(modifier = modifier.padding(5.dp))
                 Text(
                     text = "**SOMETHING**",
                     fontSize = 18.sp
@@ -128,14 +129,14 @@ fun LunchStats(
                 .padding(horizontal = 10.dp, vertical = 5.dp)
         ) {
             Row (
-                modifier = modifier
+                modifier = modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     text = stringResource(R.string.blds_stats_carbs),
                     fontSize = 18.sp,
                     color = labelColor
                 )
-                Spacer(modifier = modifier.padding(5.dp))
                 Text(
                     text = "**SOMETHING**",
                     fontSize = 18.sp

@@ -90,14 +90,14 @@ fun CalorieInfo(
                 .padding(horizontal = 10.dp, vertical = 5.dp)
         ) {
             Row (
-                modifier = modifier
+                modifier = modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     text = stringResource(R.string.food_calorie_allowance),
                     fontSize = 18.sp,
                     color = labelColor
                 )
-                Spacer(modifier = modifier.padding(5.dp))
                 Text(
                     text = "**SOMETHING**",
                     fontSize = 18.sp
@@ -110,14 +110,14 @@ fun CalorieInfo(
                 .padding(horizontal = 10.dp, vertical = 5.dp)
         ) {
             Row (
-                modifier = modifier
+                modifier = modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     text = stringResource(R.string.food_calories_used),
                     fontSize = 18.sp,
                     color = labelColor
                 )
-                Spacer(modifier = modifier.padding(5.dp))
                 Text(
                     text = "**SOMETHING**",
                     fontSize = 18.sp
@@ -130,14 +130,14 @@ fun CalorieInfo(
                 .padding(horizontal = 10.dp, vertical = 5.dp)
         ) {
             Row (
-                modifier = modifier
+                modifier = modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     text = stringResource(R.string.food_calories_burned),
                     fontSize = 18.sp,
                     color = labelColor
                 )
-                Spacer(modifier = modifier.padding(5.dp))
                 Text(
                     text = "**SOMETHING**",
                     fontSize = 18.sp
@@ -150,14 +150,14 @@ fun CalorieInfo(
                 .padding(horizontal = 10.dp, vertical = 5.dp)
         ) {
             Row (
-                modifier = modifier
+                modifier = modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     text = stringResource(R.string.food_calories_remaining),
                     fontSize = 18.sp,
                     color = labelColor
                 )
-                Spacer(modifier = modifier.padding(5.dp))
                 Text(
                     text = "**SOMETHING**",
                     fontSize = 18.sp

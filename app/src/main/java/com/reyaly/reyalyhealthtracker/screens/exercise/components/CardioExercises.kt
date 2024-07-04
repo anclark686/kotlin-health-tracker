@@ -1,5 +1,6 @@
-package com.reyaly.reyalyhealthtracker.screens.breakfast.components
+package com.reyaly.reyalyhealthtracker.screens.exercise.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,11 +9,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -23,7 +26,7 @@ import com.reyaly.reyalyhealthtracker.ui.theme.light_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.sky_blue
 
 @Composable
-fun BreakfastStats(
+fun CardioExercises(
     modifier: Modifier = Modifier
 ) {
     var labelColor: Color
@@ -43,6 +46,18 @@ fun BreakfastStats(
             .padding(10.dp),
         verticalArrangement = Arrangement.Center
     ) {
+        Column(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Image(
+                painter = painterResource(R.drawable.ic_cardio),
+                contentDescription = "cardio",
+                modifier = modifier.width(100.dp)
+            )
+        }
 
         Column(
             modifier = modifier
@@ -53,7 +68,7 @@ fun BreakfastStats(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = stringResource(R.string.blds_stats_count),
+                    text = stringResource(R.string.water_recommended),
                     fontSize = 18.sp,
                     color = labelColor
                 )
@@ -73,7 +88,7 @@ fun BreakfastStats(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = stringResource(R.string.blds_stats_calories),
+                    text = stringResource(R.string.water_total),
                     fontSize = 18.sp,
                     color = labelColor
                 )
@@ -93,47 +108,7 @@ fun BreakfastStats(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = stringResource(R.string.blds_stats_protein),
-                    fontSize = 18.sp,
-                    color = labelColor
-                )
-                Text(
-                    text = "**SOMETHING**",
-                    fontSize = 18.sp
-                )
-            }
-        }
-
-        Column(
-            modifier = modifier
-                .padding(horizontal = 10.dp, vertical = 5.dp)
-        ) {
-            Row (
-                modifier = modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = stringResource(R.string.blds_stats_fat),
-                    fontSize = 18.sp,
-                    color = labelColor
-                )
-                Text(
-                    text = "**SOMETHING**",
-                    fontSize = 18.sp
-                )
-            }
-        }
-
-        Column(
-            modifier = modifier
-                .padding(horizontal = 10.dp, vertical = 5.dp)
-        ) {
-            Row (
-                modifier = modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = stringResource(R.string.blds_stats_carbs),
+                    text = stringResource(R.string.water_left),
                     fontSize = 18.sp,
                     color = labelColor
                 )
@@ -148,8 +123,8 @@ fun BreakfastStats(
 
 @Preview
 @Composable
-fun BreakfastStatsPreview() {
-    BreakfastStats(
+fun CardioExercisesPreview() {
+    CardioExercises(
 
     )
 }
