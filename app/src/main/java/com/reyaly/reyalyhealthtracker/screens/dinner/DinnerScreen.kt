@@ -1,7 +1,9 @@
 package com.reyaly.reyalyhealthtracker.screens.dinner
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,7 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -22,26 +24,27 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.reyaly.reyalyhealthtracker.R
-import com.reyaly.reyalyhealthtracker.common.components.AddFoodModal
 import com.reyaly.reyalyhealthtracker.common.components.ContentSection
 import com.reyaly.reyalyhealthtracker.common.components.DateSelector
 import com.reyaly.reyalyhealthtracker.common.components.FoodTable
 import com.reyaly.reyalyhealthtracker.common.components.LogoBanner
 import com.reyaly.reyalyhealthtracker.common.composable.BasicButton
-import com.reyaly.reyalyhealthtracker.common.composable.DashboardButton
 import com.reyaly.reyalyhealthtracker.helpers.changeDate
-import com.reyaly.reyalyhealthtracker.model.FoodItem
-import com.reyaly.reyalyhealthtracker.screens.AppViewModel
+import com.reyaly.reyalyhealthtracker.screens.dinner.components.AddDinnerModal
 import com.reyaly.reyalyhealthtracker.screens.dinner.components.DinnerStats
-import com.reyaly.reyalyhealthtracker.storage.date.checkIfDateExists
+import com.reyaly.reyalyhealthtracker.ui.theme.dark_sky_blue
+import com.reyaly.reyalyhealthtracker.ui.theme.sky_blue
 import java.time.LocalDate
 
 @Composable
@@ -49,56 +52,38 @@ fun DinnerScreen(
     onDashboardClick: () -> Unit,
     onFoodClick: () -> Unit,
     modifier: Modifier = Modifier,
+    viewModel: DinnerViewModel = viewModel()
 ) {
     val focusManager = LocalFocusManager.current
 
-    val food1 = FoodItem(
-        documentId = "1234",
-        meal = "breakfast",
-        name = "eggs",
-        calories = "1234",
-        protein = "20g",
-        fat = "15g",
-        carbs = "20g",
-        apiId = "1234"
-    )
-    val food2 = FoodItem(
-        documentId = "1234",
-        meal = "breakfast",
-        name = "eggs",
-        calories = "1234",
-        protein = "20g",
-        fat = "15g",
-        carbs = "20g",
-        apiId = "1234"
-    )
-
-    val food3 = FoodItem(
-        documentId = "1234",
-        meal = "breakfast",
-        name = "eggs",
-        calories = "1234",
-        protein = "20g",
-        fat = "15g",
-        carbs = "20g",
-        apiId = "1234"
-    )
-
-    val foods = listOf<FoodItem>(food1, food2, food3)
+    val uiState by viewModel.uiState.collectAsState()
 
     val openDialog = remember { mutableStateOf(false) }
 
     var date = remember { mutableStateOf(LocalDate.now() ) }
 
-    fun onDateChange(direction: String) {
+    suspend fun onDateChange(direction: String) {
         date = changeDate(date, direction)
+        viewModel.getUsersMeals(date.value)
     }
 
-    AddFoodModal(
-        meal = "dinner",
+    var spinnerColor: Color
+
+    if (isSystemInDarkTheme()) {
+        spinnerColor = sky_blue
+    } else {
+        spinnerColor = dark_sky_blue
+    }
+
+    LaunchedEffect(key1 = viewModel) {
+        viewModel.getUsersMeals(date.value)
+        Log.d("Snackscreen", "we in here")
+    }
+
+    AddDinnerModal(
         openDialog = openDialog,
-        onAdd = {}
-        )
+        date = date
+    )
 
     Column(
         modifier = modifier
@@ -151,10 +136,51 @@ fun DinnerScreen(
             modifier = modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            ContentSection(
-                contentComposable = { FoodTable(foods) },
-                text = R.string.dinner_items
-            )
+            when {
+                uiState.foodsAreLoading -> {
+                    ContentSection(
+                        contentComposable = {
+                            Column(
+                                modifier = modifier
+                                    .fillMaxWidth()
+                                    .padding(top = 10.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                CircularProgressIndicator(
+                                    color = spinnerColor
+                                )
+                            }
+                                            },
+                        text = R.string.dinner_items
+                    )
+                }
+                uiState.foodList.isNotEmpty() -> {
+                    ContentSection(
+                        contentComposable = { FoodTable(foodList = uiState.foodList) },
+                        text = R.string.dinner_items
+                    )
+                }
+                else -> {
+                    ContentSection(
+                        contentComposable = {
+                            Column(
+                                modifier = modifier
+                                    .fillMaxWidth()
+                                    .padding(10.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Text(
+                                    stringResource(R.string.food_no_foods),
+                                    textAlign = TextAlign.Center,
+                                    fontSize = 18.sp
+                                )
+                            }
+                        },
+                        text = R.string.dinner_items
+                    )
+                }
+            }
+
             Spacer(modifier = modifier.padding(15.dp))
             BasicButton(
                 text = R.string.add_food,

@@ -1,13 +1,10 @@
 package com.reyaly.reyalyhealthtracker.screens.breakfast
 
+import com.reyaly.reyalyhealthtracker.model.FoodItem
+
 data class BreakfastUiState(
-    val name: String = "",
-    val calories: String = "",
-    val protein: String = "",
-    val fat: String = "",
-    val carbs: String = "",
-    val quantity: Int = 0,
-    val apiId: String? = null,
+    val foodList: MutableList<FoodItem> = mutableListOf(),
+    val foodsAreLoading: Boolean = false,
 
     val nameError: String? = null,
     val caloriesError: String? = null,

@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -25,16 +26,20 @@ import androidx.compose.ui.unit.dp
 import com.reyaly.reyalyhealthtracker.R
 import com.reyaly.reyalyhealthtracker.ui.theme.med_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.sky_blue
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import kotlin.reflect.KSuspendFunction1
 
 @Composable
 fun DateSelector(
     initialDate: MutableState<LocalDate>,
-    onChange: (String) -> Unit,
+    onChange: KSuspendFunction1<String, Unit>,
     modifier: Modifier = Modifier
 ) {
     val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
+
+    val coroutineScope = rememberCoroutineScope()
 
     val headerColor = if (isSystemInDarkTheme()) {
         med_sky_blue
@@ -58,7 +63,10 @@ fun DateSelector(
                 modifier = modifier
                     .width(80.dp)
                     .padding(15.dp)
-                    .clickable { onChange("subtract") },
+                    .clickable { coroutineScope.launch {
+                            onChange("subtract")
+                            }
+                        },
             )
             Spacer(modifier = modifier.padding(20.dp))
             Text(
@@ -73,18 +81,21 @@ fun DateSelector(
                 modifier = modifier
                     .width(80.dp)
                     .padding(15.dp)
-                    .clickable { onChange("add") }
+                    .clickable { coroutineScope.launch {
+                        onChange("add")
+                    }
+                    },
             )
         }
     }
 }
 
-@Preview
-@Composable
-fun DateSelectorPreview() {
-    var date = remember { mutableStateOf(LocalDate.now() ) }
-    DateSelector(
-        initialDate = date,
-        onChange = { }
-    )
-}
+//@Preview
+//@Composable
+//fun DateSelectorPreview() {
+//    var date = remember { mutableStateOf(LocalDate.now() ) }
+//    DateSelector(
+//        initialDate = date,
+//        onChange = { }
+//    )
+//}

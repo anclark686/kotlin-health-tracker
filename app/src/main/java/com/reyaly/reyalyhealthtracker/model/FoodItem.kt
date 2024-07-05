@@ -11,5 +11,6 @@ data class FoodItem(
     var protein: String = "",
     var fat: String = "",
     var carbs: String = "",
+    var quantity: String = "",
     var apiId: String? = ""
 )

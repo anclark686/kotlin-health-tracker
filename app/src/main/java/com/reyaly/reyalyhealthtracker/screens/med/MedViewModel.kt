@@ -1,14 +1,11 @@
 package com.reyaly.reyalyhealthtracker.screens.med
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.reyaly.reyalyhealthtracker.model.Medication
 import com.reyaly.reyalyhealthtracker.storage.med.addMedication
 import com.reyaly.reyalyhealthtracker.storage.med.getMedications
-import com.reyaly.reyalyhealthtracker.storage.user.addUser
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 

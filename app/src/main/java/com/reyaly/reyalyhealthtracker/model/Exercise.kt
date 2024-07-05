@@ -9,5 +9,5 @@ data class Exercise(
     val calsBurned: String = "",
     val lengthTime: String = "",
     val intensity: String = "",
-    val workout: String = ""
+    val workoutType: String = ""
 )

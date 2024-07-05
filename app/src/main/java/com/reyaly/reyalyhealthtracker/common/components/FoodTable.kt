@@ -22,7 +22,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.reyaly.reyalyhealthtracker.R
 import com.reyaly.reyalyhealthtracker.model.FoodItem
@@ -33,27 +32,21 @@ import com.reyaly.reyalyhealthtracker.ui.theme.sky_blue
 
 @Composable
 fun FoodTable(
-    foodList: List<FoodItem>,
+    foodList: MutableList<FoodItem>,
     modifier: Modifier = Modifier
 ) {
-    var labelColor: Color
-    var spinnerColor: Color
     var headerColor: Color
     var everyOtherColor: Color
     var borderColor: Color
 
     if (isSystemInDarkTheme()) {
-        labelColor = light_sky_blue
         headerColor = med_sky_blue
         everyOtherColor = Color.DarkGray
         borderColor = light_sky_blue
-        spinnerColor = sky_blue
     } else {
-        labelColor = dark_sky_blue
         headerColor = sky_blue
         everyOtherColor = Color.White
         borderColor = dark_sky_blue
-        spinnerColor = dark_sky_blue
     }
 
     val coroutineScope = rememberCoroutineScope()
@@ -193,31 +186,31 @@ fun FoodTable(
     }
 }
 
-@Preview
-@Composable
-fun FoodTablePreview() {
-    val food1 = FoodItem(
-        documentId = "1234",
-        meal = "breakfast",
-        name = "eggs",
-        calories = "1234",
-        protein = "20g",
-        fat = "15g",
-        carbs = "20g",
-        apiId = "1234"
-    )
-    val food2 = FoodItem(
-        documentId = "1234",
-        meal = "breakfast",
-        name = "eggs",
-        calories = "1234",
-        protein = "20g",
-        fat = "15g",
-        carbs = "20g",
-        apiId = "1234"
-    )
-    val foods = listOf<FoodItem>(food1, food2)
-    FoodTable(
-        foods
-    )
-}
+//@Preview
+//@Composable
+//fun FoodTablePreview() {
+//    val food1 = FoodItem(
+//        documentId = "1234",
+//        meal = "breakfast",
+//        name = "eggs",
+//        calories = "1234",
+//        protein = "20g",
+//        fat = "15g",
+//        carbs = "20g",
+//        apiId = "1234"
+//    )
+//    val food2 = FoodItem(
+//        documentId = "1234",
+//        meal = "breakfast",
+//        name = "eggs",
+//        calories = "1234",
+//        protein = "20g",
+//        fat = "15g",
+//        carbs = "20g",
+//        apiId = "1234"
+//    )
+//    val foods = listOf<FoodItem>(food1, food2)
+//    FoodTable(
+//        foods
+//    )
+//}

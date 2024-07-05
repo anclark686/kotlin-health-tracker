@@ -1,30 +1,49 @@
 package com.reyaly.reyalyhealthtracker.storage.food
 
+import android.util.Log
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.reyaly.reyalyhealthtracker.model.FoodItem
+import com.reyaly.reyalyhealthtracker.model.Medication
 import kotlinx.coroutines.tasks.await
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 private const val TAG = "foodStorage"
-private const val COLLECTION = "foods"
+private const val FOODCOLLECTION = "foods"
+private const val DATESCOLLECTION = "dates"
 val users = Firebase.firestore.collection("users")
 
-suspend fun addFoodToDB(uid: String, foodItem: FoodItem) {
-    users
+suspend fun addFoodToUsersFoods(uid: String, foodItem: FoodItem): String {
+    // need to add check to see if item is already in foods
+    val dataRef = users
         .document(uid)
-        .collection(COLLECTION)
+        .collection(FOODCOLLECTION)
         .document(foodItem.name)
-        .set(foodItem)
-        .await()
+
+    dataRef.set(foodItem).await()
+    return dataRef.id
 }
 
-suspend fun findFood(uid: String, foodName: String): FoodItem? {
+suspend fun addFoodToDailyMeals(uid: String, foodItem: FoodItem, date: LocalDate): String {
+    val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
+
+    val dataRef = users
+        .document(uid)
+        .collection(DATESCOLLECTION)
+        .document(date.format(formatter))
+        .collection(foodItem.meal.lowercase())
+        .document(foodItem.name.lowercase())
+
+    dataRef.set(foodItem).await()
+    return dataRef.id
+}
+
+suspend fun findFoodInFoods(uid: String, foodName: String): FoodItem? {
     val food = users
         .document(uid)
-        .collection(COLLECTION)
-        .document(foodName)
+        .collection(FOODCOLLECTION)
+        .document(foodName.lowercase())
         .get()
         .await()
 
@@ -32,6 +51,20 @@ suspend fun findFood(uid: String, foodName: String): FoodItem? {
         return food.toObject(FoodItem::class.java)
     }
     return null
+}
+
+suspend fun findMealsInDates(uid: String, meal: String, date: LocalDate): List<FoodItem> {
+    val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
+
+    val foods = users
+        .document(uid)
+        .collection(DATESCOLLECTION)
+        .document(date.format(formatter))
+        .collection(meal.lowercase())
+        .get()
+        .await()
+
+    return foods.map { food ->  food.toObject(FoodItem::class.java) }
 }
 
 suspend fun updateMeal(

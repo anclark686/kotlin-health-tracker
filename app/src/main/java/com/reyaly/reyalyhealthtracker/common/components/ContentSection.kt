@@ -53,7 +53,7 @@ fun ContentSection(
 
     Column(
         modifier = modifier
-            .padding(start = 40.dp, top = 40.dp, end = 40.dp)
+            .padding(start = 20.dp, top = 40.dp, end = 20.dp)
             .fillMaxWidth()
             .shadow(
                 elevation = 10.dp,
@@ -77,7 +77,6 @@ fun ContentSection(
                 fontWeight = FontWeight.Bold
             )
         }
-
 
         contentComposable()
     }

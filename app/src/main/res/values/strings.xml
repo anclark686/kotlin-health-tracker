@@ -262,12 +262,14 @@
     <string name="food_item_serving">ServingSize</string>
     <string name="food_macros_show">Show</string>
     <string name="food_macros_hide">Hide</string>
+    <string name="food_no_foods">No items found. Click \"Add Food\" to add a food.</string>
 
     <string name="add_food">Add Food</string>
     <string name="breakfast_items">Breakfast Items</string>
     <string name="lunch_items">Lunch Items</string>
     <string name="dinner_items">Dinner Items</string>
     <string name="snack_items">Snack Items</string>
+
 
     <!-- Breakfast Lunch Dinner Snack -->
     <string name="breakfast_stats">Breakfast Stats</string>
@@ -292,6 +294,8 @@
     <string name="water_recommended">Recommended:</string>
     <string name="water_total">Total Ounces:</string>
     <string name="water_left">Ounces Remaining:</string>
+    <string name="water_no_water">No intake found. Click \"Add New\" to add a some water intake.</string>
+
 
     <!-- Exercise -->
     <string name="exercise_add">Add Exercise</string>
@@ -308,7 +312,7 @@
     <string name="exercise_stats_time">Time Spent:</string>
     <string name="exercise_stats_calories">Calories Burned:</string>
     <string name="exercise_stats_favorite">Favorite Exercise:</string>
-
+    <string name="exercise_no_exercise">No exercises found. Click \"Add New\" to add a exercise.</string>
 
     <string name="default_web_client_id">761702154186-9gpfd37qfmfuoitcb8gbul83montdgat.apps.googleusercontent.com</string>
 </resources>

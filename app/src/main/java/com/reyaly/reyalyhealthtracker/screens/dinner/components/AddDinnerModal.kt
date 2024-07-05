@@ -1,4 +1,4 @@
-package com.reyaly.reyalyhealthtracker.common.components
+package com.reyaly.reyalyhealthtracker.screens.dinner.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -20,14 +20,18 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -37,24 +41,33 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.reyaly.reyalyhealthtracker.R
 import com.reyaly.reyalyhealthtracker.common.composable.BasicExposedDropdown
 import com.reyaly.reyalyhealthtracker.common.composable.BasicField
 import com.reyaly.reyalyhealthtracker.common.composable.BasicTextButton
 import com.reyaly.reyalyhealthtracker.common.composable.SearchField
+import com.reyaly.reyalyhealthtracker.screens.dinner.DinnerViewModel
 import com.reyaly.reyalyhealthtracker.ui.theme.dark_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.errorDarkRed
 import com.reyaly.reyalyhealthtracker.ui.theme.errorPink
 import com.reyaly.reyalyhealthtracker.ui.theme.light_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.med_sky_blue
+import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 @Composable
-fun AddFoodModal(
-    meal: String,
+fun AddDinnerModal(
     openDialog: MutableState<Boolean>,
-    onAdd: (String) -> Unit,
-    modifier: Modifier = Modifier
+    date: MutableState<LocalDate>,
+    modifier: Modifier = Modifier,
+    viewModel: DinnerViewModel = viewModel()
 ) {
+    val uiState by viewModel.uiState.collectAsState()
+    val foodState by viewModel.foodState.collectAsState()
+
+    val coroutineScope = rememberCoroutineScope()
+
     val dialogWidth = 300.dp
     val dialogHeight = 600.dp
 
@@ -69,7 +82,7 @@ fun AddFoodModal(
         dividerColor = dark_sky_blue
     }
 
-    val openManual = remember { mutableStateOf(false) }
+    val openManual = remember { mutableStateOf(true) }
 
     val quantities = (1..10).map{x -> x.toString()}
 
@@ -96,6 +109,7 @@ fun AddFoodModal(
                 }
 
                 if (!openManual.value) {
+                    // Show the search section
                     Column(
                         modifier = modifier.fillMaxWidth(),
                         verticalArrangement = Arrangement.Center,
@@ -140,7 +154,7 @@ fun AddFoodModal(
                         Text(text = "Results... Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
                     }
                 } else {
-
+                    // Show the manual section
                     Column(
                         modifier = modifier.fillMaxWidth(),
                         verticalArrangement = Arrangement.Center,
@@ -161,13 +175,15 @@ fun AddFoodModal(
                     ) {
                         BasicField(
                             text = R.string.food_item_name,
-                            value = "hello",
-                            onNewValue = {}
+                            value = foodState.name,
+                            onNewValue = viewModel::onNameChange,
+                            errorMsg = uiState.nameError
                         )
                         BasicExposedDropdown(
                             text = R.string.food_item_quantity,
                             list = quantities,
-                            onNewValue = {}
+                            onNewValue = viewModel::onQuantityChange,
+                            errorMsg = uiState.quantityError
                         )
                         Row() {
                             BasicField(
@@ -175,16 +191,18 @@ fun AddFoodModal(
                                     .weight(.5f)
                                     .padding(horizontal = 10.dp),
                                 text = R.string.food_item_calories,
-                                value = "hello",
-                                onNewValue = {}
+                                value = foodState.calories,
+                                onNewValue = viewModel::onCaloriesChange,
+                                errorMsg = uiState.caloriesError
                             )
                             BasicField(
                                 modifier = modifier
                                     .weight(.5f)
                                     .padding(horizontal = 10.dp),
                                 text = R.string.food_item_protein,
-                                value = "hello",
-                                onNewValue = {}
+                                value = foodState.protein,
+                                onNewValue = viewModel::onProteinChange,
+                                errorMsg = uiState.proteinError
                             )
                         }
                         Row() {
@@ -193,16 +211,18 @@ fun AddFoodModal(
                                     .weight(.5f)
                                     .padding(horizontal = 10.dp),
                                 text = R.string.food_item_fat,
-                                value = "hello",
-                                onNewValue = {}
+                                value = foodState.fat,
+                                onNewValue = viewModel::onFatChange,
+                                errorMsg = uiState.fatError
                             )
                             BasicField(
                                 modifier = modifier
                                     .weight(.5f)
                                     .padding(horizontal = 10.dp),
                                 text = R.string.food_item_carbs,
-                                value = "hello",
-                                onNewValue = {}
+                                value = foodState.carbs,
+                                onNewValue = viewModel::onCarbsChange,
+                                errorMsg = uiState.carbsError
                             )
                         }
                     }
@@ -212,7 +232,7 @@ fun AddFoodModal(
                 Column(modifier = modifier,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    Divider(
+                    HorizontalDivider(
                         modifier = modifier
                             .fillMaxWidth(),
                         thickness = 1.dp,
@@ -233,7 +253,12 @@ fun AddFoodModal(
                         BasicTextButton(
                             text = R.string.add,
                             modifier = modifier.fillMaxWidth(.6f),
-                            action = { onAdd(meal) }
+                            action = {
+                                coroutineScope.launch {
+                                    viewModel.addFoodManual(date = date.value, openDialog)
+                                    viewModel.getUsersMeals(date.value)
+                                }
+                            }
                         )
                     }
                 }
@@ -242,13 +267,13 @@ fun AddFoodModal(
     }
 }
 
-@Preview
-@Composable
-fun AddFoodModalPreview() {
-    val openDialog = remember { mutableStateOf(true) }
-    AddFoodModal(
-        "breakfast",
-        openDialog = openDialog,
-        onAdd = {}
-    )
-}
+//@Preview
+//@Composable
+//fun AddFoodModalPreview() {
+//    val openDialog = remember { mutableStateOf(true) }
+//    AddDinnerModal(
+//        "breakfast",
+//        openDialog = openDialog,
+//        onAdd = {}
+//    )
+//}
