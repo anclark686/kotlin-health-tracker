@@ -41,7 +41,9 @@ import com.reyaly.reyalyhealthtracker.common.components.FoodTable
 import com.reyaly.reyalyhealthtracker.common.components.LogoBanner
 import com.reyaly.reyalyhealthtracker.common.composable.BasicButton
 import com.reyaly.reyalyhealthtracker.helpers.changeDate
+import com.reyaly.reyalyhealthtracker.model.FoodItem
 import com.reyaly.reyalyhealthtracker.screens.lunch.components.AddLunchModal
+import com.reyaly.reyalyhealthtracker.screens.lunch.components.EditLunchModal
 import com.reyaly.reyalyhealthtracker.screens.lunch.components.LunchStats
 import com.reyaly.reyalyhealthtracker.ui.theme.dark_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.sky_blue
@@ -58,7 +60,32 @@ fun LunchScreen(
 
     val uiState by viewModel.uiState.collectAsState()
 
-    val openDialog = remember { mutableStateOf(false) }
+    val openAddDialog = remember { mutableStateOf(false) }
+
+    val openEditDialog = remember { mutableStateOf(false) }
+
+    val foodDeleted = remember { mutableStateOf(false) }
+
+    val editClicked = remember { mutableStateOf(false) }
+
+    val spinnerColor = if (isSystemInDarkTheme()) {
+        sky_blue
+    } else {
+        dark_sky_blue
+    }
+
+    val foodItemToEdit =  remember { mutableStateOf(
+        FoodItem(
+            documentId = "",
+            meal = "",
+            name = "",
+            calories = "",
+            protein = "",
+            fat = "",
+            carbs = "",
+            quantity = ""
+        )
+    ) }
 
     var date = remember { mutableStateOf(LocalDate.now() ) }
 
@@ -67,22 +94,35 @@ fun LunchScreen(
         viewModel.getUsersMeals(date.value)
     }
 
-    var spinnerColor: Color
-
-    if (isSystemInDarkTheme()) {
-        spinnerColor = sky_blue
-    } else {
-        spinnerColor = dark_sky_blue
+    suspend fun deleteFood(foodItem: FoodItem) {
+        viewModel.onDeleteFoodInDates(foodItem, date.value)
+        foodDeleted.value = true
     }
 
-    LaunchedEffect(key1 = viewModel) {
+    LaunchedEffect(key1 = viewModel, key2 = foodDeleted.value) {
         viewModel.getUsersMeals(date.value)
         Log.d("Lunchscreen", "we in here")
+        foodDeleted.value = false
+    }
+
+    LaunchedEffect(key1 = editClicked.value) {
+        if (editClicked.value) {
+            openEditDialog.value = true
+            Log.d("lunchscreen", "edit was clicked")
+            Log.d("lunchscreen", foodItemToEdit.toString())
+        }
     }
 
     AddLunchModal(
-        openDialog = openDialog,
+        openDialog = openAddDialog,
         date = date
+    )
+
+    EditLunchModal(
+        openDialog = openEditDialog,
+        editClicked = editClicked,
+        date = date,
+        foodItemToEdit = foodItemToEdit
     )
 
     Column(
@@ -146,9 +186,11 @@ fun LunchScreen(
                                     .padding(top = 10.dp),
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
+                                Spacer(modifier = modifier.padding(10.dp))
                                 CircularProgressIndicator(
                                     color = spinnerColor
                                 )
+                                Spacer(modifier = modifier.padding(10.dp))
                             }
                                             },
                         text = R.string.lunch_items
@@ -156,7 +198,9 @@ fun LunchScreen(
                 }
                 uiState.foodList.isNotEmpty() -> {
                     ContentSection(
-                        contentComposable = { FoodTable(foodList = uiState.foodList) },
+                        contentComposable = {
+                            FoodTable(uiState.foodList, editClicked, foodItemToEdit, ::deleteFood)
+                                            },
                         text = R.string.lunch_items
                     )
                 }
@@ -185,7 +229,7 @@ fun LunchScreen(
             BasicButton(
                 text = R.string.add_food,
                 modifier = modifier.padding(10.dp),
-                action = { openDialog.value = true }
+                action = { openAddDialog.value = true }
             )
         }
 

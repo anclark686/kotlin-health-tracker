@@ -67,6 +67,7 @@ fun UserProfileInfo(
                         .padding(top = 10.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+                    Spacer(modifier = modifier.padding(10.dp))
                     CircularProgressIndicator(
                         color = spinnerColor
                     )
@@ -76,6 +77,7 @@ fun UserProfileInfo(
                         fontSize = 18.sp,
                         color = labelColor
                     )
+                    Spacer(modifier = modifier.padding(10.dp))
                 }
             }
             uiState.user != null -> {

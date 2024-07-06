@@ -1,5 +1,6 @@
 package com.reyaly.reyalyhealthtracker.screens.lunch.components
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -19,13 +20,16 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -34,9 +38,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -47,12 +53,15 @@ import com.reyaly.reyalyhealthtracker.common.composable.BasicExposedDropdown
 import com.reyaly.reyalyhealthtracker.common.composable.BasicField
 import com.reyaly.reyalyhealthtracker.common.composable.BasicTextButton
 import com.reyaly.reyalyhealthtracker.common.composable.SearchField
+import com.reyaly.reyalyhealthtracker.model.FoodItem
+import com.reyaly.reyalyhealthtracker.screens.food.FoodItems
 import com.reyaly.reyalyhealthtracker.screens.lunch.LunchViewModel
 import com.reyaly.reyalyhealthtracker.ui.theme.dark_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.errorDarkRed
 import com.reyaly.reyalyhealthtracker.ui.theme.errorPink
 import com.reyaly.reyalyhealthtracker.ui.theme.light_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.med_sky_blue
+import com.reyaly.reyalyhealthtracker.ui.theme.sky_blue
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
@@ -73,18 +82,68 @@ fun AddLunchModal(
 
     var backgroundColor: Color
     var dividerColor: Color
+    var headerList: List<Color>
+    var subSectionColor: Color
+    var highlightColor: Color
+    var btnTextColor: Color
 
     if (isSystemInDarkTheme()) {
         backgroundColor = dark_sky_blue
         dividerColor = med_sky_blue
+        headerList = listOf<Color>(med_sky_blue, dark_sky_blue)
+        subSectionColor = Color.Black
+        highlightColor = med_sky_blue
+        btnTextColor = Color.White
     } else {
         backgroundColor = light_sky_blue
         dividerColor = dark_sky_blue
+        headerList = listOf<Color>(sky_blue, med_sky_blue)
+        subSectionColor = Color.White
+        highlightColor = sky_blue
+        btnTextColor = Color.Black
     }
 
     val openManual = remember { mutableStateOf(true) }
+    val openBreakfast = remember { mutableStateOf(false) }
+    val openLunch = remember { mutableStateOf(false) }
+    val openDinner = remember { mutableStateOf(false) }
+    val openSnacks = remember { mutableStateOf(false) }
 
     val quantities = (1..10).map{x -> x.toString()}
+
+    val foodItems: MutableState<FoodItems?> = remember { mutableStateOf(FoodItems(
+        breakfast = mutableListOf(),
+        lunch = mutableListOf(),
+        dinner = mutableListOf(),
+        snacks = mutableListOf()
+    )) }
+
+    val selectedFood: MutableState<FoodItem?> = remember { mutableStateOf(null) }
+
+    fun closeDialog() {
+        openDialog.value = false
+        openManual.value = true
+    }
+
+    suspend fun addFood() {
+        when {
+            openManual.value -> {
+                viewModel.addOrEditFoodManual(date = date.value)
+            }
+            selectedFood.value != null && !openManual.value -> {
+                viewModel.onAddEditFoodInDates(selectedFood.value!!, date.value)
+            }
+        }
+        closeDialog()
+        viewModel.getUsersMeals(date.value)
+    }
+
+    LaunchedEffect(key1 = openDialog.value) {
+        if (openDialog.value) {
+            foodItems.value = viewModel.getAllFoods()
+            Log.d("hello", "you reloading?")
+        }
+    }
 
     if (openDialog.value) {
         Dialog(onDismissRequest = { openDialog.value = false }) {
@@ -118,7 +177,8 @@ fun AddLunchModal(
                         BasicTextButton(
                             text = R.string.manual,
                             modifier = modifier.fillMaxWidth(),
-                            action = { openManual.value = true }
+                            action = { openManual.value = true },
+                            color = btnTextColor
                         )
                     }
 
@@ -128,7 +188,7 @@ fun AddLunchModal(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         SearchField(
-                            text = R.string.search_switch,
+                            text = R.string.search,
                             value = "Hello",
                             onNewValue = {},
                             onSearch = {},
@@ -145,13 +205,273 @@ fun AddLunchModal(
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text(
-                            text = stringResource(R.string.results),
-                            fontSize = 18.sp
-                        )
-                        Text(text = "Results... Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
-                        Text(text = "Results... Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
-                        Text(text = "Results... Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
+                        Column(
+                            modifier = modifier
+                                .fillMaxWidth()
+                        ) {
+                            Row(
+                                modifier = modifier
+                                    .fillMaxWidth()
+                                    .background(
+                                        Brush.verticalGradient(headerList),
+                                        RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp, bottomStart = 0.dp, bottomEnd = 0.dp)
+                                    ),
+                            ) {
+                                BasicTextButton(
+                                    text = R.string.breakfast,
+                                    modifier = modifier.fillMaxWidth(),
+                                    action = { openBreakfast.value = !openBreakfast.value },
+                                    color = btnTextColor
+                                )
+                            }
+                            if (openBreakfast.value && foodItems.value?.breakfast?.isNotEmpty() == true) {
+                                Column(
+                                    modifier = modifier
+                                        .background(color = subSectionColor,
+                                            RoundedCornerShape(topStart = 0.dp, topEnd = 0.dp, bottomStart = 8.dp, bottomEnd = 8.dp))
+                                        .fillMaxWidth()
+                                        .padding(5.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                ) {
+                                    foodItems.value?.breakfast?.forEach { food ->
+                                        if (selectedFood.value == food) {
+                                            TextButton(
+                                                onClick = { selectedFood.value = null },
+                                                modifier = modifier.background(color = highlightColor).fillMaxWidth()
+                                            ) {
+                                                Text(
+                                                    text = food.name,
+                                                    textAlign = TextAlign.Center,
+                                                    fontSize = 18.sp,
+                                                    color = btnTextColor
+                                                )
+                                            }
+                                        } else {
+                                            TextButton(onClick = { selectedFood.value = food }, modifier = modifier.fillMaxWidth()) {
+                                                Text(
+                                                    text = food.name,
+                                                    textAlign = TextAlign.Center,
+                                                    fontSize = 18.sp,
+                                                    color = btnTextColor
+                                                )
+                                            }
+                                        }
+                                    }
+                                }
+                            } else if (openBreakfast.value) {
+                                Column(
+                                    modifier = modifier
+                                        .background(color = subSectionColor,
+                                            RoundedCornerShape(topStart = 0.dp, topEnd = 0.dp, bottomStart = 8.dp, bottomEnd = 8.dp))
+                                        .fillMaxWidth()
+                                        .padding(5.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                ) {
+                                    Text(text = stringResource(R.string.food_no_foods), textAlign = TextAlign.Center)
+                                }
+                            }
+                        }
+                        Spacer(modifier = modifier.padding(5.dp))
+                        Column(
+                            modifier = modifier
+                                .fillMaxWidth()
+                        ) {
+                            Row(
+                                modifier = modifier
+                                    .fillMaxWidth()
+                                    .background(
+                                        Brush.verticalGradient(headerList),
+                                        RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp, bottomStart = 0.dp, bottomEnd = 0.dp)
+                                    ),
+                            ) {
+                                BasicTextButton(
+                                    text = R.string.lunch,
+                                    modifier = modifier.fillMaxWidth(),
+                                    action = { openLunch.value = !openLunch.value },
+                                    color = btnTextColor
+                                )
+                            }
+                            if (openLunch.value && foodItems.value?.lunch?.isNotEmpty() == true) {
+                                Column(
+                                    modifier = modifier
+                                        .background(color = subSectionColor,
+                                            RoundedCornerShape(topStart = 0.dp, topEnd = 0.dp, bottomStart = 8.dp, bottomEnd = 8.dp))
+                                        .fillMaxWidth()
+                                        .padding(5.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                ) {
+                                    foodItems.value?.lunch?.forEach { food ->
+                                        if (selectedFood.value == food) {
+                                            TextButton(
+                                                onClick = { selectedFood.value = null },
+                                                modifier = modifier.background(color = highlightColor).fillMaxWidth()
+                                            ) {
+                                                Text(
+                                                    text = food.name,
+                                                    textAlign = TextAlign.Center,
+                                                    fontSize = 18.sp,
+                                                    color = btnTextColor
+                                                )
+                                            }
+                                        } else {
+                                            TextButton(onClick = { selectedFood.value = food }, modifier = modifier.fillMaxWidth()) {
+                                                Text(
+                                                    text = food.name,
+                                                    textAlign = TextAlign.Center,
+                                                    fontSize = 18.sp,
+                                                    color = btnTextColor
+                                                )
+                                            }
+                                        }
+                                    }
+                                }
+                            } else if (openLunch.value) {
+                                Column(
+                                    modifier = modifier
+                                        .background(color = subSectionColor,
+                                            RoundedCornerShape(topStart = 0.dp, topEnd = 0.dp, bottomStart = 8.dp, bottomEnd = 8.dp))
+                                        .fillMaxWidth()
+                                        .padding(5.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                ) {
+                                    Text(text = stringResource(R.string.food_no_foods), textAlign = TextAlign.Center)
+                                }
+                            }
+                        }
+                        Spacer(modifier = modifier.padding(5.dp))
+                        Column(
+                            modifier = modifier
+                                .fillMaxWidth()
+                        ) {
+                            Row(
+                                modifier = modifier
+                                    .fillMaxWidth()
+                                    .background(
+                                        Brush.verticalGradient(headerList),
+                                        RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp, bottomStart = 0.dp, bottomEnd = 0.dp)
+                                    ),
+                            ) {
+                                BasicTextButton(
+                                    text = R.string.dinner,
+                                    modifier = modifier.fillMaxWidth(),
+                                    action = { openDinner.value = !openDinner.value },
+                                    color = btnTextColor
+                                )
+                            }
+                            if (openDinner.value && foodItems.value?.dinner?.isNotEmpty() == true) {
+                                Column(
+                                    modifier = modifier
+                                        .background(color = subSectionColor,
+                                            RoundedCornerShape(topStart = 0.dp, topEnd = 0.dp, bottomStart = 8.dp, bottomEnd = 8.dp))
+                                        .fillMaxWidth()
+                                        .padding(5.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                ) {
+                                    foodItems.value?.dinner?.forEach { food ->
+                                        if (selectedFood.value == food) {
+                                            TextButton(
+                                                onClick = { selectedFood.value = null },
+                                                modifier = modifier.background(color = highlightColor).fillMaxWidth()
+                                            ) {
+                                                Text(
+                                                    text = food.name,
+                                                    textAlign = TextAlign.Center,
+                                                    fontSize = 18.sp,
+                                                    color = btnTextColor
+                                                )
+                                            }
+                                        } else {
+                                            TextButton(onClick = { selectedFood.value = food }, modifier = modifier.fillMaxWidth()) {
+                                                Text(
+                                                    text = food.name,
+                                                    textAlign = TextAlign.Center,
+                                                    fontSize = 18.sp,
+                                                    color = btnTextColor
+                                                )
+                                            }
+                                        }
+                                    }
+                                }
+                            } else if (openDinner.value) {
+                                Column(
+                                    modifier = modifier
+                                        .background(color = subSectionColor,
+                                            RoundedCornerShape(topStart = 0.dp, topEnd = 0.dp, bottomStart = 8.dp, bottomEnd = 8.dp))
+                                        .fillMaxWidth()
+                                        .padding(5.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                ) {
+                                    Text(text = stringResource(R.string.food_no_foods), textAlign = TextAlign.Center)
+                                }
+                            }
+                        }
+                        Spacer(modifier = modifier.padding(5.dp))
+                        Column(
+                            modifier = modifier
+                                .fillMaxWidth()
+                                .background(
+                                    Brush.verticalGradient(headerList),
+                                    RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp, bottomStart = 0.dp, bottomEnd = 0.dp)
+                                )
+                        ) {
+                            Row(
+                                modifier = modifier
+                                    .fillMaxWidth()
+                            ) {
+                                BasicTextButton(
+                                    text = R.string.snacks,
+                                    modifier = modifier.fillMaxWidth(),
+                                    action = { openSnacks.value = !openSnacks.value },
+                                    color = btnTextColor
+                                )
+                            }
+                            if (openSnacks.value && foodItems.value?.snacks?.isNotEmpty() == true) {
+                                Column(
+                                    modifier = modifier
+                                        .background(color = subSectionColor,
+                                            RoundedCornerShape(topStart = 0.dp, topEnd = 0.dp, bottomStart = 8.dp, bottomEnd = 8.dp))
+                                        .fillMaxWidth()
+                                        .padding(5.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                ) {
+                                    foodItems.value?.snacks?.forEach { food ->
+                                        if (selectedFood.value == food) {
+                                            TextButton(
+                                                onClick = { selectedFood.value = null },
+                                                modifier = modifier.background(color = highlightColor).fillMaxWidth()
+                                            ) {
+                                                Text(
+                                                    text = food.name,
+                                                    textAlign = TextAlign.Center,
+                                                    fontSize = 18.sp,
+                                                    color = btnTextColor
+                                                )
+                                            }
+                                        } else {
+                                            TextButton(onClick = { selectedFood.value = food }, modifier = modifier.fillMaxWidth()) {
+                                                Text(
+                                                    text = food.name,
+                                                    textAlign = TextAlign.Center,
+                                                    fontSize = 18.sp,
+                                                    color = btnTextColor
+                                                )
+                                            }
+                                        }
+                                    }
+                                }
+                            } else if (openSnacks.value) {
+                                Column(
+                                    modifier = modifier
+                                        .background(color = subSectionColor,
+                                            RoundedCornerShape(topStart = 0.dp, topEnd = 0.dp, bottomStart = 8.dp, bottomEnd = 8.dp))
+                                        .fillMaxWidth()
+                                        .padding(5.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                ) {
+                                    Text(text = stringResource(R.string.food_no_foods), textAlign = TextAlign.Center)
+                                }
+                            }
+                        }
                     }
                 } else {
                     // Show the manual section
@@ -163,7 +483,8 @@ fun AddLunchModal(
                         BasicTextButton(
                             text = R.string.search,
                             modifier = modifier.fillMaxWidth(.4f),
-                            action = { openManual.value = false }
+                            action = { openManual.value = false },
+                            color = btnTextColor
                         )
                     }
                     Spacer(modifier = modifier.padding(20.dp))
@@ -248,17 +569,14 @@ fun AddLunchModal(
                         BasicTextButton(
                             text = R.string.delete_dismiss,
                             modifier = modifier.fillMaxWidth(.4f),
-                            action = { openDialog.value = false }
+                            action = { closeDialog() },
+                            color = btnTextColor
                         )
                         BasicTextButton(
                             text = R.string.add,
                             modifier = modifier.fillMaxWidth(.6f),
-                            action = {
-                                coroutineScope.launch {
-                                    viewModel.addFoodManual(date = date.value, openDialog)
-                                    viewModel.getUsersMeals(date.value)
-                                }
-                            }
+                            action = { coroutineScope.launch { addFood() } },
+                            color = btnTextColor
                         )
                     }
                 }

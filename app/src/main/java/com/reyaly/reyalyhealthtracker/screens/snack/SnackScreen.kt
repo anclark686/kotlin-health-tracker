@@ -41,12 +41,13 @@ import com.reyaly.reyalyhealthtracker.common.components.FoodTable
 import com.reyaly.reyalyhealthtracker.common.components.LogoBanner
 import com.reyaly.reyalyhealthtracker.common.composable.BasicButton
 import com.reyaly.reyalyhealthtracker.helpers.changeDate
+import com.reyaly.reyalyhealthtracker.model.FoodItem
 import com.reyaly.reyalyhealthtracker.screens.snack.components.AddSnackModal
+import com.reyaly.reyalyhealthtracker.screens.snack.components.EditSnackModal
 import com.reyaly.reyalyhealthtracker.screens.snack.components.SnackStats
 import com.reyaly.reyalyhealthtracker.ui.theme.dark_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.sky_blue
 import java.time.LocalDate
-import java.util.Locale
 
 @Composable
 fun SnackScreen(
@@ -61,7 +62,32 @@ fun SnackScreen(
 
     // need to add a screen/button for old foods
 
-    val openDialog = remember { mutableStateOf(false) }
+    val openAddDialog = remember { mutableStateOf(false) }
+
+    val openEditDialog = remember { mutableStateOf(false) }
+
+    val foodDeleted = remember { mutableStateOf(false) }
+
+    val editClicked = remember { mutableStateOf(false) }
+
+    val spinnerColor = if (isSystemInDarkTheme()) {
+        sky_blue
+    } else {
+        dark_sky_blue
+    }
+
+    val foodItemToEdit =  remember { mutableStateOf(
+        FoodItem(
+            documentId = "",
+            meal = "",
+            name = "",
+            calories = "",
+            protein = "",
+            fat = "",
+            carbs = "",
+            quantity = ""
+        )
+    ) }
 
     var date = remember { mutableStateOf(LocalDate.now() ) }
 
@@ -70,25 +96,36 @@ fun SnackScreen(
         viewModel.getUsersMeals(date.value)
     }
 
-    var spinnerColor: Color
-
-    if (isSystemInDarkTheme()) {
-        spinnerColor = sky_blue
-    } else {
-        spinnerColor = dark_sky_blue
+    suspend fun deleteFood(foodItem: FoodItem) {
+        viewModel.onDeleteFoodInDates(foodItem, date.value)
+        foodDeleted.value = true
     }
 
-    LaunchedEffect(key1 = viewModel) {
-        Log.d("snackScreen", "you reloading?")
+    LaunchedEffect(key1 = viewModel, key2 = foodDeleted.value) {
         viewModel.getUsersMeals(date.value)
-        Log.d("Snackscreen", "we in here")
+        Log.d("snackScreen", "we in here")
+        foodDeleted.value = false
     }
 
-    val something = uiState.foodList
+    LaunchedEffect(key1 = editClicked.value) {
+        Log.d("snackscreen", "edit was clicked")
+        if (editClicked.value) {
+            openEditDialog.value = true
+            Log.d("snackscreen", "edit was clicked")
+            Log.d("snackscreen", foodItemToEdit.toString())
+        }
+    }
 
     AddSnackModal(
-        openDialog = openDialog,
-        date = date
+        openDialog = openAddDialog,
+        date = date,
+    )
+
+    EditSnackModal(
+        openDialog = openEditDialog,
+        editClicked = editClicked,
+        date = date,
+        foodItemToEdit = foodItemToEdit
     )
 
     Column(
@@ -129,7 +166,7 @@ fun SnackScreen(
             Spacer(modifier = modifier.padding(20.dp))
             Image(
                 painter = painterResource(R.drawable.ic_snack),
-                contentDescription = "snack",
+                contentDescription = "snacks",
                 modifier = modifier
                     .width(150.dp)
                     .padding(horizontal = 5.dp)
@@ -150,9 +187,11 @@ fun SnackScreen(
                                     .padding(top = 10.dp),
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
+                                Spacer(modifier = modifier.padding(10.dp))
                                 CircularProgressIndicator(
                                     color = spinnerColor
                                 )
+                                Spacer(modifier = modifier.padding(10.dp))
                             }
                                             },
                         text = R.string.snack_items
@@ -160,27 +199,11 @@ fun SnackScreen(
                 }
                 uiState.foodList.isNotEmpty() -> {
                     ContentSection(
-                        contentComposable = { FoodTable(foodList = uiState.foodList) },
+                        contentComposable = {
+                            FoodTable(uiState.foodList, editClicked, foodItemToEdit, ::deleteFood)
+                                            },
                         text = R.string.snack_items
                     )
-                    Text(
-                        modifier = modifier
-                            .padding(vertical = 2.dp),
-                        text = uiState.foodList.toString(),
-                        textAlign = TextAlign.Center,
-                    )
-                    uiState.foodList.forEachIndexed { index, item ->
-                        Text(
-                            modifier = modifier
-                                .padding(vertical = 2.dp),
-                            text = item.name.replaceFirstChar {
-                                if (it.isLowerCase()) it.titlecase(
-                                    Locale.getDefault()
-                                ) else it.toString()
-                            },
-                            textAlign = TextAlign.Center,
-                        )
-                    }
                 }
                 else -> {
                     ContentSection(
@@ -207,7 +230,7 @@ fun SnackScreen(
             BasicButton(
                 text = R.string.add_food,
                 modifier = modifier.padding(10.dp),
-                action = { openDialog.value = true }
+                action = { openAddDialog.value = true }
             )
         }
 

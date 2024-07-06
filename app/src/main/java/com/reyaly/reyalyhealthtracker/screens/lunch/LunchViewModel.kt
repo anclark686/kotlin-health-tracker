@@ -5,11 +5,17 @@ import androidx.compose.runtime.MutableState
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.reyaly.reyalyhealthtracker.model.FoodItem
-import com.reyaly.reyalyhealthtracker.storage.food.addFoodToDailyMeals
-import com.reyaly.reyalyhealthtracker.storage.food.addFoodToUsersFoods
+import com.reyaly.reyalyhealthtracker.screens.food.FoodItems
+import com.reyaly.reyalyhealthtracker.storage.food.addOrEditFoodsInDates
+import com.reyaly.reyalyhealthtracker.storage.food.addOrEditFoodInFoods
+import com.reyaly.reyalyhealthtracker.storage.food.deleteFoodFromDates
+import com.reyaly.reyalyhealthtracker.storage.food.deleteFoodFromMeals
+import com.reyaly.reyalyhealthtracker.storage.food.findAllFoods
+import com.reyaly.reyalyhealthtracker.storage.food.findFoodsInDates
 import com.reyaly.reyalyhealthtracker.storage.food.findMealsInDates
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import java.time.LocalDate
 
 private const val TAG = "lunchForm"
@@ -24,6 +30,9 @@ class LunchViewModel: ViewModel() {
 
     private val foodList
         get() = uiState.value.foodList
+
+    private val existingFoodObject
+        get() = uiState.value.existingFoodObject
 
     private val name
         get() = foodState.value.name
@@ -115,45 +124,81 @@ class LunchViewModel: ViewModel() {
         return invalidCount == 0
     }
 
-    suspend fun addFoodManual(date: LocalDate, openDialog: MutableState<Boolean>) {
-        val firebaseUser = auth.currentUser!!
+    fun clearFields() {
+        _foodState.value = foodState.value.copy(name = "")
+        _foodState.value = foodState.value.copy(calories = "")
+        _foodState.value = foodState.value.copy(protein = "")
+        _foodState.value = foodState.value.copy(fat = "")
+        _foodState.value = foodState.value.copy(carbs = "")
+        _foodState.value = foodState.value.copy(quantity = "")
+        _foodState.value = foodState.value.copy(apiId = "")
+    }
 
-        if (validateForm()) {
-            val newFood = FoodItem(
-                meal = "lunch",
-                name = name.lowercase(),
-                calories = calories,
-                protein = protein,
-                fat = fat,
-                carbs = carbs,
-                quantity = quantity,
-                apiId = apiId
+    suspend fun onAddOrEditFoodInFoods(newFood: FoodItem) {
+        val firebaseUser = auth.currentUser!!
+        addOrEditFoodInFoods(firebaseUser.uid, newFood)
+        Log.d(TAG, "Successfully added to foods")
+    }
+
+    suspend fun onAddEditFoodInDates(newFood: FoodItem, date: LocalDate, edit: Boolean = false) {
+        val firebaseUser = auth.currentUser!!
+        newFood.meal = "lunch"
+
+        var oldFood: FoodItem?
+        try {
+            oldFood = findFoodsInDates(firebaseUser.uid, newFood, date)
+            if (oldFood != null && !edit) {
+                newFood.quantity = (oldFood.quantity.toInt() + 1).toString()
+            }
+        } catch (e: Exception) {
+            Log.d(TAG, "an error occurred: $e")
+        }
+
+        addOrEditFoodsInDates(firebaseUser.uid, newFood, date)
+        Log.d(TAG, "Successfully added to date")
+        foodList.add(newFood)
+        _uiState.update { currentState ->
+            currentState.copy(
+                foodList = foodList
             )
-            Log.d(TAG, newFood.toString())
-            Log.d(TAG, date.toString())
+        }
+    }
+
+    suspend fun addOrEditFoodManual(date: LocalDate, food: FoodItem? = null, edit: Boolean = false) {
+        val newFood: FoodItem
+
+        if (food == null) {
+            if (validateForm()) {
+                newFood = FoodItem(
+                    documentId = name.lowercase(),
+                    meal = "lunch",
+                    name = name.lowercase(),
+                    calories = calories,
+                    protein = protein,
+                    fat = fat,
+                    carbs = carbs,
+                    quantity = quantity,
+                    apiId = apiId
+                )
+                Log.d(TAG, newFood.toString())
+                Log.d(TAG, date.toString())
+            } else {
+                return
+            }
+        } else {
+            newFood = food
+        }
+
+        try {
+            onAddOrEditFoodInFoods(newFood)
             try {
-                // need to add check to see if item is already in foods
-                addFoodToUsersFoods(firebaseUser.uid, newFood)
-                Log.d(TAG, "Successfully added to foods")
-                try {
-                    addFoodToDailyMeals(firebaseUser.uid, newFood, date)
-                    Log.d(TAG, "Successfully added to date")
-                    foodList.add(newFood)
-                    _foodState.value = foodState.value.copy(name = "")
-                    _foodState.value = foodState.value.copy(calories = "")
-                    _foodState.value = foodState.value.copy(protein = "")
-                    _foodState.value = foodState.value.copy(fat = "")
-                    _foodState.value = foodState.value.copy(carbs = "")
-                    _foodState.value = foodState.value.copy(quantity = "")
-                    _foodState.value = foodState.value.copy(apiId = "")
-                    openDialog.value = false
-                } catch (e: Exception) {
-                    Log.d(TAG, "an error occurred: $e")
-                }
+                onAddEditFoodInDates(newFood, date, edit)
+                clearFields()
             } catch (e: Exception) {
                 Log.d(TAG, "an error occurred: $e")
             }
-
+        } catch (e: Exception) {
+            Log.d(TAG, "an error occurred: $e")
         }
     }
 
@@ -167,6 +212,71 @@ class LunchViewModel: ViewModel() {
             }
             Log.d(TAG, foods.toString())
             _uiState.value = _uiState.value.copy(foodList = foods)
+        } catch (e: Exception) {
+            Log.d(TAG, "an error occurred: $e")
+        }
+    }
+
+    suspend fun getAllFoods(): FoodItems? {
+        val firebaseUser = auth.currentUser!!
+        _uiState.value = _uiState.value.copy(foodsAreLoading = true)
+
+        try {
+            val foods = findAllFoods(firebaseUser.uid).also {
+                _uiState.value = _uiState.value.copy(foodsAreLoading = false)
+            }
+            Log.d(TAG, foods.toString())
+            _uiState.value = _uiState.value.copy(existingFoodObject = foods)
+            return foods
+        } catch (e: Exception) {
+            Log.d(TAG, "an error occurred: $e")
+        }
+
+        return null
+    }
+
+    suspend fun editFood(food: FoodItem, date: LocalDate) {
+        Log.d("edit", "We be editing")
+        Log.d("edit", food.toString())
+
+        val combinedFoodItem = FoodItem(
+            documentId = if (name.lowercase() != "") {name.lowercase()} else {food.name.lowercase()},
+            meal = "lunch",
+            name = if (name.lowercase() != "") {name.lowercase()} else {food.name.lowercase()},
+            calories = if (calories != "") {calories} else {food.calories},
+            protein = if (protein != "") {protein} else {food.protein},
+            fat = if (fat != "") {fat} else {food.fat},
+            carbs = if (carbs != "") {carbs} else {food.carbs},
+            quantity = if (quantity != "") {quantity} else {food.quantity},
+            apiId = apiId
+        )
+        Log.d("combined", combinedFoodItem.toString())
+
+        if (name.lowercase() != "" && name.lowercase() != food.name.lowercase()) {
+            onDeleteFoodInDates(food, date)
+            onDeleteFoodInMeals(food)
+        }
+
+        addOrEditFoodManual(date, combinedFoodItem, edit=true)
+    }
+
+    suspend fun onDeleteFoodInMeals(food: FoodItem) {
+        val firebaseUser = auth.currentUser!!
+        Log.d("edit", "We be deleting")
+        Log.d("edit", food.toString())
+        try {
+            deleteFoodFromMeals(firebaseUser.uid, food.name)
+        } catch (e: Exception) {
+            Log.d(TAG, "an error occurred: $e")
+        }
+    }
+
+    suspend fun onDeleteFoodInDates(food: FoodItem, date: LocalDate) {
+        val firebaseUser = auth.currentUser!!
+        Log.d("edit", "We be deleting")
+        Log.d("edit", food.toString())
+        try {
+            deleteFoodFromDates(firebaseUser.uid, food.name, "lunch", date)
         } catch (e: Exception) {
             Log.d(TAG, "an error occurred: $e")
         }

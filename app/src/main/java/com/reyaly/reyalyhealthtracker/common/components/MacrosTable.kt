@@ -33,27 +33,16 @@ fun MacrosTable(
     foodItem: FoodItem,
     modifier: Modifier = Modifier
 ) {
-    var labelColor: Color
-    var spinnerColor: Color
     var headerColor: Color
-    var everyOtherColor: Color
     var borderColor: Color
 
     if (isSystemInDarkTheme()) {
-        labelColor = light_sky_blue
         headerColor = med_sky_blue
-        everyOtherColor = Color.DarkGray
         borderColor = light_sky_blue
-        spinnerColor = sky_blue
     } else {
-        labelColor = dark_sky_blue
         headerColor = sky_blue
-        everyOtherColor = Color.White
         borderColor = dark_sky_blue
-        spinnerColor = dark_sky_blue
     }
-
-    val coroutineScope = rememberCoroutineScope()
 
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -68,7 +57,21 @@ fun MacrosTable(
         ) {
             Column(
                 modifier = modifier
-                    .weight(.33f)
+                    .weight(.25f)
+                    .border(border = BorderStroke(width = 1.dp, borderColor)),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    stringResource(R.string.food_item_calories),
+                    modifier = modifier
+                        .padding(vertical = 2.dp),
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+            Column(
+                modifier = modifier
+                    .weight(.25f)
                     .border(border = BorderStroke(width = 1.dp, borderColor)),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -82,7 +85,7 @@ fun MacrosTable(
             }
             Column(
                 modifier = modifier
-                    .weight(.33f)
+                    .weight(.25f)
                     .border(border = BorderStroke(width = 1.dp, borderColor)),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -96,7 +99,7 @@ fun MacrosTable(
             }
             Column(
                 modifier = modifier
-                    .weight(.33f)
+                    .weight(.25f)
                     .border(border = BorderStroke(width = 1.dp, borderColor)),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -117,7 +120,21 @@ fun MacrosTable(
         ) {
             Column(
                 modifier = modifier
-                    .weight(.33f)
+                    .weight(.25f)
+                    .border(border = BorderStroke(width = 1.dp, borderColor)),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    modifier = modifier
+                        .padding(vertical = 2.dp),
+                    text = foodItem.calories,
+                    textAlign = TextAlign.Center,
+                )
+            }
+
+            Column(
+                modifier = modifier
+                    .weight(.25f)
                     .border(border = BorderStroke(width = 1.dp, borderColor)),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -131,7 +148,7 @@ fun MacrosTable(
 
             Column(
                 modifier = modifier
-                    .weight(.33f)
+                    .weight(.25f)
                     .border(border = BorderStroke(width = 1.dp, borderColor)),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -144,7 +161,7 @@ fun MacrosTable(
             }
             Column(
                 modifier = modifier
-                    .weight(.33f)
+                    .weight(.25f)
                     .border(border = BorderStroke(width = 1.dp, borderColor)),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {

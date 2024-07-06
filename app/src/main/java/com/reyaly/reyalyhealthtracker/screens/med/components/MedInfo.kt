@@ -91,9 +91,11 @@ fun MedInfo(
                         .padding(top = 10.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+                    Spacer(modifier = modifier.padding(10.dp))
                     CircularProgressIndicator(
                         color = spinnerColor
                     )
+                    Spacer(modifier = modifier.padding(10.dp))
                 }
             }
             uiState.medList.isNotEmpty() -> {

@@ -41,8 +41,10 @@ import com.reyaly.reyalyhealthtracker.common.components.FoodTable
 import com.reyaly.reyalyhealthtracker.common.components.LogoBanner
 import com.reyaly.reyalyhealthtracker.common.composable.BasicButton
 import com.reyaly.reyalyhealthtracker.helpers.changeDate
+import com.reyaly.reyalyhealthtracker.model.FoodItem
 import com.reyaly.reyalyhealthtracker.screens.breakfast.components.AddBreakfastModal
 import com.reyaly.reyalyhealthtracker.screens.breakfast.components.BreakfastStats
+import com.reyaly.reyalyhealthtracker.screens.breakfast.components.EditBreakfastModal
 import com.reyaly.reyalyhealthtracker.ui.theme.dark_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.sky_blue
 import java.time.LocalDate
@@ -59,7 +61,32 @@ fun BreakfastScreen(
 
     val uiState by viewModel.uiState.collectAsState()
 
-    val openDialog = remember { mutableStateOf(false) }
+    val openAddDialog = remember { mutableStateOf(false) }
+
+    val openEditDialog = remember { mutableStateOf(false) }
+
+    val foodDeleted = remember { mutableStateOf(false) }
+
+    val editClicked = remember { mutableStateOf(false) }
+
+    val spinnerColor = if (isSystemInDarkTheme()) {
+        sky_blue
+    } else {
+        dark_sky_blue
+    }
+
+    val foodItemToEdit =  remember { mutableStateOf(
+        FoodItem(
+            documentId = "",
+            meal = "",
+            name = "",
+            calories = "",
+            protein = "",
+            fat = "",
+            carbs = "",
+            quantity = ""
+        )
+    ) }
 
     var date = remember { mutableStateOf(LocalDate.now() ) }
 
@@ -68,22 +95,35 @@ fun BreakfastScreen(
         viewModel.getUsersMeals(date.value)
     }
 
-    var spinnerColor: Color
-
-    if (isSystemInDarkTheme()) {
-        spinnerColor = sky_blue
-    } else {
-        spinnerColor = dark_sky_blue
+    suspend fun deleteFood(foodItem: FoodItem) {
+        viewModel.onDeleteFoodInDates(foodItem, date.value)
+        foodDeleted.value = true
     }
 
-    LaunchedEffect(key1 = viewModel) {
+    LaunchedEffect(key1 = viewModel, key2 = foodDeleted.value) {
         viewModel.getUsersMeals(date.value)
         Log.d("breakfastscreen", "we in here")
+        foodDeleted.value = false
+    }
+
+    LaunchedEffect(key1 = editClicked.value) {
+        if (editClicked.value) {
+            Log.d("breakfastscreen", "edit was clicked")
+            Log.d("breakfastscreen", foodItemToEdit.toString())
+            openEditDialog.value = true
+        }
     }
 
     AddBreakfastModal(
-        openDialog = openDialog,
+        openDialog = openAddDialog,
         date = date
+    )
+
+    EditBreakfastModal(
+        openDialog = openEditDialog,
+        editClicked = editClicked,
+        date = date,
+        foodItemToEdit = foodItemToEdit
     )
 
     Column(
@@ -155,7 +195,9 @@ fun BreakfastScreen(
                 }
                 uiState.foodList.isNotEmpty() -> {
                     ContentSection(
-                        contentComposable = { FoodTable(foodList = uiState.foodList) },
+                        contentComposable = {
+                            FoodTable(uiState.foodList, editClicked, foodItemToEdit, ::deleteFood)
+                                            },
                         text = R.string.breakfast_items
                     )
                 }
@@ -184,7 +226,7 @@ fun BreakfastScreen(
             BasicButton(
                 text = R.string.add_food,
                 modifier = modifier.padding(10.dp),
-                action = { openDialog.value = true }
+                action = { openAddDialog.value = true }
             )
         }
 

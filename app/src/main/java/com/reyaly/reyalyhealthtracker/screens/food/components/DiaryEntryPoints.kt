@@ -2,6 +2,7 @@ package com.reyaly.reyalyhealthtracker.screens.food.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,6 +21,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.reyaly.reyalyhealthtracker.R
 import com.reyaly.reyalyhealthtracker.common.composable.BasicTextButton
+import com.reyaly.reyalyhealthtracker.ui.theme.dark_sky_blue
+import com.reyaly.reyalyhealthtracker.ui.theme.light_sky_blue
+import com.reyaly.reyalyhealthtracker.ui.theme.med_sky_blue
+import com.reyaly.reyalyhealthtracker.ui.theme.sky_blue
 
 @Composable
 fun DiaryEntryPoints(
@@ -29,6 +35,14 @@ fun DiaryEntryPoints(
     onWaterClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var btnTextColor: Color
+
+    if (isSystemInDarkTheme()) {
+        btnTextColor = Color.White
+    } else {
+        btnTextColor = Color.Black
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -51,7 +65,8 @@ fun DiaryEntryPoints(
                 BasicTextButton(
                     text = R.string.nav_breakfast,
                     modifier = modifier,
-                    action = { onBreakfastClick() }
+                    action = { onBreakfastClick() },
+                    color = btnTextColor
                 )
             }
 
@@ -70,7 +85,8 @@ fun DiaryEntryPoints(
                 BasicTextButton(
                     text = R.string.nav_lunch,
                     modifier = modifier,
-                    action = { onLunchClick() }
+                    action = { onLunchClick() },
+                    color = btnTextColor
                 )
             }
 
@@ -84,12 +100,13 @@ fun DiaryEntryPoints(
                     modifier = modifier
                         .width(30.dp)
                         .padding(horizontal = 5.dp)
-                        .clickable { onDinnerClick() }
+                        .clickable { onDinnerClick() },
                 )
                 BasicTextButton(
                     text = R.string.nav_dinner,
                     modifier = modifier,
-                    action = { onDinnerClick() }
+                    action = { onDinnerClick() },
+                    color = btnTextColor
                 )
             }
 
@@ -99,7 +116,7 @@ fun DiaryEntryPoints(
             ) {
                 Image(
                     painter = painterResource(R.drawable.ic_snack),
-                    contentDescription = "snack",
+                    contentDescription = "snacks",
                     modifier = modifier
                         .width(30.dp)
                         .padding(horizontal = 5.dp)
@@ -108,7 +125,8 @@ fun DiaryEntryPoints(
                 BasicTextButton(
                     text = R.string.nav_snack,
                     modifier = modifier,
-                    action = { onSnackClick() }
+                    action = { onSnackClick() },
+                    color = btnTextColor
                 )
             }
 
@@ -127,7 +145,8 @@ fun DiaryEntryPoints(
                 BasicTextButton(
                     text = R.string.nav_water,
                     modifier = modifier,
-                    action = { onWaterClick() }
+                    action = { onWaterClick() },
+                    color = btnTextColor
                 )
             }
         }

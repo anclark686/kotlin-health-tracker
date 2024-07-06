@@ -1,9 +1,16 @@
 package com.reyaly.reyalyhealthtracker.screens.dinner
 
 import com.reyaly.reyalyhealthtracker.model.FoodItem
+import com.reyaly.reyalyhealthtracker.screens.food.FoodItems
 
 data class DinnerUiState(
     val foodList: MutableList<FoodItem> = mutableListOf(),
+    val existingFoodObject: FoodItems = FoodItems(
+        breakfast = mutableListOf(),
+        lunch = mutableListOf(),
+        dinner = mutableListOf(),
+        snacks = mutableListOf()
+    ),
     val foodsAreLoading: Boolean = false,
 
     val nameError: String? = null,
