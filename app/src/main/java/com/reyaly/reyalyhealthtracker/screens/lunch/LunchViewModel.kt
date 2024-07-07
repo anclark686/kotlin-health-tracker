@@ -134,6 +134,15 @@ class LunchViewModel: ViewModel() {
         _foodState.value = foodState.value.copy(apiId = "")
     }
 
+    fun populateFieldsWithInitialValues(food: FoodItem) {
+        onNameChange(food.name)
+        onCaloriesChange(food.calories)
+        onCarbsChange(food.carbs)
+        onProteinChange(food.protein)
+        onFatChange(food.fat)
+        onQuantityChange(food.quantity)
+    }
+
     suspend fun onAddOrEditFoodInFoods(newFood: FoodItem) {
         val firebaseUser = auth.currentUser!!
         addOrEditFoodInFoods(firebaseUser.uid, newFood)

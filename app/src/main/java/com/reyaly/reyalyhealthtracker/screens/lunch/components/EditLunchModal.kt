@@ -1,5 +1,6 @@
 package com.reyaly.reyalyhealthtracker.screens.lunch.components
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -92,12 +93,35 @@ fun EditLunchModal(
     fun closeDialog() {
         openDialog.value = false
         editClicked.value = false
+        foodItemToEdit.value = FoodItem(
+            documentId = "",
+            meal = "",
+            name = "",
+            calories = "",
+            protein = "",
+            fat = "",
+            carbs = "",
+            quantity = ""
+        )
+        viewModel.clearFields()
     }
 
     suspend fun editFood() {
         viewModel.editFood(foodItemToEdit.value, date = date.value)
         closeDialog()
         viewModel.getUsersMeals(date.value)
+    }
+
+    if (
+        editClicked.value &&
+        foodState.name.isBlank() &&
+        foodState.calories.isBlank() &&
+        foodState.quantity.isBlank() &&
+        foodState.carbs.isBlank() &&
+        foodState.protein.isBlank() &&
+        foodState.fat.isBlank()
+    ) {
+        viewModel.populateFieldsWithInitialValues(foodItemToEdit.value)
     }
 
     if (openDialog.value) {
@@ -140,7 +164,7 @@ fun EditLunchModal(
                 ) {
                     BasicField(
                         text = R.string.food_item_name,
-                        value = if (foodState.name == "") { foodItemToEdit.value.name} else {foodState.name},
+                        value = foodState.name,
                         onNewValue = viewModel::onNameChange,
                         errorMsg = uiState.nameError
                     )
@@ -148,7 +172,8 @@ fun EditLunchModal(
                         text = R.string.food_item_quantity,
                         list = quantities,
                         onNewValue = viewModel::onQuantityChange,
-                        errorMsg = uiState.quantityError
+                        errorMsg = uiState.quantityError,
+                        initialValue = foodItemToEdit.value.quantity
                     )
                     Row() {
                         BasicField(
@@ -156,7 +181,7 @@ fun EditLunchModal(
                                 .weight(.5f)
                                 .padding(horizontal = 10.dp),
                             text = R.string.food_item_calories,
-                            value = if (foodState.calories == "") { foodItemToEdit.value.calories} else {foodState.calories},
+                            value = foodState.calories,
                             onNewValue = viewModel::onCaloriesChange,
                             errorMsg = uiState.caloriesError
                         )
@@ -165,7 +190,7 @@ fun EditLunchModal(
                                 .weight(.5f)
                                 .padding(horizontal = 10.dp),
                             text = R.string.food_item_protein,
-                            value = if (foodState.protein == "") { foodItemToEdit.value.protein} else {foodState.protein},
+                            value = foodState.protein,
                             onNewValue = viewModel::onProteinChange,
                             errorMsg = uiState.proteinError
                         )
@@ -176,7 +201,7 @@ fun EditLunchModal(
                                 .weight(.5f)
                                 .padding(horizontal = 10.dp),
                             text = R.string.food_item_fat,
-                            value = if (foodState.fat == "") { foodItemToEdit.value.fat} else {foodState.fat},
+                            value = foodState.fat,
                             onNewValue = viewModel::onFatChange,
                             errorMsg = uiState.fatError
                         )
@@ -185,7 +210,7 @@ fun EditLunchModal(
                                 .weight(.5f)
                                 .padding(horizontal = 10.dp),
                             text = R.string.food_item_carbs,
-                            value = if (foodState.carbs == "") { foodItemToEdit.value.carbs} else {foodState.carbs},
+                            value = foodState.carbs,
                             onNewValue = viewModel::onCarbsChange,
                             errorMsg = uiState.carbsError
                         )

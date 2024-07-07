@@ -94,6 +94,16 @@ fun EditBreakfastModal(
     fun closeDialog() {
         openDialog.value = false
         editClicked.value = false
+        foodItemToEdit.value = FoodItem(
+            documentId = "",
+            meal = "",
+            name = "",
+            calories = "",
+            protein = "",
+            fat = "",
+            carbs = "",
+            quantity = ""
+        )
         viewModel.clearFields()
     }
 
@@ -103,9 +113,16 @@ fun EditBreakfastModal(
         viewModel.getUsersMeals(date.value)
     }
 
-    LaunchedEffect(key1 = viewModel) {
-        Log.d("NoTag", foodState.toString())
-
+    if (
+        editClicked.value &&
+        foodState.name.isBlank() &&
+        foodState.calories.isBlank() &&
+        foodState.quantity.isBlank() &&
+        foodState.carbs.isBlank() &&
+        foodState.protein.isBlank() &&
+        foodState.fat.isBlank()
+    ) {
+        viewModel.populateFieldsWithInitialValues(foodItemToEdit.value)
     }
 
     if (openDialog.value) {
@@ -149,7 +166,7 @@ fun EditBreakfastModal(
                 ) {
                     BasicField(
                         text = R.string.food_item_name,
-                        value = if (foodState.name == "") { foodItemToEdit.value.name} else {foodState.name},
+                        value = foodState.name,
                         onNewValue = viewModel::onNameChange,
                         errorMsg = uiState.nameError
                     )
@@ -157,7 +174,8 @@ fun EditBreakfastModal(
                         text = R.string.food_item_quantity,
                         list = quantities,
                         onNewValue = viewModel::onQuantityChange,
-                        errorMsg = uiState.quantityError
+                        errorMsg = uiState.quantityError,
+                        initialValue = foodItemToEdit.value.quantity
                     )
                     Row() {
                         BasicField(
@@ -165,7 +183,7 @@ fun EditBreakfastModal(
                                 .weight(.5f)
                                 .padding(horizontal = 10.dp),
                             text = R.string.food_item_calories,
-                            value = if (foodState.calories == "") { foodItemToEdit.value.calories} else {foodState.calories},
+                            value = foodState.calories,
                             onNewValue = viewModel::onCaloriesChange,
                             errorMsg = uiState.caloriesError
                         )
@@ -174,7 +192,7 @@ fun EditBreakfastModal(
                                 .weight(.5f)
                                 .padding(horizontal = 10.dp),
                             text = R.string.food_item_protein,
-                            value = if (foodState.protein == "") { foodItemToEdit.value.protein} else {foodState.protein},
+                            value = foodState.protein,
                             onNewValue = viewModel::onProteinChange,
                             errorMsg = uiState.proteinError
                         )
@@ -185,7 +203,7 @@ fun EditBreakfastModal(
                                 .weight(.5f)
                                 .padding(horizontal = 10.dp),
                             text = R.string.food_item_fat,
-                            value = if (foodState.fat == "") { foodItemToEdit.value.fat} else {foodState.fat},
+                            value = foodState.fat,
                             onNewValue = viewModel::onFatChange,
                             errorMsg = uiState.fatError
                         )
@@ -194,7 +212,7 @@ fun EditBreakfastModal(
                                 .weight(.5f)
                                 .padding(horizontal = 10.dp),
                             text = R.string.food_item_carbs,
-                            value = if (foodState.carbs == "") { foodItemToEdit.value.carbs} else {foodState.carbs},
+                            value = foodState.carbs,
                             onNewValue = viewModel::onCarbsChange,
                             errorMsg = uiState.carbsError
                         )

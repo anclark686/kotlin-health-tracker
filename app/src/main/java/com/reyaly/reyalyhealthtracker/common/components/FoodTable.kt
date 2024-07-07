@@ -77,6 +77,7 @@ fun FoodTable(
         editClicked.value = true
         foodItemToEdit.value = foodItem
         Log.d("Table", "edit clicked")
+        Log.d("Table", foodItemToEdit.value.toString())
     }
 
     Column(
