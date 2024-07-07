@@ -37,6 +37,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.reyaly.reyalyhealthtracker.R
 import com.reyaly.reyalyhealthtracker.common.components.ContentSection
 import com.reyaly.reyalyhealthtracker.common.components.DateSelector
+import com.reyaly.reyalyhealthtracker.common.components.FoodStats
 import com.reyaly.reyalyhealthtracker.common.components.FoodTable
 import com.reyaly.reyalyhealthtracker.common.components.LogoBanner
 import com.reyaly.reyalyhealthtracker.common.composable.BasicButton
@@ -232,7 +233,7 @@ fun DinnerScreen(
         }
 
         ContentSection(
-            contentComposable = { DinnerStats() },
+            contentComposable = { FoodStats(data = uiState.foodStats) },
             text = R.string.dinner_stats
         )
 

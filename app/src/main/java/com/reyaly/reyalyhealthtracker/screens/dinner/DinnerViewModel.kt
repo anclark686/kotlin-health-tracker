@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
+import com.reyaly.reyalyhealthtracker.helpers.getFoodStats
 import com.reyaly.reyalyhealthtracker.model.FoodItem
 import com.reyaly.reyalyhealthtracker.screens.food.FoodItems
 import com.reyaly.reyalyhealthtracker.storage.food.addOrEditFoodsInDates
@@ -221,6 +222,7 @@ class DinnerViewModel: ViewModel() {
             }
             Log.d(TAG, foods.toString())
             _uiState.value = _uiState.value.copy(foodList = foods)
+            _uiState.value = _uiState.value.copy(foodStats = getFoodStats(foods))
         } catch (e: Exception) {
             Log.d(TAG, "an error occurred: $e")
         }

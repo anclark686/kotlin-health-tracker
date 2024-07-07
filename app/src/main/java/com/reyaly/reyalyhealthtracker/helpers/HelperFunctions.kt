@@ -5,6 +5,8 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import com.google.firebase.Timestamp
+import com.reyaly.reyalyhealthtracker.model.FoodItem
+import com.reyaly.reyalyhealthtracker.model.FoodStat
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -42,4 +44,25 @@ fun changeDate(previousDate: MutableState<LocalDate>, direction: String): Mutabl
         previousDate.value.minusDays(1)
     }
     return newDate
+}
+
+fun getFoodStats(foodList: List<FoodItem>): FoodStat {
+    var unique = foodList.count()
+    var total = 0
+    var calories = 0
+    var protein = 0
+    var fat = 0
+    var carbs = 0
+
+    foodList.forEach{ food ->
+        var itemQuantity = food.quantity.toInt()
+
+        total += itemQuantity
+        calories += food.calories.toInt() * itemQuantity
+        protein += food.protein.toInt() * itemQuantity
+        fat += food.fat.toInt() * itemQuantity
+        carbs += food.carbs.toInt() * itemQuantity
+    }
+
+    return FoodStat(unique, total, calories, protein, fat, carbs)
 }

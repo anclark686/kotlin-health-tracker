@@ -1,29 +1,28 @@
-package com.reyaly.reyalyhealthtracker.screens.snack.components
+package com.reyaly.reyalyhealthtracker.common.components
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.reyaly.reyalyhealthtracker.R
+import com.reyaly.reyalyhealthtracker.model.FoodStat
 import com.reyaly.reyalyhealthtracker.ui.theme.dark_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.light_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.sky_blue
 
 @Composable
-fun SnackStats(
+fun FoodStats(
+    data: FoodStat,
     modifier: Modifier = Modifier
 ) {
     var labelColor: Color
@@ -57,7 +56,7 @@ fun SnackStats(
                     color = labelColor
                 )
                 Text(
-                    text = "**SOMETHING**",
+                    text = data.unique.toString(),
                     fontSize = 18.sp
                 )
             }
@@ -77,7 +76,7 @@ fun SnackStats(
                     color = labelColor
                 )
                 Text(
-                    text = "**SOMETHING**",
+                    text = data.total.toString(),
                     fontSize = 18.sp
                 )
             }
@@ -97,7 +96,7 @@ fun SnackStats(
                     color = labelColor
                 )
                 Text(
-                    text = "**SOMETHING**",
+                    text = data.calories.toString(),
                     fontSize = 18.sp
                 )
             }
@@ -117,7 +116,7 @@ fun SnackStats(
                     color = labelColor
                 )
                 Text(
-                    text = "**SOMETHING**",
+                    text = data.protein.toString(),
                     fontSize = 18.sp
                 )
             }
@@ -137,7 +136,7 @@ fun SnackStats(
                     color = labelColor
                 )
                 Text(
-                    text = "**SOMETHING**",
+                    text = data.fat.toString(),
                     fontSize = 18.sp
                 )
             }
@@ -157,18 +156,10 @@ fun SnackStats(
                     color = labelColor
                 )
                 Text(
-                    text = "**SOMETHING**",
+                    text = data.carbs.toString(),
                     fontSize = 18.sp
                 )
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun SnackStatsPreview() {
-    SnackStats(
-
-    )
 }

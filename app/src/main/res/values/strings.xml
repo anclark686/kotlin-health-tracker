@@ -200,7 +200,7 @@
     <string name="dashboard_curr_weight">Current Weight:</string>
     <string name="dashboard_goal_weight">Goal Weight:</string>
     <string name="dashboard_weight_diff">Weight Difference:</string>
-    <string name="dashboard_water">Water Consumed</string>
+    <string name="dashboard_water">Water Consumed:</string>
 
     <!-- Med -->
     <string name="med_no_meds">No medications found. Click \"Add New\" to add a medication.</string>
@@ -235,13 +235,13 @@
 
     <!-- Food -->
     <string name="food_diaries">Food Diaries</string>
-    <string name="food_info">Calorie Info</string>
+    <string name="food_info">Daily Calorie Info</string>
     <string name="food_activity_level">Activity Level</string>
     <string name="food_calorie_allowance">Allowance:</string>
     <string name="food_calories_used">Used:</string>
     <string name="food_calories_burned">Burned:</string>
     <string name="food_calories_remaining">Remaining:</string>
-    <string name="food_macros">Macros</string>
+    <string name="food_macros">Macro Preferences</string>
     <string name="food_more">More Info</string>
     <string name="food_diet_choice">Diet Preference</string>
     <string name="food_balanced">Balanced</string>
@@ -283,11 +283,12 @@
     <string name="lunch_stats">Lunch Stats</string>
     <string name="dinner_stats">Dinner Stats</string>
     <string name="snack_stats">Snack Stats</string>
+    <string name="blds_stats_unique">Total Unique Items:</string>
     <string name="blds_stats_count">Total Items:</string>
     <string name="blds_stats_calories">Total Calories:</string>
-    <string name="blds_stats_protein">Total Protein</string>
-    <string name="blds_stats_fat">Total Fat</string>
-    <string name="blds_stats_carbs">Total Carbs</string>
+    <string name="blds_stats_protein">Total Protein:</string>
+    <string name="blds_stats_fat">Total Fat:</string>
+    <string name="blds_stats_carbs">Total Carbs:</string>
 
     <!-- Water -->
     <string name="water_add">Add Water</string>
