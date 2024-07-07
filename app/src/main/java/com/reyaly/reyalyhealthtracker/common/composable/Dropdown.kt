@@ -36,10 +36,12 @@ fun BasicExposedDropdown(
     list: List<String>,
     onNewValue: (String) -> Unit,
     modifier: Modifier = Modifier,
-    errorMsg: String? = null
+    errorMsg: String? = null,
+    initialValue: String? = null
 ) {
+
     var expanded by remember { mutableStateOf(false) }
-    var selectedText by remember { mutableStateOf("") }
+    var selectedText by remember { mutableStateOf(initialValue ?: "") }
 
     Box(
         modifier = modifier

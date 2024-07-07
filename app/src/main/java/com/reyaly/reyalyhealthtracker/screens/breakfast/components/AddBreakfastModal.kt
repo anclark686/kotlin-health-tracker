@@ -132,6 +132,7 @@ fun AddBreakfastModal(
             }
             selectedFood.value != null && !openManual.value -> {
                 viewModel.onAddEditFoodInDates(selectedFood.value!!, date.value)
+                selectedFood.value = null
             }
         }
         closeDialog()
