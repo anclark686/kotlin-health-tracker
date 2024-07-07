@@ -45,7 +45,6 @@ import com.reyaly.reyalyhealthtracker.helpers.changeDate
 import com.reyaly.reyalyhealthtracker.model.FoodItem
 import com.reyaly.reyalyhealthtracker.screens.lunch.components.AddLunchModal
 import com.reyaly.reyalyhealthtracker.screens.lunch.components.EditLunchModal
-import com.reyaly.reyalyhealthtracker.screens.lunch.components.LunchStats
 import com.reyaly.reyalyhealthtracker.ui.theme.dark_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.sky_blue
 import java.time.LocalDate

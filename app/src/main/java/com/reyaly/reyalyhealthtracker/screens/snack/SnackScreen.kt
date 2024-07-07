@@ -45,7 +45,6 @@ import com.reyaly.reyalyhealthtracker.helpers.changeDate
 import com.reyaly.reyalyhealthtracker.model.FoodItem
 import com.reyaly.reyalyhealthtracker.screens.snack.components.AddSnackModal
 import com.reyaly.reyalyhealthtracker.screens.snack.components.EditSnackModal
-import com.reyaly.reyalyhealthtracker.screens.snack.components.SnackStats
 import com.reyaly.reyalyhealthtracker.ui.theme.dark_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.sky_blue
 import java.time.LocalDate

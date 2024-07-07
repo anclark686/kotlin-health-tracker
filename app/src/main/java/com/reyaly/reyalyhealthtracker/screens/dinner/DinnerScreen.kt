@@ -44,7 +44,6 @@ import com.reyaly.reyalyhealthtracker.common.composable.BasicButton
 import com.reyaly.reyalyhealthtracker.helpers.changeDate
 import com.reyaly.reyalyhealthtracker.model.FoodItem
 import com.reyaly.reyalyhealthtracker.screens.dinner.components.AddDinnerModal
-import com.reyaly.reyalyhealthtracker.screens.dinner.components.DinnerStats
 import com.reyaly.reyalyhealthtracker.screens.dinner.components.EditDinnerModal
 import com.reyaly.reyalyhealthtracker.ui.theme.dark_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.sky_blue
