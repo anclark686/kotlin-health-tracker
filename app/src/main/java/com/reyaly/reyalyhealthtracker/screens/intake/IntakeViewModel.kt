@@ -179,7 +179,10 @@ class IntakeViewModel: ViewModel() {
 
     suspend fun submitIntake(callback: () -> Unit) {
         val firebaseUser = auth.currentUser!!
+
         if (validateForm()) {
+            val currWeightInKg = convertWeightToKg(currWeight)
+
             val user = User(
                 uid = firebaseUser.uid,
                 email = firebaseUser.email,
@@ -192,7 +195,15 @@ class IntakeViewModel: ViewModel() {
                 sex = sex,
                 gender = gender,
                 currWeight = currWeight,
-                currWeightInKg = convertWeightToKg(currWeight),
+                currWeightInKg = currWeightInKg,
+                initialWeight = currWeight,
+                initialWeightInKg = currWeightInKg,
+                previousWeight = currWeight,
+                previousWeightInKg = currWeightInKg,
+                lowestWeight = currWeight,
+                lowestWeightInKg = currWeightInKg,
+                highestWeight = currWeight,
+                highestWeightInKg = currWeightInKg,
                 goalWeight = goalWeight,
                 goalWeightInKg = convertWeightToKg(goalWeight),
                 weightGoals = weightGoals,

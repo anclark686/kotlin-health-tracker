@@ -9,6 +9,7 @@ import kotlinx.coroutines.tasks.await
 
 private const val TAG = "userStorage"
 val users = Firebase.firestore.collection("users")
+
 suspend fun addUser(user:User) {
     users
         .document(user.uid)
@@ -22,9 +23,11 @@ suspend fun addUser(user:User) {
     users.document(user.uid).update("joined", FieldValue.serverTimestamp()).await()
     users.document(user.uid).update("timestamp", FieldValue.serverTimestamp()).await()
 }
+
 suspend fun findUser(uid: String): User? {
     val userData = users.document(uid).get().await()
     val meds = users.document(uid).collection("meds").get().await()
+
     if (userData != null) {
         //        user?.meds = meds.map { med ->  med.toObject(Medication::class.java) }
         return userData.toObject(User::class.java)

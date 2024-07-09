@@ -45,6 +45,7 @@ import com.reyaly.reyalyhealthtracker.screens.intake.components.BasicInfo
 import com.reyaly.reyalyhealthtracker.screens.intake.components.HealthInfo
 import com.reyaly.reyalyhealthtracker.screens.weight.components.AddWeightModal
 import com.reyaly.reyalyhealthtracker.screens.weight.components.GoalTracker
+import com.reyaly.reyalyhealthtracker.screens.weight.components.HistoricalWeightData
 import com.reyaly.reyalyhealthtracker.screens.weight.components.ProgressChart
 import com.reyaly.reyalyhealthtracker.screens.weight.components.WeightStats
 import com.reyaly.reyalyhealthtracker.ui.theme.med_sky_blue
@@ -61,7 +62,6 @@ fun WeightScreen(
 
     AddWeightModal(
         openDialog = openAddModal,
-        addWeight = {}
     )
 
     Column(
@@ -113,6 +113,11 @@ fun WeightScreen(
         ContentSection(
             contentComposable = { GoalTracker() },
             text = R.string.weight_goal_tracker
+        )
+
+        ContentSection(
+            contentComposable = { HistoricalWeightData() },
+            text = R.string.weight_historical
         )
 
         ContentSection(

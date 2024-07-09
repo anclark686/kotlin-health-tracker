@@ -25,6 +25,8 @@
     <string name="search_switch">Switch to Search</string>
     <string name="manual">Switch to Manual</string>
     <string name="results">Results</string>
+    <string name="dates">Dates</string>
+    <string name="select_date">Please select a date.</string>
 
     <!-- Nav -->
     <string name="nav_dashboard">Dashboard</string>
@@ -213,18 +215,20 @@
     <string name="weight_chart">Progress Chart</string>
     <string name="weight_goal_tracker">Goal Tracker</string>
     <string name="weight_on_way">Are you on the way to meeting your goals?</string>
+    <string name="weight_init_weight">Initial Weight:</string>
     <string name="weight_curr_weight">Current Weight:</string>
     <string name="weight_goal_weight">Goal Weight:</string>
     <string name="weight_diff">That\'s a difference of</string>
     <string name="weight_score">Score: </string>
     <string name="weight_only">Only</string>
     <string name="weight_to_go">to go!</string>
+    <string name="weight_met_goal">🎉You\'ve met your goal!🎉</string>
+
 
     <string name="weight_stats">Weight Statistics</string>
     <string name="weight_goal_highest">Highest Weight:</string>
     <string name="weight_goal_lowest">Lowest Weight:</string>
-    <string name="weight_goal_lost">Pounds Lost:</string>
-    <string name="weight_goal_gained">Pounds Gained:</string>
+    <string name="weight_goal_diff">Weight Difference:</string>
     <string name="weight_BMI">BMI:</string>
     <string name="weight_fat">Body Fat %:</string>
     <string name="weight_ideal">Ideal Weight:</string>
@@ -232,6 +236,8 @@
     <string name="weight_add">Weigh in!</string>
     <string name="weight_enter">Enter your new weight:</string>
     <string name="weight_new">New Weight</string>
+    <string name="weight_historical">View Historical Data</string>
+
 
     <!-- Food -->
     <string name="food_diaries">Food Diaries</string>
