@@ -32,6 +32,14 @@ fun convertHeightToCm(height: String): String {
     return heightInCm.toString()
 }
 
+fun convertOzToCups(oz: String): String {
+    return (round(oz.toDouble() / 8).toInt()).toString()
+}
+
+fun convertCupsToOz(cups: String): String {
+    return (cups.toInt() * 8).toString()
+}
+
 fun changeDate(previousDate: MutableState<LocalDate>, direction: String): MutableState<LocalDate> {
     Log.d("In the helper", direction)
     Log.d("In the helper", (direction == "add").toString())

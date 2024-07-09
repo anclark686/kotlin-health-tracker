@@ -17,6 +17,25 @@ private const val TAG = "weightStorage"
 private const val DATESCOLLECTION = "dates"
 val users = Firebase.firestore.collection("users")
 
+suspend fun getWeightByDate(uid: String, date: LocalDate): Weight? {
+    val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
+    var weight: Weight? = null
+
+    val response = users
+        .document(uid)
+        .collection(DATESCOLLECTION)
+        .document(date.format(formatter))
+        .get()
+        .await()
+
+    if (response != null) {
+        Log.d(TAG, response.data.toString())
+        weight = response.toObject(Weight::class.java)
+    }
+
+    return weight
+}
+
 suspend fun addWeightToDates(uid: String, newWeight: String, date: LocalDate): String {
     val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
     val newWeightInKg = convertWeightToKg(newWeight)
@@ -30,7 +49,13 @@ suspend fun addWeightToDates(uid: String, newWeight: String, date: LocalDate): S
         .collection(DATESCOLLECTION)
         .document(date.format(formatter))
 
-    dataRef.update(data).await()
+    val existingWeight = getWeightByDate(uid, date)
+
+    if (existingWeight != null) {
+        dataRef.update(data).await()
+    } else {
+        dataRef.set(data).await()
+    }
 
     return dataRef.id
 }
@@ -96,7 +121,7 @@ suspend fun addWeightToMainDetails(uid: String, newWeight: String) {
 }
 
 suspend fun getAllHistoricalWeightData(uid: String): HashMap<String, HistoricalWeight> {
-    var data = hashMapOf<String, HistoricalWeight>()
+    val data = hashMapOf<String, HistoricalWeight>()
 
     val response = users
         .document(uid)
@@ -113,7 +138,6 @@ suspend fun getAllHistoricalWeightData(uid: String): HashMap<String, HistoricalW
             data[document.id] = historicalWeight
         }
         Log.d(TAG, data.toString())
-        return data
     }
 
     return data

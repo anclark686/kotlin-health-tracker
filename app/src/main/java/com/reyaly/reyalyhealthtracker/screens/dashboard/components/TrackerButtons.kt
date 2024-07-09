@@ -34,34 +34,8 @@ fun TrackerButtons(
         verticalArrangement = Arrangement.SpaceAround,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Row(
 
-        ) {
-            Button(
-                modifier = Modifier.width(150.dp).padding(5.dp),
-                onClick = { onWeightClick() },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = med_sky_blue,
-                    contentColor = Color.White
-                )
-            ) {
-                Text(stringResource(R.string.text_weight), fontSize = 20.sp)
-            }
-            Button(
-                modifier = Modifier.width(150.dp).padding(5.dp),
-                onClick = { onExerciseClick() },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = med_sky_blue,
-                    contentColor = Color.White
-                )
-            ) {
-                Text(stringResource(R.string.text_exercise), fontSize = 20.sp)
-            }
-        }
-
-        Row(
-
-        ) {
+        Row(modifier = modifier) {
             Button(
                 modifier = Modifier.width(150.dp).padding(5.dp),
                 onClick = { onFoodClick() },
@@ -84,6 +58,28 @@ fun TrackerButtons(
             }
         }
 
+        Row(modifier = modifier) {
+            Button(
+                modifier = Modifier.width(150.dp).padding(5.dp),
+                onClick = { onExerciseClick() },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = med_sky_blue,
+                    contentColor = Color.White
+                )
+            ) {
+                Text(stringResource(R.string.text_exercise), fontSize = 20.sp)
+            }
+            Button(
+                modifier = Modifier.width(150.dp).padding(5.dp),
+                onClick = { onWeightClick() },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = med_sky_blue,
+                    contentColor = Color.White
+                )
+            ) {
+                Text(stringResource(R.string.text_weight), fontSize = 20.sp)
+            }
+        }
 
         Column(
             modifier = modifier.fillMaxSize(),

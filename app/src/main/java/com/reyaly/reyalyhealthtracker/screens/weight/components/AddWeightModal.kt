@@ -82,7 +82,8 @@ fun AddWeightModal(
                         text = R.string.weight_new,
                         value = weightState.weight,
                         onNewValue = viewModel::onWeightChange,
-                        modifier = modifier.padding(horizontal = 15.dp)
+                        modifier = modifier.padding(horizontal = 15.dp),
+                        errorMsg = uiState.weightError
                     )
                 }
                 Column(
@@ -99,10 +100,12 @@ fun AddWeightModal(
                             modifier = modifier.padding(horizontal = 5.dp),
                             action = {
                                 coroutineScope.launch {
-                                    openDialog.value = false
-                                    viewModel.onAddNewWeight()
-                                    viewModel.getWeightGoals()
-                                    viewModel.getWeightStats()
+                                     if (viewModel.onAddNewWeight()) {
+                                         openDialog.value = false
+                                         viewModel.getWeightGoals()
+                                         viewModel.getWeightStats()
+                                         viewModel.getHistoricalData()
+                                     }
                                 }
                             }
                         )

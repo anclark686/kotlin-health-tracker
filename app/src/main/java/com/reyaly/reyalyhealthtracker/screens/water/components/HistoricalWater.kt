@@ -1,4 +1,4 @@
-package com.reyaly.reyalyhealthtracker.screens.weight.components
+package com.reyaly.reyalyhealthtracker.screens.water.components
 
 import android.util.Log
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,18 +23,18 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.reyaly.reyalyhealthtracker.R
 import com.reyaly.reyalyhealthtracker.common.composable.BasicExposedDropdown
-import com.reyaly.reyalyhealthtracker.screens.weight.WeightViewModel
+import com.reyaly.reyalyhealthtracker.screens.water.WaterViewModel
 import com.reyaly.reyalyhealthtracker.ui.theme.dark_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.light_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.sky_blue
 
 @Composable
-fun HistoricalWeightData(
+fun HistoricalWater(
     modifier: Modifier = Modifier,
-    viewModel: WeightViewModel = viewModel()
+    viewModel: WaterViewModel = viewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    val weightState by viewModel.weightState.collectAsState()
+    val waterState by viewModel.waterState.collectAsState()
 
     var labelColor: Color
     var spinnerColor: Color
@@ -50,7 +49,7 @@ fun HistoricalWeightData(
 
     LaunchedEffect(key1 = viewModel) {
         viewModel.getHistoricalData()
-        Log.d("weightScreen", "you reloading?")
+        Log.d("water", "you reloading?")
     }
 
     Column(
@@ -75,20 +74,61 @@ fun HistoricalWeightData(
                     )
                 }
                 Spacer(modifier = modifier.padding(5.dp))
-                if (uiState.historicalWeight != "") {
+                if (uiState.historicalDate != "") {
                     Row (
                         modifier = modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
+                        horizontalArrangement = Arrangement.Center
                     ) {
                         Text(
-                            text = "${stringResource(R.string.text_weight)} for ${uiState.historicalDate}:",
-                            fontSize = 18.sp,
+                            text = "${stringResource(R.string.water_intake)} for ${uiState.historicalDate}:",
+                            fontSize = 20.sp,
                             color = labelColor
                         )
-                        Text(
-                            text = "${uiState.historicalWeight!!} lbs",
-                            fontSize = 18.sp
-                        )
+                    }
+
+                    Spacer(modifier = modifier.padding(5.dp))
+
+                    if (uiState.historicalWaterInOz != 0 && uiState.historicalWaterInCups != 0) {
+                        Row (
+                            modifier = modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(
+                                text = "${stringResource(R.string.water_ounces)}:",
+                                fontSize = 18.sp,
+                                color = labelColor
+                            )
+                            Text(
+                                text = "${uiState.historicalWaterInOz!!} oz",
+                                fontSize = 18.sp
+                            )
+                        }
+
+                        Row (
+                            modifier = modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(
+                                text = "${stringResource(R.string.water_cups)}:",
+                                fontSize = 18.sp,
+                                color = labelColor
+                            )
+                            Text(
+                                text = "${uiState.historicalWaterInCups!!} cups",
+                                fontSize = 18.sp
+                            )
+                        }
+                    } else {
+                        Row (
+                            modifier = modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Text(
+                                text = stringResource(R.string.water_no_historical),
+                                fontSize = 18.sp,
+                                color = labelColor
+                            )
+                        }
                     }
                 } else {
                     Row (

@@ -22,7 +22,7 @@ data class WeightUiState(
     val idealWeight: String? = "",
 
     val historicalData: HashMap<String, HistoricalWeight> = hashMapOf(),
-    val historicalDates: MutableSet<String> = mutableSetOf(),
+    val historicalDates: List<String> = listOf(),
     val historicalDate: String? = "",
     val historicalWeight: String? = "",
     val historicalWeightInKg: String? = "",

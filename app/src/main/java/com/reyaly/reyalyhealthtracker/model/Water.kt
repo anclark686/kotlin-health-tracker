@@ -6,6 +6,11 @@ import com.google.firebase.firestore.DocumentId
 data class Water(
     @DocumentId
     val documentId: String = "",
-    var timestamp: Timestamp? = null,
-    var ounces: Int = 0
+    var ounces: String = "",
+    var cups: String = "",
+)
+
+data class WaterInfo(
+    var waterInOunces: Int =  0,
+    var waterInCups: Int =  0,
 )

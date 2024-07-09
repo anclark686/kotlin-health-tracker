@@ -15,6 +15,7 @@ import com.reyaly.reyalyhealthtracker.storage.weight.getPreviousWeightData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import kotlin.math.abs
 import kotlin.math.floor
 import kotlin.math.round
@@ -55,12 +56,13 @@ class WeightViewModel : ViewModel() {
         } catch (e: Exception) {
             _uiState.value = _uiState.value.copy(weightError = typeErrorMessage)
             invalidCount++
+            Log.d("weight", "bad weight")
         }
 
         return invalidCount == 0
     }
 
-    suspend fun onAddNewWeight() {
+    suspend fun onAddNewWeight(): Boolean {
         val firebaseUser = auth.currentUser!!
         val date = LocalDate.now()
 
@@ -70,14 +72,19 @@ class WeightViewModel : ViewModel() {
                 Log.d("weight", response)
                 try {
                     addWeightToMainDetails(firebaseUser.uid, weight)
+                    _weightState.value = weightState.value.copy(weight = "")
                     Log.d("weight", "looks like it worked?")
+                    return true
                 } catch (e: Exception) {
                     Log.d("weight", "an error occurred: $e")
+                    return false
                 }
-                _weightState.value = weightState.value.copy(weight = "")
             } catch (e: Exception) {
                 Log.d("weight", "an error occurred: $e")
+                return false
             }
+        } else {
+            return false
         }
     }
 
@@ -135,7 +142,7 @@ class WeightViewModel : ViewModel() {
             "Gain" in weightInfo.weightGoals -> {
                 if (current == initial) {
                     // they've maintained weight
-                    score = "0%"
+                    score = "${round((current / goal) * 100).toInt()}%"
                     difference = "0 lbs"
                     left = "${round(goal - initial).toInt()} lbs"
                 } else if (goal == current || current > goal) {
@@ -221,14 +228,21 @@ class WeightViewModel : ViewModel() {
 
     suspend fun getHistoricalData() {
         val firebaseUser = auth.currentUser!!
+        val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
+
         _uiState.value = _uiState.value.copy(valuesAreLoading = true)
 
         try {
-            val response = getAllHistoricalWeightData(firebaseUser.uid).also{
+            val response = getAllHistoricalWeightData(firebaseUser.uid).also {
                 _uiState.value = _uiState.value.copy(valuesAreLoading = false)
             }
-            _uiState.value = _uiState.value.copy(historicalData = response)
-            _uiState.value = _uiState.value.copy(historicalDates = response.keys)
+
+            _uiState.value = _uiState.value.copy(
+                historicalData = response,
+                historicalDates = response.keys.sortedBy {
+                    LocalDate.parse(it, formatter)
+                }
+            )
         } catch (e: Exception) {
             Log.d("weight", "an error occurred: $e")
         }

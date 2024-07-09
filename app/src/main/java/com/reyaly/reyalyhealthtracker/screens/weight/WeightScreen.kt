@@ -117,7 +117,7 @@ fun WeightScreen(
 
         ContentSection(
             contentComposable = { HistoricalWeightData() },
-            text = R.string.weight_historical
+            text = R.string.historical
         )
 
         ContentSection(

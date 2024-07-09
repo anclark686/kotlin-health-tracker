@@ -27,6 +27,7 @@
     <string name="results">Results</string>
     <string name="dates">Dates</string>
     <string name="select_date">Please select a date.</string>
+    <string name="historical">View Historical Data</string>
 
     <!-- Nav -->
     <string name="nav_dashboard">Dashboard</string>
@@ -236,7 +237,6 @@
     <string name="weight_add">Weigh in!</string>
     <string name="weight_enter">Enter your new weight:</string>
     <string name="weight_new">New Weight</string>
-    <string name="weight_historical">View Historical Data</string>
 
 
     <!-- Food -->
@@ -304,11 +304,15 @@
     <string name="water_add_cups">Switch to Cups</string>
     <string name="water_cups">Water in Cups</string>
     <string name="water_ounces">Water in Ounces</string>
+    <string name="water_intake">Water Intake</string>
     <string name="water_stats">Water Stats</string>
     <string name="water_recommended">Recommended:</string>
     <string name="water_total">Total Ounces:</string>
+    <string name="water_total_cups">Total Cups:</string>
     <string name="water_left">Ounces Remaining:</string>
+    <string name="water_percentage">Percentage:</string>
     <string name="water_no_water">No intake found. Click \"Add New\" to add a some water intake.</string>
+    <string name="water_no_historical">No intake found for this date.</string>
 
 
     <!-- Exercise -->

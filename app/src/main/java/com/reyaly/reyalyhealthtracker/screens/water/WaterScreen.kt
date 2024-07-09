@@ -37,6 +37,7 @@ import com.reyaly.reyalyhealthtracker.common.composable.BasicButton
 import com.reyaly.reyalyhealthtracker.common.composable.DashboardButton
 import com.reyaly.reyalyhealthtracker.common.components.LogoBanner
 import com.reyaly.reyalyhealthtracker.screens.water.components.AddWaterModal
+import com.reyaly.reyalyhealthtracker.screens.water.components.HistoricalWater
 import com.reyaly.reyalyhealthtracker.screens.water.components.WaterChart
 import com.reyaly.reyalyhealthtracker.screens.water.components.WaterStats
 import com.reyaly.reyalyhealthtracker.screens.weight.components.AddWeightModal
@@ -53,7 +54,6 @@ fun WaterScreen(
 
     AddWaterModal(
         openDialog = openAddModal,
-        addWater = {}
     )
 
     Column(
@@ -65,14 +65,11 @@ fun WaterScreen(
                     focusManager.clearFocus()
                 })
             },
-//        verticalArrangement = Arrangement.SpaceBetween
     ) {
         Column(modifier = modifier) {
             LogoBanner()
             DashboardButton(modifier = modifier, onDashboardClick = { onDashboardClick() })
         }
-
-//        DateSelector()
 
         Column(
             modifier = modifier.fillMaxWidth(),
@@ -102,6 +99,11 @@ fun WaterScreen(
         ContentSection(
             contentComposable = { WaterChart() },
             text = R.string.water_chart
+        )
+
+        ContentSection(
+            contentComposable = { HistoricalWater() },
+            text = R.string.historical
         )
 
         ContentSection(

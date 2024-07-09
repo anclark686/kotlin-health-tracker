@@ -81,9 +81,11 @@ class MedViewModel : ViewModel() {
                 medList.add(med)
                 Log.d(TAG, med.toString())
                 Log.d(TAG, _uiState.value.medList.toString())
-                _medState.value = medState.value.copy(name = "")
-                _medState.value = medState.value.copy(dose = "")
-                _medState.value = medState.value.copy(time = "")
+                _medState.value = medState.value.copy(
+                    name = "",
+                    dose = "",
+                    time = ""
+                )
             } catch (e: Exception) {
                 Log.d(TAG, "an error occurred: $e")
             }
