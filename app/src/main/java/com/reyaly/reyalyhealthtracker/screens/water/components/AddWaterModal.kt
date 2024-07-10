@@ -49,6 +49,7 @@ import kotlinx.coroutines.launch
 fun AddWaterModal(
     openDialog: MutableState<Boolean>,
     modifier: Modifier = Modifier,
+    edit: Boolean = false,
     viewModel: WaterViewModel = viewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -80,12 +81,24 @@ fun AddWaterModal(
                 verticalArrangement = Arrangement.Center
             ) {
                 Column(
-                    modifier = modifier.padding(10.dp)
+                    modifier = modifier.padding(10.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Text(
                         stringResource(R.string.water_some),
                         style = MaterialTheme.typography.headlineSmall
                     )
+                    if (!edit) {
+                        Text(
+                            stringResource(R.string.water_some),
+                            style = MaterialTheme.typography.headlineSmall
+                        )
+                    } else {
+                        Text(
+                            "${stringResource(R.string.water_add)} for ${uiState.historicalDate}:",
+                            style = MaterialTheme.typography.headlineSmall
+                        )
+                    }
                 }
 
                 if (!cupsOrOunces.value) {
@@ -148,7 +161,7 @@ fun AddWaterModal(
                             modifier = modifier.padding(horizontal = 5.dp),
                             action = {
                                 coroutineScope.launch {
-                                    if (viewModel.onAddWater(cupsOrOunces.value)) {
+                                    if (viewModel.onAddWater(cupsOrOunces.value, edit)) {
                                         openDialog.value = false
                                         viewModel.getHistoricalData()
                                         viewModel.getTodaysWater()

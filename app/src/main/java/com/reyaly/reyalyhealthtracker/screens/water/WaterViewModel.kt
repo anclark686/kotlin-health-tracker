@@ -3,6 +3,7 @@ package com.reyaly.reyalyhealthtracker.screens.water
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
+import com.reyaly.reyalyhealthtracker.helpers.checkWholeNum
 import com.reyaly.reyalyhealthtracker.helpers.convertCupsToOz
 import com.reyaly.reyalyhealthtracker.helpers.convertOzToCups
 import com.reyaly.reyalyhealthtracker.model.Water
@@ -74,19 +75,15 @@ class WaterViewModel : ViewModel() {
         return invalidCount == 0
     }
 
-    suspend fun onAddWater(cupsOrOunces: Boolean): Boolean {
+    suspend fun onAddWater(cupsOrOunces: Boolean, edit: Boolean = false): Boolean {
         val firebaseUser = auth.currentUser!!
         val ozOrCups = if (cupsOrOunces) {"cups"} else {"oz"}
-
-        Log.d("water", "here we are")
-        Log.d("water", cupsOrOunces.toString())
-        Log.d("water", ozOrCups)
-        Log.d("water", ounces)
-        Log.d("water", cups)
+        val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
+        val date = if (!edit) {LocalDate.now().format(formatter)} else {uiState.value.historicalDate!!}
 
         if (validateForm(ozOrCups)) {
             try {
-                addWater(firebaseUser.uid, ounces, cups, LocalDate.now())
+                addWater(firebaseUser.uid, ounces, cups, date)
                 _waterState.value = waterState.value.copy(
                     ounces = "",
                     cups = "",
@@ -111,22 +108,32 @@ class WaterViewModel : ViewModel() {
                 _uiState.value = _uiState.value.copy(valuesAreLoading = false)
             }
 
+            Log.d("water", response.toString())
+
             _uiState.value = _uiState.value.copy(
                 historicalData = response,
                 historicalDates = response.keys.sortedBy {
                     LocalDate.parse(it, formatter)
                 }
             )
+
+            if (uiState.value.historicalDate!!.isNotBlank()) {
+                changeHistoricalWaterValue(uiState.value.historicalDate!!)
+            }
         } catch (e: Exception) {
             Log.d("water", "an error occurred: $e")
         }
     }
 
-    fun changeHistoricalWeightValue(date: String) {
+    fun changeHistoricalWaterValue(date: String) {
+        val oz = _uiState.value.historicalData[date]?.waterInOunces.toString()
+        val cupsNum = _uiState.value.historicalData[date]?.waterInCups
+
+        val cups = if (checkWholeNum(cupsNum!!)) {cupsNum.toInt().toString()} else {cupsNum.toString()}
         _uiState.value = _uiState.value.copy(
             historicalDate = date,
-            historicalWaterInOz = _uiState.value.historicalData[date]?.waterInOunces,
-            historicalWaterInCups = _uiState.value.historicalData[date]?.waterInCups
+            historicalWaterInOz = oz,
+            historicalWaterInCups = cups
         )
         Log.d("water", date)
         Log.d("water", _uiState.value.historicalData[date].toString())
@@ -134,17 +141,19 @@ class WaterViewModel : ViewModel() {
 
     suspend fun getTodaysWater() {
         val firebaseUser = auth.currentUser!!
+        val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
+
         _uiState.value = _uiState.value.copy(valuesAreLoading = true)
 
         try {
-            val water = getWaterByDate(firebaseUser.uid, LocalDate.now()).also {
+            val water = getWaterByDate(firebaseUser.uid, LocalDate.now().format(formatter)).also {
                 _uiState.value = _uiState.value.copy(valuesAreLoading = false)
             }
 
             if (water != null) {
                 _uiState.value = _uiState.value.copy(
-                    totalOunces = water.waterInOunces,
-                    totalCups = water.waterInCups
+                    totalOunces = water.waterInOunces.toString(),
+                    totalCups = if (checkWholeNum(water.waterInCups)) {water.waterInCups.toInt().toString()} else {water.waterInCups.toString()}
                 )
             }
         } catch (e: Exception) {

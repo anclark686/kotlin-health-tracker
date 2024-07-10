@@ -27,13 +27,17 @@ class EmailAndPwViewModel: ViewModel() {
     var loginError by mutableStateOf("")
 
     fun onEmailChange(newValue: String) {
-        _uiState.value = _uiState.value.copy(email = newValue)
-        _uiState.value = _uiState.value.copy(emailError = null)
+        _uiState.value = _uiState.value.copy(
+            email = newValue,
+            emailError = null
+        )
     }
 
     fun onPasswordChange(newValue: String) {
-        _uiState.value = _uiState.value.copy(password = newValue)
-        _uiState.value = _uiState.value.copy(passwordError = null)
+        _uiState.value = _uiState.value.copy(
+            password = newValue,
+            passwordError = null
+        )
     }
 
     suspend fun onSignInClick(onSuccess: () -> Unit, onNewUser: () -> Unit = { }) {

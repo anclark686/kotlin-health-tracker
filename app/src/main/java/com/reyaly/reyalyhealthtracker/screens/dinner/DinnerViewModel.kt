@@ -221,8 +221,10 @@ class DinnerViewModel: ViewModel() {
                 _uiState.value = _uiState.value.copy(foodsAreLoading = false)
             }
             Log.d(TAG, foods.toString())
-            _uiState.value = _uiState.value.copy(foodList = foods)
-            _uiState.value = _uiState.value.copy(foodStats = getFoodStats(foods))
+            _uiState.value = _uiState.value.copy(
+                foodList = foods,
+                foodStats = getFoodStats(foods)
+            )
         } catch (e: Exception) {
             Log.d(TAG, "an error occurred: $e")
         }
@@ -251,19 +253,19 @@ class DinnerViewModel: ViewModel() {
         Log.d("edit", food.toString())
 
         val combinedFoodItem = FoodItem(
-            documentId = if (name.lowercase() != "") {name.lowercase()} else {food.name.lowercase()},
-            meal = "dinner",
-            name = if (name.lowercase() != "") {name.lowercase()} else {food.name.lowercase()},
-            calories = if (calories != "") {calories} else {food.calories},
-            protein = if (protein != "") {protein} else {food.protein},
-            fat = if (fat != "") {fat} else {food.fat},
-            carbs = if (carbs != "") {carbs} else {food.carbs},
-            quantity = if (quantity != "") {quantity} else {food.quantity},
+            documentId = name.lowercase().ifBlank { food.name.lowercase() },
+            meal = "breakfast",
+            name = name.lowercase().ifBlank { food.name.lowercase() },
+            calories = calories.ifBlank { food.calories },
+            protein = protein.ifBlank { food.protein },
+            fat = fat.ifBlank { food.fat },
+            carbs = carbs.ifBlank { food.carbs },
+            quantity = quantity.ifBlank { food.quantity },
             apiId = apiId
         )
         Log.d("combined", combinedFoodItem.toString())
 
-        if (name.lowercase() != "" && name.lowercase() != food.name.lowercase()) {
+        if (name.lowercase().isNotBlank() && name.lowercase() != food.name.lowercase()) {
             onDeleteFoodInDates(food, date)
             onDeleteFoodInMeals(food)
         }

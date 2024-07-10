@@ -26,25 +26,33 @@ class SignUpViewModel: ViewModel() {
         get() = uiState.value.password
 
     fun onNameChange(newValue: String) {
-        _uiState.value = _uiState.value.copy(name = newValue)
-        _uiState.value = _uiState.value.copy(nameError = null)
+        _uiState.value = _uiState.value.copy(
+            name = newValue,
+            nameError = null
+        )
     }
 
     fun onEmailChange(newValue: String) {
-        _uiState.value = _uiState.value.copy(email = newValue)
-        _uiState.value = _uiState.value.copy(emailError = null)
+        _uiState.value = _uiState.value.copy(
+            email = newValue,
+            emailError = null
+        )
     }
 
     fun onPasswordChange(newValue: String) {
-        _uiState.value = _uiState.value.copy(password = newValue)
-        _uiState.value = _uiState.value.copy(passwordError = null)
+        _uiState.value = _uiState.value.copy(
+            password = newValue,
+            passwordError = null
+        )
     }
 
     fun onRepeatPasswordChange(newValue: String) {
         Log.d("signUp", "repeat pw = ${_uiState.value.repeatPassword}")
         Log.d("signUp", "new = $newValue")
-        _uiState.value = _uiState.value.copy(repeatPassword = newValue)
-        _uiState.value = _uiState.value.copy(repeatPasswordError = null)
+        _uiState.value = _uiState.value.copy(
+            repeatPassword = newValue,
+            repeatPasswordError = null
+        )
     }
 
 
@@ -54,7 +62,7 @@ class SignUpViewModel: ViewModel() {
         Log.d("signUp", "pw = $password")
         Log.d("signUp", "repeat pw = ${_uiState.value.repeatPassword}")
 
-        if (name == "") {
+        if (name.isBlank()) {
             Log.d("signUp", "Name cannot be blank.")
             _uiState.value = _uiState.value.copy(nameError = "Name cannot be blank.")
             return

@@ -12,5 +12,5 @@ data class Water(
 
 data class WaterInfo(
     var waterInOunces: Int =  0,
-    var waterInCups: Int =  0,
+    var waterInCups: Double =  0.0,
 )

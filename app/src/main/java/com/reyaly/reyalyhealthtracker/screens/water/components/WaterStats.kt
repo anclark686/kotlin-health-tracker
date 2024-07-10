@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.reyaly.reyalyhealthtracker.R
+import com.reyaly.reyalyhealthtracker.helpers.checkWholeNum
 import com.reyaly.reyalyhealthtracker.screens.water.WaterViewModel
 import com.reyaly.reyalyhealthtracker.ui.theme.dark_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.light_sky_blue

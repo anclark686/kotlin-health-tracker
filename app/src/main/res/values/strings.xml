@@ -235,8 +235,11 @@
     <string name="weight_ideal">Ideal Weight:</string>
 
     <string name="weight_add">Weigh in!</string>
+    <string name="weight_add_full">Add Weight</string>
     <string name="weight_enter">Enter your new weight:</string>
+    <string name="weight_enter_historical">Enter your weight for</string>
     <string name="weight_new">New Weight</string>
+    <string name="weight_none">No weight recorded</string>
 
 
     <!-- Food -->

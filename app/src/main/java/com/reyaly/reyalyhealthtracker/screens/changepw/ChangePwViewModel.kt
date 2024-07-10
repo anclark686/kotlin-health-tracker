@@ -17,15 +17,19 @@ class ChangePwViewModel: ViewModel() {
         get() = uiState.value.password
 
     fun onPasswordChange(newValue: String) {
-        _uiState.value = _uiState.value.copy(password = newValue)
-        _uiState.value = _uiState.value.copy(passwordError = null)
+        _uiState.value = _uiState.value.copy(
+            password = newValue,
+            passwordError = null
+        )
     }
 
     fun onRepeatPasswordChange(newValue: String) {
         Log.d("signUp", "repeat pw = ${_uiState.value.repeatPassword}")
         Log.d("signUp", "new = $newValue")
-        _uiState.value = _uiState.value.copy(repeatPassword = newValue)
-        _uiState.value = _uiState.value.copy(repeatPasswordError = null)
+        _uiState.value = _uiState.value.copy(
+            repeatPassword = newValue,
+            repeatPasswordError = null
+        )
     }
 
     fun changePassword(

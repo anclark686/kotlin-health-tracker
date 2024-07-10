@@ -33,11 +33,20 @@ fun convertHeightToCm(height: String): String {
 }
 
 fun convertOzToCups(oz: String): String {
-    return (round(oz.toDouble() / 8).toInt()).toString()
+    Log.d("helper", round(oz.toDouble() / 8).toString())
+    Log.d("helper", (oz.toDouble() / 8).toString())
+    return (oz.toDouble() / 8).toString()
 }
 
 fun convertCupsToOz(cups: String): String {
     return (cups.toInt() * 8).toString()
+}
+
+fun checkWholeNum(num: Double): Boolean {
+    Log.d("what", "huh?")
+    Log.d("what", (num).toString())
+    Log.d("what", (num.compareTo(num.toInt()) == 0).toString())
+    return num.compareTo(num.toInt()) == 0
 }
 
 fun changeDate(previousDate: MutableState<LocalDate>, direction: String): MutableState<LocalDate> {

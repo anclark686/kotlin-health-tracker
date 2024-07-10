@@ -62,9 +62,10 @@ class WeightViewModel : ViewModel() {
         return invalidCount == 0
     }
 
-    suspend fun onAddNewWeight(): Boolean {
+    suspend fun onAddNewWeight(edit: Boolean = false): Boolean {
         val firebaseUser = auth.currentUser!!
-        val date = LocalDate.now()
+        val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
+        val date = if (!edit) {LocalDate.now().format(formatter)} else {uiState.value.historicalDate!!}
 
         if (validateWeight()) {
             try {
@@ -243,15 +244,21 @@ class WeightViewModel : ViewModel() {
                     LocalDate.parse(it, formatter)
                 }
             )
+
+            if (uiState.value.historicalDate!!.isNotBlank()) {
+                changeHistoricalWeightValue(uiState.value.historicalDate!!)
+            }
         } catch (e: Exception) {
             Log.d("weight", "an error occurred: $e")
         }
     }
 
     fun changeHistoricalWeightValue(date: String) {
-        _uiState.value = _uiState.value.copy(historicalDate = date)
-        _uiState.value = _uiState.value.copy(historicalWeight = _uiState.value.historicalData[date]?.weight)
-        _uiState.value = _uiState.value.copy(historicalWeightInKg = _uiState.value.historicalData[date]?.weightInKg)
+        _uiState.value = _uiState.value.copy(
+            historicalDate = date,
+            historicalWeight = _uiState.value.historicalData[date]?.weight,
+            historicalWeightInKg = _uiState.value.historicalData[date]?.weightInKg
+        )
         Log.d("weight", date)
         Log.d("weight", _uiState.value.historicalData[date].toString())
     }

@@ -101,7 +101,7 @@ fun WeightScreen(
             BasicButton(
                 text = R.string.weight_add,
                 modifier = modifier,
-                action = { openAddModal.value = true}
+                action = { openAddModal.value = true }
             )
         }
 

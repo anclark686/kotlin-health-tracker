@@ -54,33 +54,45 @@ class IntakeViewModel: ViewModel() {
         get() = uiState.value.activityLevel
 
     fun onFirstNameChange(newValue: String) {
-        _uiState.value = _uiState.value.copy(firstName = newValue)
-        _uiState.value = _uiState.value.copy(firstNameError = null)
+        _uiState.value = _uiState.value.copy(
+            firstName = newValue,
+            firstNameError = null
+        )
     }
 
     fun onLastNameChange(newValue: String) {
-        _uiState.value = _uiState.value.copy(lastName = newValue)
-        _uiState.value = _uiState.value.copy(lastNameError = null)
+        _uiState.value = _uiState.value.copy(
+            lastName = newValue,
+            lastNameError = null
+        )
     }
 
     fun onPhoneNumChange(newValue: String) {
-        _uiState.value = _uiState.value.copy(phoneNumError = null)
-        _uiState.value = _uiState.value.copy(phoneNum = newValue)
+        _uiState.value = _uiState.value.copy(
+            phoneNumError = null,
+            phoneNum = newValue
+        )
     }
 
     fun onBirthdayChange(newValue: String) {
-        _uiState.value = _uiState.value.copy(birthday = newValue)
-        _uiState.value = _uiState.value.copy(birthdayError = null)
+        _uiState.value = _uiState.value.copy(
+            birthday = newValue,
+            birthdayError = null
+        )
     }
 
     fun onHeightChange(newValue: String) {
-        _uiState.value = _uiState.value.copy(height = newValue)
-        _uiState.value = _uiState.value.copy(heightError = null)
+        _uiState.value = _uiState.value.copy(
+            height = newValue,
+            heightError = null
+        )
     }
 
     fun onSexChange(newValue: String) {
-        _uiState.value = _uiState.value.copy(sex = newValue)
-        _uiState.value = _uiState.value.copy(sexError = null)
+        _uiState.value = _uiState.value.copy(
+            sex = newValue,
+            sexError = null
+        )
     }
 
     fun onGenderChange(newValue: String) {

@@ -35,14 +35,13 @@ suspend fun getHistoricalWater(uid: String): HashMap<String, WaterInfo> {
     return data
 }
 
-suspend fun getWaterByDate(uid: String, date: LocalDate): WaterInfo? {
-    val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
+suspend fun getWaterByDate(uid: String, date: String): WaterInfo? {
     var waterInfo: WaterInfo? = null
 
     val response = users
         .document(uid)
         .collection(DATESCOLLECTION)
-        .document(date.format(formatter))
+        .document(date)
         .get()
         .await()
 
@@ -55,13 +54,11 @@ suspend fun getWaterByDate(uid: String, date: LocalDate): WaterInfo? {
     return waterInfo
 }
 
-suspend fun addWater(uid: String, oz: String, cups: String, date: LocalDate) {
-    val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
-
+suspend fun addWater(uid: String, oz: String, cups: String, date: String) {
     val dataRef = users
         .document(uid)
         .collection(DATESCOLLECTION)
-        .document(date.format(formatter))
+        .document(date)
 
     try {
         val response = getWaterByDate(uid, date)
@@ -69,24 +66,27 @@ suspend fun addWater(uid: String, oz: String, cups: String, date: LocalDate) {
         if (response != null) {
             Log.d(TAG, "wassup")
             Log.d(TAG, response.toString())
-            if (response.waterInOunces == 0 && response.waterInCups == 0) {
+            Log.d(TAG, oz)
+            Log.d(TAG, cups)
+            if (response.waterInOunces == 0 && response.waterInCups == 0.0) {
                 val data = hashMapOf<String, Any>(
                     "waterInOunces" to oz.toInt(),
-                    "waterInCups" to cups.toInt(),
+                    "waterInCups" to cups.toDouble(),
                 )
-
+                Log.d(TAG, data.toString())
                 dataRef.update(data).await()
             } else {
                 val data = hashMapOf<String, Any>(
                     "waterInOunces" to FieldValue.increment(oz.toDouble()),
                     "waterInCups" to FieldValue.increment(cups.toDouble()),
                 )
+                Log.d(TAG, data.toString())
                 dataRef.update(data).await()
             }
         } else {
             val data = hashMapOf<String, Any>(
                 "waterInOunces" to oz.toInt(),
-                "waterInCups" to cups.toInt(),
+                "waterInCups" to cups.toDouble(),
             )
             Log.d(TAG, data.toString())
 

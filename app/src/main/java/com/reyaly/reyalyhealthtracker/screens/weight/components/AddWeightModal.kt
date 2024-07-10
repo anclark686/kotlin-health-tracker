@@ -40,6 +40,7 @@ import kotlinx.coroutines.launch
 fun AddWeightModal(
     openDialog: MutableState<Boolean>,
     modifier: Modifier = Modifier,
+    edit: Boolean = false,
     viewModel: WeightViewModel = viewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -68,12 +69,20 @@ fun AddWeightModal(
                 verticalArrangement = Arrangement.Center
             ) {
                 Column(
-                    modifier = modifier.padding(10.dp)
+                    modifier = modifier.padding(10.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    Text(
-                        stringResource(R.string.weight_enter),
-                        style = MaterialTheme.typography.headlineSmall
-                    )
+                    if (!edit) {
+                        Text(
+                            stringResource(R.string.weight_enter),
+                            style = MaterialTheme.typography.headlineSmall
+                        )
+                    } else {
+                        Text(
+                            "${stringResource(R.string.weight_enter_historical)} ${uiState.historicalDate}:",
+                            style = MaterialTheme.typography.headlineSmall
+                        )
+                    }
                 }
                 Column(
                     modifier = modifier
@@ -100,7 +109,7 @@ fun AddWeightModal(
                             modifier = modifier.padding(horizontal = 5.dp),
                             action = {
                                 coroutineScope.launch {
-                                     if (viewModel.onAddNewWeight()) {
+                                     if (viewModel.onAddNewWeight(edit)) {
                                          openDialog.value = false
                                          viewModel.getWeightGoals()
                                          viewModel.getWeightStats()

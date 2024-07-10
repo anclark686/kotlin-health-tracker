@@ -120,7 +120,7 @@ fun EmailAndPasswordScreen(
                     style = MaterialTheme.typography.headlineSmall,
                 )
             }
-            if (viewModel.loginError != "") {
+            if (viewModel.loginError.isNotBlank()) {
                 Column(
                     modifier = modifier,
                     verticalArrangement = Arrangement.Center

@@ -17,14 +17,13 @@ private const val TAG = "weightStorage"
 private const val DATESCOLLECTION = "dates"
 val users = Firebase.firestore.collection("users")
 
-suspend fun getWeightByDate(uid: String, date: LocalDate): Weight? {
-    val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
+suspend fun getWeightByDate(uid: String, date: String): Weight? {
     var weight: Weight? = null
 
     val response = users
         .document(uid)
         .collection(DATESCOLLECTION)
-        .document(date.format(formatter))
+        .document(date)
         .get()
         .await()
 
@@ -36,8 +35,7 @@ suspend fun getWeightByDate(uid: String, date: LocalDate): Weight? {
     return weight
 }
 
-suspend fun addWeightToDates(uid: String, newWeight: String, date: LocalDate): String {
-    val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
+suspend fun addWeightToDates(uid: String, newWeight: String, date: String): String {
     val newWeightInKg = convertWeightToKg(newWeight)
     val data = hashMapOf<String, Any>(
         "weight" to newWeight,
@@ -47,7 +45,7 @@ suspend fun addWeightToDates(uid: String, newWeight: String, date: LocalDate): S
     val dataRef = users
         .document(uid)
         .collection(DATESCOLLECTION)
-        .document(date.format(formatter))
+        .document(date)
 
     val existingWeight = getWeightByDate(uid, date)
 

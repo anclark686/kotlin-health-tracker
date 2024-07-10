@@ -92,7 +92,7 @@ fun WaterScreen(
             BasicButton(
                 text = R.string.water_add,
                 modifier = modifier,
-                action = { openAddModal.value = true}
+                action = { openAddModal.value = true }
             )
         }
 

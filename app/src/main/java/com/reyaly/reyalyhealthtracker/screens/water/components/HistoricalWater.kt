@@ -1,6 +1,7 @@
 package com.reyaly.reyalyhealthtracker.screens.water.components
 
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,12 +9,15 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,9 +27,12 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.reyaly.reyalyhealthtracker.R
 import com.reyaly.reyalyhealthtracker.common.composable.BasicExposedDropdown
+import com.reyaly.reyalyhealthtracker.common.composable.BasicTextButton
+import com.reyaly.reyalyhealthtracker.helpers.checkWholeNum
 import com.reyaly.reyalyhealthtracker.screens.water.WaterViewModel
 import com.reyaly.reyalyhealthtracker.ui.theme.dark_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.light_sky_blue
+import com.reyaly.reyalyhealthtracker.ui.theme.med_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.sky_blue
 
 @Composable
@@ -38,19 +45,32 @@ fun HistoricalWater(
 
     var labelColor: Color
     var spinnerColor: Color
+    var buttonBackground: Color
+    var buttonText: Color
 
     if (isSystemInDarkTheme()) {
         labelColor = light_sky_blue
         spinnerColor = sky_blue
+        buttonBackground = med_sky_blue
+        buttonText = Color.White
     } else {
         labelColor = dark_sky_blue
         spinnerColor = dark_sky_blue
+        buttonBackground = sky_blue
+        buttonText = Color.Black
     }
+
+    val openAddModal = remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = viewModel) {
         viewModel.getHistoricalData()
         Log.d("water", "you reloading?")
     }
+
+    AddWaterModal(
+        openDialog = openAddModal,
+        edit = true
+    )
 
     Column(
         modifier = modifier,
@@ -70,11 +90,11 @@ fun HistoricalWater(
                     BasicExposedDropdown(
                         text = R.string.dates,
                         list = uiState.historicalDates.toList(),
-                        onNewValue = viewModel::changeHistoricalWeightValue,
+                        onNewValue = viewModel::changeHistoricalWaterValue,
                     )
                 }
                 Spacer(modifier = modifier.padding(5.dp))
-                if (uiState.historicalDate != "") {
+                if (uiState.historicalDate!!.isNotBlank()) {
                     Row (
                         modifier = modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.Center
@@ -88,7 +108,7 @@ fun HistoricalWater(
 
                     Spacer(modifier = modifier.padding(5.dp))
 
-                    if (uiState.historicalWaterInOz != 0 && uiState.historicalWaterInCups != 0) {
+                    if (uiState.historicalWaterInOz.isNotBlank() && uiState.historicalWaterInCups.isNotBlank()) {
                         Row (
                             modifier = modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
@@ -99,7 +119,7 @@ fun HistoricalWater(
                                 color = labelColor
                             )
                             Text(
-                                text = "${uiState.historicalWaterInOz!!} oz",
+                                text = "${uiState.historicalWaterInOz} oz",
                                 fontSize = 18.sp
                             )
                         }
@@ -129,6 +149,22 @@ fun HistoricalWater(
                                 color = labelColor
                             )
                         }
+                    }
+
+                    Spacer(modifier = modifier.padding(5.dp))
+
+                    Row(
+                        modifier = modifier
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        BasicTextButton(
+                            text = R.string.water_add,
+                            modifier = modifier
+                                .background(color = buttonBackground, RoundedCornerShape(50.dp)),
+                            color = buttonText,
+                            action = { openAddModal.value = true },
+                        )
                     }
                 } else {
                     Row (

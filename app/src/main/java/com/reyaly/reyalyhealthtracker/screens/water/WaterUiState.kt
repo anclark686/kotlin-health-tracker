@@ -7,15 +7,15 @@ data class WaterUiState(
     val ozError: String? = null,
     val cupsError: String? = null,
 
-    val recommended: Int? = 0,
-    val totalOunces: Int? = 0,
-    val totalCups: Int? = 0,
-    val ouncesRemaining: Int? = 0,
+    val recommended: String = "",
+    val totalOunces: String = "",
+    val totalCups: String = "",
+    val ouncesRemaining: String = "",
     val percentage: String? = "",
 
     val historicalData: HashMap<String, WaterInfo> = hashMapOf(),
     val historicalDates: List<String> = listOf(),
     val historicalDate: String? = "",
-    val historicalWaterInOz: Int? = 0,
-    val historicalWaterInCups: Int? = 0,
+    val historicalWaterInOz: String = "",
+    val historicalWaterInCups: String = "",
 )
