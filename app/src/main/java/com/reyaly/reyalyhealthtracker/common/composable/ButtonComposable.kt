@@ -16,7 +16,6 @@ limitations under the License.
 
 package com.reyaly.reyalyhealthtracker.common.composable
 
-import android.graphics.drawable.Icon
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
@@ -24,15 +23,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -43,22 +39,22 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.reyaly.reyalyhealthtracker.R
 import com.reyaly.reyalyhealthtracker.ui.theme.dark_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.google_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.med_sky_blue
-import com.reyaly.reyalyhealthtracker.ui.theme.sky_blue
 
 @Composable
-fun BasicTextButton(@StringRes text: Int, modifier: Modifier, action: () -> Unit, color: Color = Color.Unspecified) {
+fun BasicTextButton(@StringRes text: Int, modifier: Modifier, action: () -> Unit, color: Color = Color.Unspecified, fontSize: TextUnit = 18.sp) {
   TextButton(onClick = action, modifier = modifier) {
     Text(
       text = stringResource(text),
       textAlign = TextAlign.Center,
       color = color,
-      fontSize = 18.sp,
+      fontSize = fontSize,
     )
   }
 }

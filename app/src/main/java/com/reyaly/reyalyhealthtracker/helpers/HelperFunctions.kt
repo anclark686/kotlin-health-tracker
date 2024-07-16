@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter
 import kotlin.math.round
 
 fun convertTimestampToDateStr(timestamp: Timestamp?): String {
-    val date = timestamp!!.toDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+    val date = timestamp!!.toDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
     val usFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
     return date.format(usFormatter)
 }

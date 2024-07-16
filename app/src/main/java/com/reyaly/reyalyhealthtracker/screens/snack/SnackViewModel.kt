@@ -96,7 +96,7 @@ class SnackViewModel: ViewModel() {
         Log.d(TAG, "protein = $protein")
         Log.d(TAG, "fat = $fat")
         Log.d(TAG, "carbs = $carbs")
-        Log.d(TAG, "quantity = ${quantity.toString()}")
+        Log.d(TAG, "quantity = $quantity")
 
         var invalidCount = 0
         if (name.isBlank()) {

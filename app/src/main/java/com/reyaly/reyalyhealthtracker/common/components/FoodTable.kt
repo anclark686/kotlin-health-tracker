@@ -212,7 +212,7 @@ fun FoodTable(
                     ) {
                         MacrosTable(foodItem = item)
                     }
-                    Row() {
+                    Row {
                         Column(
                             modifier = modifier.fillMaxWidth().padding(bottom = 10.dp),
                             verticalArrangement = Arrangement.Center,

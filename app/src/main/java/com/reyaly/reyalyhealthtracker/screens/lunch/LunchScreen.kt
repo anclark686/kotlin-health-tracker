@@ -74,18 +74,7 @@ fun LunchScreen(
         dark_sky_blue
     }
 
-    val foodItemToEdit =  remember { mutableStateOf(
-        FoodItem(
-            documentId = "",
-            meal = "",
-            name = "",
-            calories = "",
-            protein = "",
-            fat = "",
-            carbs = "",
-            quantity = ""
-        )
-    ) }
+    val foodItemToEdit =  remember { mutableStateOf( FoodItem() ) }
 
     var date = remember { mutableStateOf(LocalDate.now() ) }
 
@@ -155,8 +144,6 @@ fun LunchScreen(
                 BasicButton(text = R.string.nav_food, modifier = modifier, action = { onFoodClick() })
             }
         }
-
-//        DateSelector()
 
         Column(
             modifier = modifier.fillMaxWidth(),

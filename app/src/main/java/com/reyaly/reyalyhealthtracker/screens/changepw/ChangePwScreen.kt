@@ -16,15 +16,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -33,18 +30,14 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.reyaly.reyalyhealthtracker.R
 import com.reyaly.reyalyhealthtracker.common.components.LogoBanner
 import com.reyaly.reyalyhealthtracker.common.composable.BasicTextButton
-import com.reyaly.reyalyhealthtracker.common.composable.DashboardButton
 import com.reyaly.reyalyhealthtracker.common.composable.PasswordField
 import com.reyaly.reyalyhealthtracker.common.composable.RepeatPasswordField
-import com.reyaly.reyalyhealthtracker.screens.signup.SignUpViewModel
 import com.reyaly.reyalyhealthtracker.ui.theme.dark_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.errorDarkRed
 import com.reyaly.reyalyhealthtracker.ui.theme.errorPink
@@ -146,7 +139,7 @@ fun ChangePwScreen(
                 )
             }
 
-            Divider(
+            HorizontalDivider(
                 modifier = modifier
                     .fillMaxWidth(),
                 thickness = 1.dp,

@@ -1,6 +1,5 @@
 package com.reyaly.reyalyhealthtracker.screens.snack.components
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -9,16 +8,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
@@ -26,11 +22,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -39,13 +33,11 @@ import com.reyaly.reyalyhealthtracker.R
 import com.reyaly.reyalyhealthtracker.common.composable.BasicExposedDropdown
 import com.reyaly.reyalyhealthtracker.common.composable.BasicField
 import com.reyaly.reyalyhealthtracker.common.composable.BasicTextButton
-import com.reyaly.reyalyhealthtracker.common.composable.SearchField
 import com.reyaly.reyalyhealthtracker.model.FoodItem
 import com.reyaly.reyalyhealthtracker.screens.snack.SnackViewModel
 import com.reyaly.reyalyhealthtracker.ui.theme.dark_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.light_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.med_sky_blue
-import com.reyaly.reyalyhealthtracker.ui.theme.sky_blue
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.util.Locale
@@ -65,7 +57,7 @@ fun EditSnackModal(
     val coroutineScope = rememberCoroutineScope()
 
     val dialogWidth = 300.dp
-    val dialogHeight = 600.dp
+    val dialogHeight = 650.dp
 
     var backgroundColor: Color
     var dividerColor: Color
@@ -92,16 +84,7 @@ fun EditSnackModal(
     fun closeDialog() {
         openDialog.value = false
         editClicked.value = false
-        foodItemToEdit.value = FoodItem(
-            documentId = "",
-            meal = "",
-            name = "",
-            calories = "",
-            protein = "",
-            fat = "",
-            carbs = "",
-            quantity = ""
-        )
+        foodItemToEdit.value = FoodItem()
         viewModel.clearFields()
     }
 
@@ -153,6 +136,16 @@ fun EditSnackModal(
                 ) {
                     Text(text = "Edit $foodName", fontSize = 20.sp)
                 }
+
+                Spacer(modifier = modifier.padding(10.dp))
+
+                HorizontalDivider(
+                    modifier = modifier
+                        .fillMaxWidth(),
+                    thickness = 2.dp,
+                    color = dividerColor
+                )
+
                 Spacer(modifier = Modifier.weight(1f))
                 Column(
                     modifier = modifier
@@ -173,7 +166,7 @@ fun EditSnackModal(
                         errorMsg = uiState.quantityError,
                         initialValue = foodItemToEdit.value.quantity
                     )
-                    Row() {
+                    Row {
                         BasicField(
                             modifier = modifier
                                 .weight(.5f)
@@ -193,7 +186,7 @@ fun EditSnackModal(
                             errorMsg = uiState.proteinError
                         )
                     }
-                    Row() {
+                    Row {
                         BasicField(
                             modifier = modifier
                                 .weight(.5f)

@@ -76,20 +76,9 @@ fun SnackScreen(
         dark_sky_blue
     }
 
-    val foodItemToEdit =  remember { mutableStateOf(
-        FoodItem(
-            documentId = "",
-            meal = "",
-            name = "",
-            calories = "",
-            protein = "",
-            fat = "",
-            carbs = "",
-            quantity = ""
-        )
-    ) }
+    val foodItemToEdit =  remember { mutableStateOf( FoodItem() ) }
 
-    var date = remember { mutableStateOf(LocalDate.now() ) }
+    var date = remember { mutableStateOf( LocalDate.now() ) }
 
     suspend fun onDateChange(direction: String) {
         date = changeDate(date, direction)
@@ -108,11 +97,8 @@ fun SnackScreen(
     }
 
     LaunchedEffect(key1 = editClicked.value) {
-        Log.d("snackscreen", "edit was clicked")
         if (editClicked.value) {
             openEditDialog.value = true
-            Log.d("snackscreen", "edit was clicked")
-            Log.d("snackscreen", foodItemToEdit.toString())
         }
     }
 

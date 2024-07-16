@@ -1,6 +1,5 @@
 package com.reyaly.reyalyhealthtracker.screens.intake.components
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -13,10 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Warning
-import androidx.compose.material3.Divider
-import androidx.compose.material3.Icon
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -33,12 +29,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.reyaly.reyalyhealthtracker.R
-import com.reyaly.reyalyhealthtracker.common.components.DeleteModal
 import com.reyaly.reyalyhealthtracker.common.composable.BasicTextButton
 import com.reyaly.reyalyhealthtracker.ui.theme.dark_sky_blue
-import com.reyaly.reyalyhealthtracker.ui.theme.errorDarkRed
-import com.reyaly.reyalyhealthtracker.ui.theme.errorPink
-import com.reyaly.reyalyhealthtracker.ui.theme.light_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.med_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.sky_blue
 
@@ -109,7 +101,7 @@ fun WelcomeModal(
                         )
                     }
 
-                    Divider(
+                    HorizontalDivider(
                         modifier = modifier
                             .fillMaxWidth(),
                         thickness = 1.dp,

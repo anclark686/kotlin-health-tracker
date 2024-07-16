@@ -66,8 +66,7 @@ fun HomeScreen(
             )
         }
         Row(modifier = modifier) {
-            Column(
-            ) {
+            Column {
                 if (auth.currentUser != null)  {
                     LoggedIn({ onDashboardClick() })
                 } else {

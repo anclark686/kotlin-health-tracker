@@ -1,20 +1,18 @@
 package com.reyaly.reyalyhealthtracker.screens.water.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Warning
-import androidx.compose.material3.Divider
-import androidx.compose.material3.Icon
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,7 +27,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -42,7 +39,6 @@ import com.reyaly.reyalyhealthtracker.screens.water.WaterViewModel
 import com.reyaly.reyalyhealthtracker.ui.theme.dark_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.light_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.med_sky_blue
-import com.reyaly.reyalyhealthtracker.ui.theme.sky_blue
 import kotlinx.coroutines.launch
 
 @Composable
@@ -58,14 +54,17 @@ fun AddWaterModal(
     val coroutineScope = rememberCoroutineScope()
 
     val dialogWidth = 300.dp
-    val dialogHeight = 300.dp
+    val dialogHeight = 400.dp
 
     var dialogColor: Color
+    var dividerColor: Color
 
     if (isSystemInDarkTheme()) {
         dialogColor = dark_sky_blue
+        dividerColor = med_sky_blue
     } else {
         dialogColor = light_sky_blue
+        dividerColor = dark_sky_blue
     }
 
     val cupsOrOunces = remember { mutableStateOf(true) }
@@ -84,9 +83,12 @@ fun AddWaterModal(
                     modifier = modifier.padding(10.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    Text(
-                        stringResource(R.string.water_some),
-                        style = MaterialTheme.typography.headlineSmall
+                    Image(
+                        painter = painterResource(R.drawable.ic_water),
+                        contentDescription = "meds",
+                        modifier = modifier
+                            .width(75.dp)
+                            .padding(15.dp),
                     )
                     if (!edit) {
                         Text(
@@ -100,6 +102,15 @@ fun AddWaterModal(
                         )
                     }
                 }
+
+                HorizontalDivider(
+                    modifier = modifier
+                        .fillMaxWidth(),
+                    thickness = 2.dp,
+                    color = dividerColor
+                )
+
+                Spacer(modifier = modifier.padding(10.dp))
 
                 if (!cupsOrOunces.value) {
                     Column(
@@ -147,10 +158,19 @@ fun AddWaterModal(
                     }
                 }
 
+                Spacer(modifier = modifier.padding(10.dp))
+
+                HorizontalDivider(
+                    modifier = modifier
+                        .fillMaxWidth(),
+                    thickness = 2.dp,
+                    color = dividerColor
+                )
+
                 Column(
                     modifier = modifier.padding(10.dp)
                 ) {
-                    Row() {
+                    Row {
                         BasicButton(
                             text = R.string.cancel,
                             modifier = modifier.padding(horizontal = 5.dp),

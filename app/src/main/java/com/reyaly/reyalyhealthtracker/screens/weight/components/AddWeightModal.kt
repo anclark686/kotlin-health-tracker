@@ -1,13 +1,18 @@
 package com.reyaly.reyalyhealthtracker.screens.weight.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,6 +25,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -49,14 +55,17 @@ fun AddWeightModal(
     val coroutineScope = rememberCoroutineScope()
 
     val dialogWidth = 300.dp
-    val dialogHeight = 250.dp
+    val dialogHeight = 350.dp
 
     var dialogColor: Color
+    var dividerColor: Color
 
     if (isSystemInDarkTheme()) {
         dialogColor = dark_sky_blue
+        dividerColor = med_sky_blue
     } else {
         dialogColor = light_sky_blue
+        dividerColor = dark_sky_blue
     }
 
     if (openDialog.value) {
@@ -72,6 +81,13 @@ fun AddWeightModal(
                     modifier = modifier.padding(10.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
+                    Image(
+                        painter = painterResource(R.drawable.ic_weight),
+                        contentDescription = "meds",
+                        modifier = modifier
+                            .width(75.dp)
+                            .padding(15.dp),
+                    )
                     if (!edit) {
                         Text(
                             stringResource(R.string.weight_enter),
@@ -84,6 +100,14 @@ fun AddWeightModal(
                         )
                     }
                 }
+                HorizontalDivider(
+                    modifier = modifier
+                        .fillMaxWidth(),
+                    thickness = 2.dp,
+                    color = dividerColor
+                )
+
+                Spacer(modifier = modifier.padding(10.dp))
                 Column(
                     modifier = modifier
                 ) {
@@ -95,10 +119,20 @@ fun AddWeightModal(
                         errorMsg = uiState.weightError
                     )
                 }
+
+                Spacer(modifier = modifier.padding(10.dp))
+
+                HorizontalDivider(
+                    modifier = modifier
+                        .fillMaxWidth(),
+                    thickness = 2.dp,
+                    color = dividerColor
+                )
+
                 Column(
                     modifier = modifier.padding(10.dp)
                 ) {
-                    Row() {
+                    Row {
                         BasicButton(
                             text = R.string.cancel,
                             modifier = modifier.padding(horizontal = 5.dp),

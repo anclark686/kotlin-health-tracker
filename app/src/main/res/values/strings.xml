@@ -207,10 +207,25 @@
 
     <!-- Med -->
     <string name="med_no_meds">No medications found. Click \"Add New\" to add a medication.</string>
+    <string name="med_add_new">Add New Medication</string>
+    <string name="med_edit_med">Edit</string>
+    <string name="med_delete_med">Delete</string>
     <string name="med_input_med_name">Name</string>
     <string name="med_input_med_dose">Dose</string>
     <string name="med_input_med_time">Time</string>
     <string name="med_edit_meds">Edit Meds</string>
+    <string name="med_times">Times</string>
+    <string name="med_morning">Morning</string>
+    <string name="med_afternoon">Afternoon</string>
+    <string name="med_evening">Evening</string>
+    <string name="med_night">Night</string>
+    <string name="med_prescriber">Prescriber</string>
+    <string name="med_taken_for">Taken For</string>
+    <string name="med_last_filled">Last Filled</string>
+    <string name="med_taken">Taken</string>
+    <string name="med_info">Info</string>
+    <string name="med_info_plus">➕</string>
+    <string name="med_info_more">More info about</string>
 
     <!-- Weight -->
     <string name="weight_chart">Progress Chart</string>

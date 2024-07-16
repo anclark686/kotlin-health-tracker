@@ -28,7 +28,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.reyaly.reyalyhealthtracker.R
 import com.reyaly.reyalyhealthtracker.common.composable.BasicExposedDropdown
 import com.reyaly.reyalyhealthtracker.common.composable.BasicTextButton
-import com.reyaly.reyalyhealthtracker.helpers.checkWholeNum
 import com.reyaly.reyalyhealthtracker.screens.water.WaterViewModel
 import com.reyaly.reyalyhealthtracker.ui.theme.dark_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.light_sky_blue
@@ -134,7 +133,7 @@ fun HistoricalWater(
                                 color = labelColor
                             )
                             Text(
-                                text = "${uiState.historicalWaterInCups!!} cups",
+                                text = "${uiState.historicalWaterInCups} cups",
                                 fontSize = 18.sp
                             )
                         }
