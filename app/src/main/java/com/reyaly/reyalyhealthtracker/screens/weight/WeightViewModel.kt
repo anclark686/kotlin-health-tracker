@@ -20,6 +20,8 @@ import kotlin.math.abs
 import kotlin.math.floor
 import kotlin.math.round
 
+private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
+
 class WeightViewModel : ViewModel() {
     val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
@@ -64,7 +66,6 @@ class WeightViewModel : ViewModel() {
 
     suspend fun onAddNewWeight(edit: Boolean = false): Boolean {
         val firebaseUser = auth.currentUser!!
-        val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
         val date = if (!edit) {LocalDate.now().format(formatter)} else {uiState.value.historicalDate!!}
 
         if (validateWeight()) {
@@ -229,7 +230,6 @@ class WeightViewModel : ViewModel() {
 
     suspend fun getHistoricalData() {
         val firebaseUser = auth.currentUser!!
-        val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
 
         _uiState.value = _uiState.value.copy(valuesAreLoading = true)
 

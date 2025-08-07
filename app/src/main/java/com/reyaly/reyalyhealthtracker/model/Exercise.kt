@@ -8,6 +8,8 @@ data class Exercise(
     val name: String = "",
     val calsBurned: String = "",
     val lengthTime: String = "",
+    val timeOfDay: String = "",
     val intensity: String = "",
+    val area: String = "",
     val workoutType: String = ""
 )

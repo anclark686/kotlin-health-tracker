@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.reyaly.reyalyhealthtracker.R
 import com.reyaly.reyalyhealthtracker.common.composable.BasicTextButton
+import com.reyaly.reyalyhealthtracker.helpers.capitalize
 import com.reyaly.reyalyhealthtracker.model.Medication
 import com.reyaly.reyalyhealthtracker.ui.theme.dark_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.light_sky_blue
@@ -196,11 +197,7 @@ fun MedTable(
                             Text(
                                 modifier = modifier
                                     .padding(vertical = 2.dp),
-                                text = item.name.replaceFirstChar {
-                                    if (it.isLowerCase()) it.titlecase(
-                                        Locale.getDefault()
-                                    ) else it.toString()
-                                },
+                                text = capitalize(item.name),
                                 textAlign = TextAlign.Center,
                             )
                         }

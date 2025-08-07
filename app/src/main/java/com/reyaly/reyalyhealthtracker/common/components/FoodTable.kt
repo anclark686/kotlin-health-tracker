@@ -8,10 +8,13 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -29,6 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.reyaly.reyalyhealthtracker.R
 import com.reyaly.reyalyhealthtracker.common.composable.BasicTextButton
+import com.reyaly.reyalyhealthtracker.helpers.capitalize
 import com.reyaly.reyalyhealthtracker.model.FoodItem
 import com.reyaly.reyalyhealthtracker.ui.theme.dark_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.errorDarkRed
@@ -95,6 +99,7 @@ fun FoodTable(
                 modifier = modifier
                     .padding(start = 10.dp, top = 10.dp, end = 10.dp)
                     .fillMaxWidth()
+                    .height(IntrinsicSize.Min)
                     .background(color = headerColor)
 
             ) {
@@ -133,7 +138,7 @@ fun FoodTable(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        stringResource(R.string.food_more),
+                        stringResource(R.string.more_info),
                         modifier = modifier
                             .padding(vertical = 2.dp),
                         textAlign = TextAlign.Center,
@@ -148,28 +153,28 @@ fun FoodTable(
                     modifier = modifier
                         .padding(horizontal = 10.dp)
                         .fillMaxWidth()
+                        .height(IntrinsicSize.Min)
                         .background(color = if (index % 2 != 0) everyOtherColor else Color.Unspecified),
                 ) {
                     Column(
                         modifier = modifier
                             .weight(.5f)
+                            .fillMaxHeight()
                             .border(border = BorderStroke(width = 1.dp, borderColor)),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
                             modifier = modifier
                                 .padding(vertical = 2.dp),
-                            text = item.name.replaceFirstChar {
-                                if (it.isLowerCase()) it.titlecase(
-                                    Locale.getDefault()
-                                ) else it.toString()
-                            },
+                            text = capitalize(item.name),
                             textAlign = TextAlign.Center,
                         )
                     }
+
                     Column(
                         modifier = modifier
                             .weight(.25f)
+                            .fillMaxHeight()
                             .border(border = BorderStroke(width = 1.dp, borderColor)),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
@@ -180,9 +185,11 @@ fun FoodTable(
                             textAlign = TextAlign.Center,
                         )
                     }
+
                     Column(
                         modifier = modifier
                             .weight(.25f)
+                            .fillMaxHeight()
                             .border(border = BorderStroke(width = 1.dp, borderColor)),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
@@ -209,12 +216,13 @@ fun FoodTable(
                     Row(
                         modifier = modifier
                             .fillMaxWidth()
+                            .height(IntrinsicSize.Min)
                     ) {
                         MacrosTable(foodItem = item)
                     }
                     Row {
                         Column(
-                            modifier = modifier.fillMaxWidth().padding(bottom = 10.dp),
+                            modifier = modifier.fillMaxWidth().fillMaxHeight().padding(bottom = 10.dp),
                             verticalArrangement = Arrangement.Center,
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
@@ -246,37 +254,7 @@ fun FoodTable(
                         }
                     }
                 }
-                
             }
         }
     }
 }
-
-//@Preview
-//@Composable
-//fun FoodTablePreview() {
-//    val food1 = FoodItem(
-//        documentId = "1234",
-//        meal = "breakfast",
-//        name = "eggs",
-//        calories = "1234",
-//        protein = "20g",
-//        fat = "15g",
-//        carbs = "20g",
-//        apiId = "1234"
-//    )
-//    val food2 = FoodItem(
-//        documentId = "1234",
-//        meal = "breakfast",
-//        name = "eggs",
-//        calories = "1234",
-//        protein = "20g",
-//        fat = "15g",
-//        carbs = "20g",
-//        apiId = "1234"
-//    )
-//    val foods = mutableListOf<FoodItem>(food1, food2)
-//    FoodTable(
-//        foods
-//    )
-//}

@@ -13,6 +13,7 @@ private const val TAG = "foodStorage"
 private const val FOODCOLLECTION = "foods"
 private const val DATESCOLLECTION = "dates"
 val users = Firebase.firestore.collection("users")
+private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
 
 suspend fun addOrEditFoodInFoods(uid: String, foodItem: FoodItem): String {
     // need to add check to see if item is already in foods
@@ -26,8 +27,6 @@ suspend fun addOrEditFoodInFoods(uid: String, foodItem: FoodItem): String {
 }
 
 suspend fun addOrEditFoodsInDates(uid: String, foodItem: FoodItem, date: LocalDate): String {
-    val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
-
     val dataRef = users
         .document(uid)
         .collection(DATESCOLLECTION)
@@ -90,8 +89,6 @@ suspend fun findFoodInFoods(uid: String, foodName: String): FoodItem? {
 }
 
 suspend fun findFoodsInDates(uid: String, foodItem: FoodItem, date: LocalDate): FoodItem? {
-    val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
-
     val food = users
         .document(uid)
         .collection(DATESCOLLECTION)
@@ -105,8 +102,6 @@ suspend fun findFoodsInDates(uid: String, foodItem: FoodItem, date: LocalDate): 
 }
 
 suspend fun findMealsInDates(uid: String, meal: String, date: LocalDate): List<FoodItem> {
-    val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
-
     val foods = users
         .document(uid)
         .collection(DATESCOLLECTION)

@@ -28,6 +28,9 @@
     <string name="dates">Dates</string>
     <string name="select_date">Please select a date.</string>
     <string name="historical">View Historical Data</string>
+    <string name="time">Time</string>
+    <string name="show">Show</string>
+    <string name="more_info">More Info</string>
 
     <!-- Nav -->
     <string name="nav_dashboard">Dashboard</string>
@@ -266,7 +269,6 @@
     <string name="food_calories_burned">Burned:</string>
     <string name="food_calories_remaining">Remaining:</string>
     <string name="food_macros">Macro Preferences</string>
-    <string name="food_more">More Info</string>
     <string name="food_diet_choice">Diet Preference</string>
     <string name="food_balanced">Balanced</string>
     <string name="food_low_carb">Low Carb</string>
@@ -335,20 +337,38 @@
 
     <!-- Exercise -->
     <string name="exercise_add">Add Exercise</string>
-    <string name="exercise_workouts">Add Exercise</string>
+    <string name="exercise_name">Exercise Name</string>
+    <string name="exercise_cals">Calories Burned</string>
+    <string name="exercise_length">Time (Minutes)</string>
+    <string name="exercise_time">Time of Day</string>
+    <string name="exercise_area">Area of Focus</string>
+    <string name="exercise_intensity">Intensity</string>
+    <string name="exercise_workouts">Workouts</string>
     <string name="exercise_cardio">Cardio Exercises</string>
     <string name="exercise_strength">Strength Training</string>
-    <string name="exercise_stats">Exercise Stats</string>
+    <string name="exercise_cardio_stats">Cardio Stats</string>
+    <string name="exercise_strength_stats">Strength Stats</string>
+    <string name="exercise_stats">Full Exercise Stats</string>
     <string name="exercise_intensity_passive">Passive</string>
     <string name="exercise_intensity_light">Light</string>
     <string name="exercise_intensity_moderate">Moderate</string>
     <string name="exercise_intensity_vigorous">Vigorous</string>
     <string name="exercise_intensity_extreme">Extreme</string>
+    <string name="exercise_morning_workouts">Morning Workout</string>
+    <string name="exercise_afternoon_workouts">Afternoon Workout</string>
+    <string name="exercise_evening_workouts">Evening Workout</string>
+    <string name="exercise_night_workouts">Night Workout</string>
+    <string name="exercise_morning">Morning</string>
+    <string name="exercise_afternoon">Afternoon</string>
+    <string name="exercise_evening">Evening</string>
+    <string name="exercise_night">Night</string>
     <string name="exercise_stats_unique">Unique Exercises:</string>
     <string name="exercise_stats_time">Time Spent:</string>
     <string name="exercise_stats_calories">Calories Burned:</string>
     <string name="exercise_stats_favorite">Favorite Exercise:</string>
-    <string name="exercise_no_exercise">No exercises found. Click \"Add New\" to add a exercise.</string>
+    <string name="exercise_stats_most">Most Impactful:</string>
+    <string name="exercise_previous">Previously Added Exercises</string>
+    <string name="exercise_no_exercise">No exercises found. Click \"Add Exercise\" to add a exercise.</string>
 
     <string name="default_web_client_id">761702154186-9gpfd37qfmfuoitcb8gbul83montdgat.apps.googleusercontent.com</string>
 </resources>

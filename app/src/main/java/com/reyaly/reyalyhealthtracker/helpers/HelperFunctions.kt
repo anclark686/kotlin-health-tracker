@@ -10,6 +10,7 @@ import com.reyaly.reyalyhealthtracker.model.FoodStat
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 import kotlin.math.round
 
 fun convertTimestampToDateStr(timestamp: Timestamp?): String {
@@ -82,4 +83,12 @@ fun getFoodStats(foodList: List<FoodItem>): FoodStat {
     }
 
     return FoodStat(unique, total, calories, protein, fat, carbs)
+}
+
+fun capitalize(word: String): String {
+    return word.replaceFirstChar {
+        if (it.isLowerCase()) it.titlecase(
+            Locale.getDefault()
+        ) else it.toString()
+    }
 }

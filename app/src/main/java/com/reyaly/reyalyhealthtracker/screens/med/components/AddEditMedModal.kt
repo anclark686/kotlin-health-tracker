@@ -43,6 +43,7 @@ import com.reyaly.reyalyhealthtracker.R
 import com.reyaly.reyalyhealthtracker.common.composable.BasicButton
 import com.reyaly.reyalyhealthtracker.common.composable.BasicField
 import com.reyaly.reyalyhealthtracker.common.composable.DateField
+import com.reyaly.reyalyhealthtracker.helpers.capitalize
 import com.reyaly.reyalyhealthtracker.model.Medication
 import com.reyaly.reyalyhealthtracker.screens.med.MedViewModel
 import com.reyaly.reyalyhealthtracker.ui.theme.dark_sky_blue
@@ -136,11 +137,7 @@ fun AddEditMedModal(
                         )
                     } else {
                         Text(
-                            "${stringResource(R.string.med_edit_med)} ${medicationToEdit.value.name.replaceFirstChar {
-                                if (it.isLowerCase()) it.titlecase(
-                                    Locale.getDefault()
-                                ) else it.toString()
-                            }}:",
+                            "${stringResource(R.string.med_edit_med)} ${capitalize(medicationToEdit.value.name)}:",
                             style = MaterialTheme.typography.headlineSmall
                         )
                     }

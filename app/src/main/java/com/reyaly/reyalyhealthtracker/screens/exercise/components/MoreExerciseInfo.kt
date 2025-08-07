@@ -1,4 +1,4 @@
-package com.reyaly.reyalyhealthtracker.screens.med.components
+package com.reyaly.reyalyhealthtracker.screens.exercise.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -34,8 +34,9 @@ import com.reyaly.reyalyhealthtracker.R
 import com.reyaly.reyalyhealthtracker.common.composable.BasicButton
 import com.reyaly.reyalyhealthtracker.common.composable.BasicTextButton
 import com.reyaly.reyalyhealthtracker.helpers.capitalize
+import com.reyaly.reyalyhealthtracker.model.Exercise
 import com.reyaly.reyalyhealthtracker.model.Medication
-import com.reyaly.reyalyhealthtracker.screens.med.MedViewModel
+import com.reyaly.reyalyhealthtracker.screens.exercise.ExerciseViewModel
 import com.reyaly.reyalyhealthtracker.ui.theme.dark_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.errorDarkRed
 import com.reyaly.reyalyhealthtracker.ui.theme.errorPink
@@ -46,14 +47,15 @@ import java.time.LocalDate
 import java.util.Locale
 
 @Composable
-fun MoreMedInfoModal(
+fun MoreExerciseInfoModal(
     openDialog: MutableState<Boolean>,
-    selectedMed: MutableState<Medication>,
+    selectedExercise: MutableState<Exercise>,
+    workoutType: String,
     deleteClicked: MutableState<Boolean>,
     editClicked: MutableState<Boolean>,
     date: MutableState<LocalDate>,
     modifier: Modifier = Modifier,
-    viewModel: MedViewModel = viewModel()
+    viewModel: ExerciseViewModel = viewModel()
 ) {
     val coroutineScope = rememberCoroutineScope()
 
@@ -84,7 +86,7 @@ fun MoreMedInfoModal(
         openDialog.value = false
 
         if (!edit.value) {
-            selectedMed.value = Medication()
+            selectedExercise.value = Exercise()
         }
     }
 
@@ -93,8 +95,6 @@ fun MoreMedInfoModal(
         edit.value = true
         onDismissModal()
     }
-
-    AddEditMedModal(date, openAddModal, edit = edit, medicationToEdit = selectedMed, editClicked = editClicked)
 
     if (openDialog.value) {
         Dialog(onDismissRequest = { onDismissModal() }) {
@@ -110,9 +110,9 @@ fun MoreMedInfoModal(
                     modifier = modifier.padding(10.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    val capName = capitalize(selectedMed.value.name)
+                    val capName = capitalize(selectedExercise.value.name)
                     Text(
-                        text = "${stringResource(R.string.med_info_more)} ${capName}",
+                        text = "${stringResource(R.string.med_info_more)} $capName",
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.headlineSmall
                     )
@@ -134,13 +134,12 @@ fun MoreMedInfoModal(
                         modifier = modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-
                         Text(
                             text = "${stringResource(R.string.med_input_med_name)}:",
                             fontSize = 18.sp,
                         )
                         Text(
-                            text = capitalize(selectedMed.value.name),
+                            text = capitalize(selectedExercise.value.name),
                             fontSize = 18.sp
                         )
                     }
@@ -152,11 +151,11 @@ fun MoreMedInfoModal(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
-                            text = "${stringResource(R.string.med_input_med_dose)}:",
+                            text = "${stringResource(R.string.exercise_cals)}:",
                             fontSize = 18.sp,
                         )
                         Text(
-                            text = selectedMed.value.dose,
+                            text = selectedExercise.value.calsBurned,
                             fontSize = 18.sp
                         )
                     }
@@ -168,11 +167,11 @@ fun MoreMedInfoModal(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
-                            text = "${stringResource(R.string.med_taken)}:",
+                            text = "${stringResource(R.string.exercise_length)}:",
                             fontSize = 18.sp,
                         )
                         Text(
-                            text = if (selectedMed.value.taken!!) "Yes" else "No",
+                            text = selectedExercise.value.lengthTime,
                             fontSize = 18.sp
                         )
                     }
@@ -184,11 +183,11 @@ fun MoreMedInfoModal(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
-                            text = "${stringResource(R.string.med_times)}:",
+                            text = "${stringResource(R.string.exercise_time)}:",
                             fontSize = 18.sp,
                         )
                         Text(
-                            text = selectedMed.value.times.joinToString(),
+                            text = selectedExercise.value.timeOfDay,
                             fontSize = 18.sp
                         )
                     }
@@ -200,48 +199,34 @@ fun MoreMedInfoModal(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
-                            text = "${stringResource(R.string.med_taken_for)}:",
+                            text = "${stringResource(R.string.exercise_intensity)}:",
                             fontSize = 18.sp,
                         )
                         Text(
-                            text = capitalize(selectedMed.value.takenFor),
+                            text = selectedExercise.value.intensity,
                             fontSize = 18.sp
                         )
                     }
 
                     Spacer(modifier = modifier.padding(5.dp))
 
-                    Row(
-                        modifier = modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Text(
-                            text = "${stringResource(R.string.med_prescriber)}:",
-                            fontSize = 18.sp,
-                        )
-                        Text(
-                            text = capitalize(selectedMed.value.prescriber),
-                            fontSize = 18.sp
-                        )
+                    if (workoutType == "strength") {
+                        Row(
+                            modifier = modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(
+                                text = "${stringResource(R.string.med_prescriber)}:",
+                                fontSize = 18.sp,
+                            )
+                            Text(
+                                text = capitalize(selectedExercise.value.area),
+                                fontSize = 18.sp
+                            )
+                        }
+
+                        Spacer(modifier = modifier.padding(5.dp))
                     }
-
-                    Spacer(modifier = modifier.padding(5.dp))
-
-                    Row(
-                        modifier = modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Text(
-                            text = "${stringResource(R.string.med_last_filled)}:",
-                            fontSize = 18.sp,
-                        )
-                        Text(
-                            text = selectedMed.value.lastFilled,
-                            fontSize = 18.sp
-                        )
-                    }
-
-                    Spacer(modifier = modifier.padding(5.dp))
 
                     Column(
                         modifier = modifier
@@ -261,7 +246,7 @@ fun MoreMedInfoModal(
                                     .width(110.dp)
                                     .background(color = deleteColor, RoundedCornerShape(50.dp)),
                                 action = { coroutineScope.launch {
-                                    viewModel.deleteMed(selectedMed.value)
+
                                     deleteClicked.value = true
                                 } },
                                 color = deleteTextColor

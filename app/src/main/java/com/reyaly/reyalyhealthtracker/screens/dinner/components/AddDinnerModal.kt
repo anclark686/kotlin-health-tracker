@@ -44,6 +44,7 @@ import com.reyaly.reyalyhealthtracker.common.composable.BasicExposedDropdown
 import com.reyaly.reyalyhealthtracker.common.composable.BasicField
 import com.reyaly.reyalyhealthtracker.common.composable.BasicTextButton
 import com.reyaly.reyalyhealthtracker.common.composable.SearchField
+import com.reyaly.reyalyhealthtracker.helpers.capitalize
 import com.reyaly.reyalyhealthtracker.model.FoodItem
 import com.reyaly.reyalyhealthtracker.screens.dinner.DinnerViewModel
 import com.reyaly.reyalyhealthtracker.screens.food.FoodItems
@@ -53,6 +54,7 @@ import com.reyaly.reyalyhealthtracker.ui.theme.med_sky_blue
 import com.reyaly.reyalyhealthtracker.ui.theme.sky_blue
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.util.Locale
 
 @Composable
 fun AddDinnerModal(
@@ -241,7 +243,7 @@ fun AddDinnerModal(
                                                 modifier = modifier.background(color = highlightColor).fillMaxWidth()
                                             ) {
                                                 Text(
-                                                    text = food.name,
+                                                    text = capitalize(food.name),
                                                     textAlign = TextAlign.Center,
                                                     fontSize = 18.sp,
                                                     color = btnTextColor
@@ -250,7 +252,7 @@ fun AddDinnerModal(
                                         } else {
                                             TextButton(onClick = { selectedFood.value = food }, modifier = modifier.fillMaxWidth()) {
                                                 Text(
-                                                    text = food.name,
+                                                    text = capitalize(food.name),
                                                     textAlign = TextAlign.Center,
                                                     fontSize = 18.sp,
                                                     color = btnTextColor
@@ -317,7 +319,7 @@ fun AddDinnerModal(
                                         } else {
                                             TextButton(onClick = { selectedFood.value = food }, modifier = modifier.fillMaxWidth()) {
                                                 Text(
-                                                    text = food.name,
+                                                    text = capitalize(food.name),
                                                     textAlign = TextAlign.Center,
                                                     fontSize = 18.sp,
                                                     color = btnTextColor
@@ -375,7 +377,7 @@ fun AddDinnerModal(
                                                 modifier = modifier.background(color = highlightColor).fillMaxWidth()
                                             ) {
                                                 Text(
-                                                    text = food.name,
+                                                    text = capitalize(food.name),
                                                     textAlign = TextAlign.Center,
                                                     fontSize = 18.sp,
                                                     color = btnTextColor
@@ -384,7 +386,7 @@ fun AddDinnerModal(
                                         } else {
                                             TextButton(onClick = { selectedFood.value = food }, modifier = modifier.fillMaxWidth()) {
                                                 Text(
-                                                    text = food.name,
+                                                    text = capitalize(food.name),
                                                     textAlign = TextAlign.Center,
                                                     fontSize = 18.sp,
                                                     color = btnTextColor
@@ -442,7 +444,7 @@ fun AddDinnerModal(
                                                 modifier = modifier.background(color = highlightColor).fillMaxWidth()
                                             ) {
                                                 Text(
-                                                    text = food.name,
+                                                    text = capitalize(food.name),
                                                     textAlign = TextAlign.Center,
                                                     fontSize = 18.sp,
                                                     color = btnTextColor
@@ -451,7 +453,7 @@ fun AddDinnerModal(
                                         } else {
                                             TextButton(onClick = { selectedFood.value = food }, modifier = modifier.fillMaxWidth()) {
                                                 Text(
-                                                    text = food.name,
+                                                    text = capitalize(food.name),
                                                     textAlign = TextAlign.Center,
                                                     fontSize = 18.sp,
                                                     color = btnTextColor

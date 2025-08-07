@@ -89,6 +89,7 @@ class BreakfastViewModel: ViewModel() {
 
     private val blankMessage = "Field cannot be blank"
     private val chooseOption = "Please select an option"
+    private val notANumber = "Value must be a number"
 
     private fun validateForm(): Boolean {
         Log.d(TAG, "name = $name")
@@ -107,16 +108,40 @@ class BreakfastViewModel: ViewModel() {
             _uiState.value = uiState.value.copy(caloriesError = blankMessage)
             invalidCount++
         }
+        try {
+            calories.toFloat()
+        } catch (e: Exception) {
+            _uiState.value = _uiState.value.copy(caloriesError = notANumber)
+            invalidCount++
+        }
         if (protein.isBlank()) {
             _uiState.value = uiState.value.copy(proteinError = blankMessage)
+            invalidCount++
+        }
+        try {
+            protein.toFloat()
+        } catch (e: Exception) {
+            _uiState.value = _uiState.value.copy(proteinError = notANumber)
             invalidCount++
         }
         if (fat.isBlank()) {
             _uiState.value = uiState.value.copy(fatError = blankMessage)
             invalidCount++
         }
+        try {
+            fat.toFloat()
+        } catch (e: Exception) {
+            _uiState.value = _uiState.value.copy(fatError = notANumber)
+            invalidCount++
+        }
         if (carbs.isBlank()) {
             _uiState.value = uiState.value.copy(carbsError = blankMessage)
+            invalidCount++
+        }
+        try {
+            carbs.toFloat()
+        } catch (e: Exception) {
+            _uiState.value = _uiState.value.copy(carbsError = notANumber)
             invalidCount++
         }
         if (quantity == "0") {

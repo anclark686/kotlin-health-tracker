@@ -31,6 +31,7 @@ import com.reyaly.reyalyhealthtracker.R
 import com.reyaly.reyalyhealthtracker.common.composable.BasicExposedDropdown
 import com.reyaly.reyalyhealthtracker.common.composable.BasicField
 import com.reyaly.reyalyhealthtracker.common.composable.BasicTextButton
+import com.reyaly.reyalyhealthtracker.helpers.capitalize
 import com.reyaly.reyalyhealthtracker.model.FoodItem
 import com.reyaly.reyalyhealthtracker.screens.breakfast.BreakfastViewModel
 import com.reyaly.reyalyhealthtracker.ui.theme.dark_sky_blue
@@ -73,11 +74,7 @@ fun EditBreakfastModal(
 
     val quantities = (1..10).map{x -> x.toString()}
 
-    val foodName = foodItemToEdit.value.name.replaceFirstChar {
-        if (it.isLowerCase()) it.titlecase(
-            Locale.getDefault()
-        ) else it.toString()
-    }
+    val foodName = capitalize(foodItemToEdit.value.name)
 
     fun closeDialog() {
         openDialog.value = false

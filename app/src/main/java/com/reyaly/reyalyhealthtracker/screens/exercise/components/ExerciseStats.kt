@@ -126,6 +126,26 @@ fun ExerciseStats(
                 )
             }
         }
+
+        Column(
+            modifier = modifier
+                .padding(horizontal = 10.dp, vertical = 5.dp)
+        ) {
+            Row (
+                modifier = modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = stringResource(R.string.exercise_stats_most),
+                    fontSize = 18.sp,
+                    color = labelColor
+                )
+                Text(
+                    text = "**SOMETHING**",
+                    fontSize = 18.sp
+                )
+            }
+        }
     }
 }
 

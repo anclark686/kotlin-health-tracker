@@ -19,6 +19,7 @@ import java.time.format.DateTimeFormatter
 
 private const val TAG = "Med"
 private val TIMES: List<String> = listOf("morning", "afternoon", "evening", "night")
+private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
 
 class MedViewModel : ViewModel() {
     val auth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -195,8 +196,6 @@ class MedViewModel : ViewModel() {
     }
 
     suspend fun onAddNewMed(date: LocalDate): Boolean {
-        val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
-
         val firebaseUser = auth.currentUser!!
 
         logEverything()
@@ -274,7 +273,6 @@ class MedViewModel : ViewModel() {
     }
 
     suspend fun getUsersMeds(date: LocalDate) {
-        val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
         val firebaseUser = auth.currentUser!!
 
         _uiState.value = _uiState.value.copy(medsAreLoading = true)
@@ -408,7 +406,6 @@ class MedViewModel : ViewModel() {
     }
 
     suspend fun toggleMed(med: Medication, date: LocalDate, time: String) {
-        val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
         val firebaseUser = auth.currentUser!!
 
         try {
@@ -434,7 +431,6 @@ class MedViewModel : ViewModel() {
 
     suspend fun onEditMed(prevMed: Medication, date: LocalDate): Boolean {
         val firebaseUser = auth.currentUser!!
-        val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
 
         try {
             if (prevMed.name != name) {

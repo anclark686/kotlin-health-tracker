@@ -122,6 +122,7 @@ class IntakeViewModel: ViewModel() {
 
     private val blankMessage = "Field cannot be blank"
     private val chooseOption = "Please select an option"
+    private val notANumber = "Value must be a number"
 
     private fun validateForm(): Boolean {
         Log.d(TAG, "firstName = $firstName")
@@ -173,8 +174,20 @@ class IntakeViewModel: ViewModel() {
             _uiState.value = uiState.value.copy(currWeightError = blankMessage)
             invalidCount++
         }
+        try {
+            currWeight.toFloat()
+        } catch (e: Exception) {
+            _uiState.value = _uiState.value.copy(currWeightError = notANumber)
+            invalidCount++
+        }
         if (goalWeight.isBlank()) {
             _uiState.value = uiState.value.copy(goalWeightError = blankMessage)
+            invalidCount++
+        }
+        try {
+            goalWeight.toFloat()
+        } catch (e: Exception) {
+            _uiState.value = _uiState.value.copy(goalWeightError = notANumber)
             invalidCount++
         }
         if (weightGoals.isBlank()) {

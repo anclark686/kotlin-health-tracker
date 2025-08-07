@@ -15,6 +15,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
+private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
+
 class WaterViewModel : ViewModel() {
     val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
@@ -78,7 +80,6 @@ class WaterViewModel : ViewModel() {
     suspend fun onAddWater(cupsOrOunces: Boolean, edit: Boolean = false): Boolean {
         val firebaseUser = auth.currentUser!!
         val ozOrCups = if (cupsOrOunces) {"cups"} else {"oz"}
-        val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
         val date = if (!edit) {LocalDate.now().format(formatter)} else {uiState.value.historicalDate!!}
 
         if (validateForm(ozOrCups)) {
@@ -99,7 +100,6 @@ class WaterViewModel : ViewModel() {
 
     suspend fun getHistoricalData() {
         val firebaseUser = auth.currentUser!!
-        val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
 
         _uiState.value = _uiState.value.copy(valuesAreLoading = true)
 
@@ -141,7 +141,6 @@ class WaterViewModel : ViewModel() {
 
     suspend fun getTodaysWater() {
         val firebaseUser = auth.currentUser!!
-        val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
 
         _uiState.value = _uiState.value.copy(valuesAreLoading = true)
 
